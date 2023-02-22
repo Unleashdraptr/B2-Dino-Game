@@ -7,7 +7,6 @@ public class Movement : MonoBehaviour
     public float Speed;
     public float lookSpeed;
     public float JumpSpeed;
-    public float lookXLimit = 45.0f;
 
     public LayerMask FloorMask;
     public Transform Feet;
@@ -18,6 +17,8 @@ public class Movement : MonoBehaviour
     float RotX;
     public float Stamina = 100;
     public bool Dash;
+    public bool Sneaking;
+    public bool Camoflauged;
 
     private void Start()
     {
@@ -47,7 +48,6 @@ public class Movement : MonoBehaviour
     {
         //Total Move Direction for the frame
         Vector3 MoveDir = transform.TransformDirection(PlayerMoveInput) * Speed;
-
         //Jumping
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -60,18 +60,30 @@ public class Movement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift) && Stamina > 20)
         {
             //Flips the input
-            if(Dash == false)
+            if (Dash == false)
             {
                 Dash = true;
             }
             else
                 Dash = false;
         }
+        else if (Input.GetKey(KeyCode.LeftControl) == true)
+        {
+            Sneaking = true;
+            MoveDir.x /= 2;
+            MoveDir.z /= 2;
+        }
+        else
+        {
+            Sneaking = false;
+            Camoflauged = false;
+
+        }
         //If its true then increase speed and lower stamina
         if (Dash == true)
         {
             MoveDir.x *= 2;
-            MoveDir.y *= 2;
+            MoveDir.z *= 2;
             Stamina -= 10 * Time.deltaTime;
         }
         //Calculates and then applies then input with rigidbody's Physics
@@ -84,5 +96,27 @@ public class Movement : MonoBehaviour
         //Applies it to the camera and then to the player
         transform.Rotate(0, CameraMoveInput.x * lookSpeed, 0);
         PlayerCamera.transform.localRotation = Quaternion.Euler(RotX, CameraMoveInput.x, 0);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Sneakable") && Sneaking == true)
+        {
+            Camoflauged = true;
+        }
+    }
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Sneakable") && Sneaking == true)
+        {
+            Camoflauged = true;
+        }
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Sneakable"))
+        {
+            Camoflauged = false;
+        }
     }
 }
