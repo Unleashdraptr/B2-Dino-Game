@@ -30,7 +30,6 @@ public class Movement : MonoBehaviour
     {
         //Gets the movement input and then runs its function
         PlayerMoveInput = new(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        MovePlayer();
         //Gets the camera's input and run its function
         CameraMoveInput = new(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
         MovePlayerCamera();
@@ -44,10 +43,15 @@ public class Movement : MonoBehaviour
             Stamina += 5 * Time.deltaTime;
         }
     }
+    private void FixedUpdate()
+    {
+        MovePlayer();
+    }
     void MovePlayer()
     {
         //Total Move Direction for the frame
         Vector3 MoveDir = transform.TransformDirection(PlayerMoveInput) * Speed;
+        MoveDir.y = rb.velocity.y;
         //Jumping
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -87,7 +91,7 @@ public class Movement : MonoBehaviour
             Stamina -= 10 * Time.deltaTime;
         }
         //Calculates and then applies then input with rigidbody's Physics
-        rb.velocity = new(MoveDir.x, rb.velocity.y, MoveDir.z);
+        rb.MovePosition(transform.position + MoveDir * Time.deltaTime);
     }
     void MovePlayerCamera()
     {
