@@ -4,91 +4,133 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
+    //General Player settings
     public float Speed;
     public float lookSpeed;
     public float JumpSpeed;
 
+    //Getting the camera and where the character's physics body and feet gameobject. Also what layer the feet will interact with.
     public LayerMask FloorMask;
     public Transform Feet;
     public Transform PlayerCamera;
     public Rigidbody rb;
+
+    //Players input
     Vector3 PlayerMoveInput;
     Vector2 CameraMoveInput;
-    float RotX;
+
+    //Players stamina (Removing infinite dashing)
     public float Stamina = 100;
-    public bool Dash;
-    public bool Sneaking;
+
+    //Bools to keep track what state they are currently in
     public bool Camoflauged;
+    float RotX;
+    public enum MoveState {IDLE, WALK, DASH, SNEAK};
+    public MoveState moveState;
 
     private void Start()
     {
+        //Set the state to idle
+        moveState = MoveState.IDLE;
+        //Hide the cursor and get the rigidbody on the player when first starting
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         rb = transform.GetComponent<Rigidbody>();
     }
+    //Update once a frame
     void Update()
     {
         //Gets the movement input and then runs its function
         PlayerMoveInput = new(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        //Checks if the player is moving and if not to go to Idle
+        if (PlayerMoveInput.Equals(default))
+        {
+            moveState = MoveState.IDLE;
+        }
         //Gets the camera's input and run its function
         CameraMoveInput = new(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
         MovePlayerCamera();
         //Stamina Ending and Recharging
         if(Stamina <= 0)
         {
-            Dash = false;
+            //Checks what the player is currently doing to get the correct state
+            if (PlayerMoveInput.Equals(default))
+            {
+                moveState = MoveState.IDLE;
+            }
+            else
+                moveState = MoveState.WALK;
         }
-        if(Stamina < 100 && Dash == false)
+        //Recharging if not running or is not currently full
+        if(Stamina < 100 && moveState != MoveState.DASH)
         {
             Stamina += 5 * Time.deltaTime;
         }
+        //Jump Function
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            //Check if the feet GameObject are on the ground that has a layer called 'Ground'
+            if (Physics.CheckSphere(Feet.position, 0.1f, FloorMask))
+            {
+                Jump();
+            }
+        }
+        //Dash Function
+        if (Input.GetKeyDown(KeyCode.LeftShift) && Stamina > 20)
+        {
+            //checks if the player is walking or not
+            if (moveState == MoveState.WALK)
+            {
+                moveState = MoveState.DASH;
+            }
+            else
+                moveState = MoveState.WALK;
+        }
+        //If they arent dashing, then check if they're sneaking
+        else if (Input.GetKey(KeyCode.LeftControl) == true)
+        {
+            moveState = MoveState.SNEAK;
+        }
+        //If not then reset the sneak bools
+        else
+        {
+            if (PlayerMoveInput.Equals(default))
+            {
+                moveState = MoveState.IDLE;
+            }
+            else if (moveState != MoveState.DASH)
+            {
+                moveState = MoveState.WALK;
+            }
+        }
     }
+    //FixedUpdate can run multiple times per frame
     private void FixedUpdate()
     {
+        //Run the Physics calculations
         MovePlayer();
+    }
+    void Jump()
+    {
+        rb.AddForce(Vector3.up * JumpSpeed, ForceMode.Impulse);
     }
     void MovePlayer()
     {
         //Total Move Direction for the frame
         Vector3 MoveDir = transform.TransformDirection(PlayerMoveInput) * Speed;
+        //Setting the Y velocity aswell
         MoveDir.y = rb.velocity.y;
-        //Jumping
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (Physics.CheckSphere(Feet.position, 0.1f, FloorMask))
-            {
-                rb.AddForce(Vector3.up * JumpSpeed, ForceMode.Impulse);
-            }
-        }
-        //Dash button
-        if (Input.GetKeyDown(KeyCode.LeftShift) && Stamina > 20)
-        {
-            //Flips the input
-            if (Dash == false)
-            {
-                Dash = true;
-            }
-            else
-                Dash = false;
-        }
-        else if (Input.GetKey(KeyCode.LeftControl) == true)
-        {
-            Sneaking = true;
-            MoveDir.x /= 2;
-            MoveDir.z /= 2;
-        }
-        else
-        {
-            Sneaking = false;
-            Camoflauged = false;
-
-        }
         //If its true then increase speed and lower stamina
-        if (Dash == true)
+        if (moveState == MoveState.DASH)
         {
             MoveDir.x *= 2;
             MoveDir.z *= 2;
             Stamina -= 10 * Time.deltaTime;
+        }
+        if(moveState == MoveState.SNEAK)
+        {
+            MoveDir.x /= 2;
+            MoveDir.z /= 2;
         }
         //Calculates and then applies then input with rigidbody's Physics
         rb.MovePosition(transform.position + MoveDir * Time.deltaTime);
@@ -102,25 +144,24 @@ public class Movement : MonoBehaviour
         PlayerCamera.transform.localRotation = Quaternion.Euler(RotX, CameraMoveInput.x, 0);
     }
 
+    //Both Enter & Stay check if the player is currently standing on a Camoflaugeable object
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Sneakable") && Sneaking == true)
+        if(collision.gameObject.CompareTag("Sneakable") && moveState == MoveState.SNEAK)
         {
             Camoflauged = true;
         }
     }
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Sneakable") && Sneaking == true)
+        if (collision.gameObject.CompareTag("Sneakable") && moveState == MoveState.SNEAK)
         {
             Camoflauged = true;
         }
     }
+    //Once they leave it then they are no longer camoflauged
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Sneakable"))
-        {
-            Camoflauged = false;
-        }
+        Camoflauged = false;
     }
 }
