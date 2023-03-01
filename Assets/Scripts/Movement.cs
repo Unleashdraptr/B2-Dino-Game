@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Movement : MonoBehaviour
+public class Movement : MonoBehaviour, IDataHandler
 {
     //General Player settings
     public float Speed;
@@ -28,6 +28,16 @@ public class Movement : MonoBehaviour
     public enum MoveState {IDLE, WALK, DASH, SNEAK};
     public MoveState moveState;
 
+    public void LoadData(GameData data)
+    {
+        transform.position = data.Position;
+        Stamina = data.Stamina;
+    }
+    public void SaveData(ref GameData data)
+    {
+        data.Position = transform.position;
+        data.Stamina = Stamina;
+    }
     private void Start()
     {
         //Set the state to idle
