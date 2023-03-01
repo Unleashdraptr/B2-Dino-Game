@@ -21,6 +21,7 @@ public class Movement : MonoBehaviour, IDataHandler
 
     //Players stamina (Removing infinite dashing)
     public float Stamina = 100;
+    public float Health = 100;
 
     //Bools to keep track what state they are currently in
     public bool Camoflauged;
@@ -31,12 +32,16 @@ public class Movement : MonoBehaviour, IDataHandler
     public void LoadData(GameData data)
     {
         transform.position = data.Position;
+        transform.rotation = data.Rotation;
         Stamina = data.Stamina;
+        Health = data.Health;
     }
     public void SaveData(ref GameData data)
     {
         data.Position = transform.position;
+        data.Rotation = transform.rotation;
         data.Stamina = Stamina;
+        data.Health = Health;
     }
     private void Start()
     {
