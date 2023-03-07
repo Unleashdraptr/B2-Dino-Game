@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class FactionRepSystem : MonoBehaviour, IDataHandler
 {
-    //Hunters, Merchants, Biologists, Explorers. there reputation number and the current level
-    public int[] Reputation = new int[4];
-    public int[] RepLevel = new int[4];
+    //Hunters, Biologists, Explorers. there reputation number and the current level
+    public int[] Reputation = new int[3];
+    public int[] RepLevel = new int[3];
     public void SaveData(ref GameData data)
     {
         //Stores the numbers in the file

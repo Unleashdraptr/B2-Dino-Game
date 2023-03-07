@@ -21,12 +21,11 @@ public class Movement : MonoBehaviour, IDataHandler
 
     //Players stamina (Removing infinite dashing)
     public float Stamina = 100;
-    public float Health = 100;
 
     //Bools to keep track what state they are currently in
-    public bool Camoflauged;
+    public bool Camouflaged;
     float RotX;
-    public enum MoveState {IDLE, WALK, DASH, SNEAK};
+    public enum MoveState {IDLE, WALK, DASH, SNEAK, DEATH};
     public MoveState moveState;
 
     public void LoadData(GameData data)
@@ -34,14 +33,12 @@ public class Movement : MonoBehaviour, IDataHandler
         transform.position = data.Position;
         transform.rotation = data.Rotation;
         Stamina = data.Stamina;
-        Health = data.Health;
     }
     public void SaveData(ref GameData data)
     {
         data.Position = transform.position;
         data.Rotation = transform.rotation;
         data.Stamina = Stamina;
-        data.Health = Health;
     }
     private void Start()
     {
@@ -162,21 +159,25 @@ public class Movement : MonoBehaviour, IDataHandler
     //Both Enter & Stay check if the player is currently standing on a Camoflaugeable object
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Sneakable") && moveState == MoveState.SNEAK)
+        if (collision.gameObject.CompareTag("Sneakable") && moveState == MoveState.SNEAK)
         {
-            Camoflauged = true;
+            Camouflaged = true;
         }
+        else
+            Camouflaged = false;
     }
     private void OnCollisionStay(Collision collision)
     {
         if (collision.gameObject.CompareTag("Sneakable") && moveState == MoveState.SNEAK)
         {
-            Camoflauged = true;
+            Camouflaged = true;
         }
+        else
+            Camouflaged = false;
     }
     //Once they leave it then they are no longer camoflauged
     private void OnCollisionExit(Collision collision)
     {
-        Camoflauged = false;
+        Camouflaged = false;
     }
 }

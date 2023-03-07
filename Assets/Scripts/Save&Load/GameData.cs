@@ -10,8 +10,9 @@ public class GameData
     public Quaternion Rotation;
     public float Stamina;
     public float Health;
+    public int Wealth;
     //Reputation among the factions
-    public int[] Reputations = new int[4];
+    public int[] Reputations = new int[3];
     //Player's money
     public int Currency;
 
