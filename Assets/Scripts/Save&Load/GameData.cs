@@ -5,7 +5,11 @@ using UnityEngine;
 [System.Serializable]
 public class GameData 
 {
-    public int SaveSlot;
+    public string FileName;
+    public int Hrs;
+    public string LastPlayed;
+
+
     //Players stats that were last saved
     public Vector3 Position;
     public Quaternion Rotation;
@@ -16,5 +20,4 @@ public class GameData
     public int[] Reputations = new int[3];
     //Player's money
     public int Currency;
-
 }
