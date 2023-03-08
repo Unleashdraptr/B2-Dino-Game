@@ -10,7 +10,6 @@ public class FileConverter
     private readonly string dataDirPath = "";
     private readonly string dataSaveFolder = "";
     private readonly string dataSaveName = "";
-    private readonly int FileNum;
     //Changes it to the current one
     public FileConverter(string dataDirPath, string dataFileName, string dataSaveName)
     {

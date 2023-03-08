@@ -9,6 +9,8 @@ public class MainMenuUI : MonoBehaviour
     public GameObject MainScreen;
     public GameObject NewGameScreen;
     public GameObject LoadGameScreen;
+    public TextMeshProUGUI SaveFileName;
+    public string SaveName;
     public void QuitButton()
     {
         Application.Quit();
@@ -47,9 +49,11 @@ public class MainMenuUI : MonoBehaviour
     {
         GameObject.Find(ScreenToActive).SetActive(false);
         MainScreen.SetActive(true);
+
     }
     public void CreateNewGame(int SaveNum)
     {
+        NewGameScreen.SetActive(false);
         GetComponent<DataManager>().NewGame();
         GetComponent<DataManager>().SaveGame(SaveNum);
         DataManager.DataSlot = SaveNum;

@@ -54,6 +54,7 @@ public class DataManager : MonoBehaviour
     //Gets the data from the file and applies it to the relevent data
     public void LoadGame(int FileNum)
     {
+        DataSlot = FileNum;
         gameData = dataHandler.Load(FileNum);
         if (gameData == null)
         {

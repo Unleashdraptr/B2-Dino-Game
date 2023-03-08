@@ -27,8 +27,6 @@ public class PlayerInteractions : MonoBehaviour, IDataHandler
     }
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.gameObject.layer);
-        Debug.Log(other.gameObject.tag);
         if (other.gameObject.layer == 6 && (other.gameObject.CompareTag("Conservation") || other.gameObject.CompareTag("Biologists") || other.gameObject.CompareTag("Hunters")))
         {
             UIManager.Pause = true;
