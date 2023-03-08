@@ -10,7 +10,7 @@ public class FactionRepSystem : MonoBehaviour, IDataHandler
     public void SaveData(ref GameData data)
     {
         //Stores the numbers in the file
-        for(int i = 0; i <4; i++)
+        for(int i = 0; i <3; i++)
         {
             data.Reputations[i] = Reputation[i];
         }
@@ -18,7 +18,7 @@ public class FactionRepSystem : MonoBehaviour, IDataHandler
     public void LoadData(GameData data)
     {
         //Finds the numbers in the file
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 3; i++)
         {
             Reputation[i] = data.Reputations[i];
         }
@@ -27,7 +27,7 @@ public class FactionRepSystem : MonoBehaviour, IDataHandler
     public void UpdateRepLevel()
     {
         //Loop through all the Factions and their reputations and runs through to get their level
-        for(int i = 0; i < 4; i++)
+        for(int i = 0; i < 3; i++)
         {
             switch(Reputation[i])
             {

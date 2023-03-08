@@ -5,6 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class GameData 
 {
+    public int SaveSlot;
     //Players stats that were last saved
     public Vector3 Position;
     public Quaternion Rotation;

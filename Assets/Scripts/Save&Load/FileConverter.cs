@@ -8,21 +8,23 @@ public class FileConverter
 {
     //The 2 strings that make up the file name
     private readonly string dataDirPath = "";
-    private readonly string dataFileName = "";
-
+    private readonly string dataSaveFolder = "";
+    private readonly string dataSaveName = "";
+    private readonly int FileNum;
     //Changes it to the current one
-    public FileConverter(string dataDirPath, string dataFileName)
+    public FileConverter(string dataDirPath, string dataFileName, string dataSaveName)
     {
         this.dataDirPath = dataDirPath;
-        this.dataFileName = dataFileName;
+        this.dataSaveFolder = dataFileName;
+        this.dataSaveName = dataSaveName;
     }
     //When loading the game it will check if there is a save file, if so, it will then get the data from said file.
     //If not, just create a new game
-    public GameData Load()
+    public GameData Load(int FilePointer)
     {
-        string fullPath = Path.Combine(dataDirPath, dataFileName);
+        string fullPath = Path.Combine(dataDirPath, dataSaveFolder, dataSaveName + FilePointer.ToString());
         GameData loadedData = null;
-        if(File.Exists(fullPath))
+        if (File.Exists(fullPath))
         {
             try
             {
@@ -36,7 +38,7 @@ public class FileConverter
                 }
                 loadedData = JsonUtility.FromJson<GameData>(dataToConvert);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Debug.LogError("Couldnt laod file" + fullPath + "\n" + e);
             }
@@ -44,9 +46,9 @@ public class FileConverter
         return loadedData;
     }
     //Once pressing the save button or quitting it will either create or find the file and then convert the relivent data into the correct file format and stores it
-    public void Save(GameData data)
+    public void Save(GameData data, int FilePointer)
     {
-        string fullPath = Path.Combine(dataDirPath, dataFileName);
+        string fullPath = Path.Combine(dataDirPath, dataSaveFolder, dataSaveName + FilePointer.ToString());
         Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
         string dataToConvert = JsonUtility.ToJson(data, true);
         using (FileStream stream = new(fullPath, FileMode.Create))
