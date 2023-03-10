@@ -37,11 +37,15 @@ public class UIManager : MonoBehaviour
             GameObject Shop = GameObject.Find("Shop");
             Pause = false;
             Shop.SetActive(false);
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
             for (int i = 0; i < ShopItems.transform.childCount; i++)
             {
                 if (ShopItems.transform.GetChild(i).GetChild(0).childCount > 0)
                 {
                     Destroy(ShopItems.transform.GetChild(i).GetChild(0).gameObject);
+                    ShopItems.transform.GetChild(i).GetChild(0).GetComponent<ItemID>().HasItem = false;
+                    ShopItems.transform.GetChild(i).GetComponent<Button>().interactable = false;
                 }
             }
         }

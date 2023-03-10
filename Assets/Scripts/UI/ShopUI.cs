@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShopUI : MonoBehaviour
 {
@@ -16,26 +17,33 @@ public class ShopUI : MonoBehaviour
         ShopMenu.SetActive(true);
     }
 
-    public void OpenHunterUI()
+    public void OpenFactionUI()
     {
         int ShopNum = 0;
         for (int j = 0; j < RepLevels.GetComponent<StatsStorage>().RepLevel[0]; j++)
         {
-            Debug.Log("j: " + j);
-            for (int i = 0; i < LvlLimit[j]; i++)
+            if (j == 0)
             {
-                Instantiate(ItemsToSell[ShopNum], ShopMenu.transform.GetChild(0).GetChild(1).GetChild(ShopNum));
-                Debug.Log("i: " + i);
-                ShopNum++;
+                for (int i = 0; i < 5; i++)
+                {
+                    GameObject Item = Instantiate(ItemsToSell[ShopNum], ShopMenu.transform.GetChild(0).GetChild(1).GetChild(ShopNum));
+                    ShopMenu.transform.GetChild(0).GetChild(1).GetChild(ShopNum).GetComponent<Button>().interactable = true;
+                    Item.GetComponent<ItemID>().HasItem = true;
+                    ShopNum++;
+                }
+            }
+            else
+            {
+                for (int i = 0; i < LvlLimit[j]; i++)
+                {
+                    GameObject Item = Instantiate(ItemsToSell[ShopNum], ShopMenu.transform.GetChild(0).GetChild(1).GetChild(ShopNum));
+                    ShopMenu.transform.GetChild(0).GetChild(1).GetChild(ShopNum).GetComponent<Button>().interactable = true;
+                    Item.GetComponent<ItemID>().HasItem = true;
+                    ShopNum++;
+                }
             }
         }
-    }
-    public void OpenBiologUI()
-    {
-
-    }
-    public void OpenConservUI()
-    {
-
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 }
