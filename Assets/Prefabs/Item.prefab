@@ -51,7 +51,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aed5df9287f571c4abd4736e3a5d7251, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Description: Test Description
+  Description: A Very Expensive Item
+  Cost: 10
 --- !u!222 &4644328085454354822
 CanvasRenderer:
   m_ObjectHideFlags: 0

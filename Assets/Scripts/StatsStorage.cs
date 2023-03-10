@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class StatsStorage : MonoBehaviour, IDataHandler
 {
@@ -8,10 +10,13 @@ public class StatsStorage : MonoBehaviour, IDataHandler
     public int[] Reputation = new int[3];
     public int[] RepLevel = new int[3];
     public int Currency;
+    public Slider slider;
+    public TextMeshProUGUI Text;
+    public TextMeshProUGUI GoldNum;
     public void SaveData(ref GameData data)
     {
         //Stores the numbers in the file
-        for(int i = 0; i <3; i++)
+        for (int i = 0; i < 3; i++)
         {
             data.Reputations[i] = Reputation[i];
         }
@@ -26,16 +31,16 @@ public class StatsStorage : MonoBehaviour, IDataHandler
         }
         data.Currency = Currency;
         UpdateRepLevel();
-        GetComponent<StatHandler>().SetColour(Color.blue);
-        GetComponent<StatHandler>().SetRepLevel(2);
-        GetComponent<StatHandler>().UpdateMoney();
+        SetColour(Color.blue);
+        SetRepLevel(2);
+        UpdateMoney();
     }
     public void UpdateRepLevel()
     {
         //Loop through all the Factions and their reputations and runs through to get their level
-        for(int i = 0; i < 3; i++)
+        for (int i = 0; i < 3; i++)
         {
-            switch(Reputation[i])
+            switch (Reputation[i])
             {
                 case < 100:
                     RepLevel[i] = 1;
@@ -54,5 +59,17 @@ public class StatsStorage : MonoBehaviour, IDataHandler
                     break;
             }
         }
+    }
+    public void SetColour(Color color)
+    {
+        slider.transform.GetChild(0).GetComponent<Image>().color = color;
+    }
+    public void SetRepLevel(int Faction)
+    {
+        Text.text = RepLevel[Faction].ToString();
+    }
+    public void UpdateMoney()
+    {
+        GoldNum.text = Currency.ToString();
     }
 }

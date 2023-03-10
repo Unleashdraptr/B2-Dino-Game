@@ -8,13 +8,13 @@ public class Movement : MonoBehaviour, IDataHandler
     public float Speed;
     public float lookSpeed;
     public float JumpSpeed;
+    public float Health;
 
     //Getting the camera and where the character's physics body and feet gameobject. Also what layer the feet will interact with.
     public LayerMask FloorMask;
     public Transform Feet;
     public Transform PlayerCamera;
     public Rigidbody rb;
-
     //Players input
     Vector3 PlayerMoveInput;
     Vector2 CameraMoveInput;
@@ -51,7 +51,7 @@ public class Movement : MonoBehaviour, IDataHandler
     //Update once a frame
     void Update()
     {
-        if (UIManager.Pause == false)
+        if (GameUIManager.Pause == false)
         {
             //Gets the movement input and then runs its function
             PlayerMoveInput = new(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
@@ -126,7 +126,7 @@ public class Movement : MonoBehaviour, IDataHandler
     //FixedUpdate can run multiple times per frame
     private void FixedUpdate()
     {
-        if (UIManager.Pause == false)
+        if (GameUIManager.Pause == false)
         {
             //Run the Physics calculations
             MovePlayer();
@@ -164,6 +164,15 @@ public class Movement : MonoBehaviour, IDataHandler
         //Applies it to the camera and then to the player
         transform.Rotate(0, CameraMoveInput.x * lookSpeed, 0);
         PlayerCamera.transform.localRotation = Quaternion.Euler(RotX, CameraMoveInput.x, 0);
+    }
+
+    void CheckHealth()
+    {
+        if (Health <= 0)
+        {
+            GetComponent<Movement>().moveState = MoveState.DEATH;
+            GameObject.Find("Player UI").GetComponent<GameUIManager>().DeathScreen.SetActive(true);
+        }
     }
 
     //Both Enter & Stay check if the player is currently standing on a Camoflaugeable object

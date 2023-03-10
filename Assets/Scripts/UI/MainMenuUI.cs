@@ -9,8 +9,6 @@ public class MainMenuUI : MonoBehaviour
     public GameObject MainScreen;
     public GameObject NewGameScreen;
     public GameObject LoadGameScreen;
-    public TextMeshProUGUI SaveFileName;
-    public string SaveName;
     public void QuitButton()
     {
         Application.Quit();
