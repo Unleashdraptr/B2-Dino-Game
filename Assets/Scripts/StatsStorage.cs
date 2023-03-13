@@ -20,6 +20,7 @@ public class StatsStorage : MonoBehaviour, IDataHandler
         {
             data.Reputations[i] = Reputation[i];
         }
+        data.Currency = Currency;
         Currency = data.Currency;
     }
     public void LoadData(GameData data)
@@ -29,7 +30,7 @@ public class StatsStorage : MonoBehaviour, IDataHandler
         {
             Reputation[i] = data.Reputations[i];
         }
-        data.Currency = Currency;
+        Currency = data.Currency;
         UpdateRepLevel();
         SetColour(Color.blue);
         SetRepLevel(2);
