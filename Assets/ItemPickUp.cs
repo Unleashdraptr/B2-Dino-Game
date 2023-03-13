@@ -7,34 +7,30 @@ public class ItemPickUp : MonoBehaviour
     public Transform ItemPickUpStorage;
     public Transform WorldItems;
     public GameObject PickUpPrompt;
+    public GameObject Stats;
     public Camera CameraRayCast;
     public bool holdingItem;
 
     private void Update()
     {
         Ray Point = CameraRayCast.ScreenPointToRay(new(Screen.width/2, Screen.height/2,0));
-        if (Physics.Raycast(Point, out RaycastHit hit))
+        if (Physics.Raycast(Point, out RaycastHit hit, 5))
         {
-            Debug.Log(Vector3.Distance(hit.transform.position, transform.position));
-            if(hit.transform.CompareTag("Item") && holdingItem == false && Vector3.Distance(hit.transform.position, transform.position) < 5)
+            PickUpPrompt.SetActive(true);
+            if (PickUpPrompt.activeInHierarchy && Input.GetKeyDown(KeyCode.E))
             {
-                PickUpPrompt.SetActive(true);
-                if (PickUpPrompt.activeInHierarchy && Input.GetKeyDown(KeyCode.E))
+                if (holdingItem == false && hit.transform.CompareTag("Item"))
                 {
                     PickUpItem(hit.transform);
                 }
-            }
-            else if(holdingItem == true)
-            {
-                PickUpPrompt.SetActive(true);
-                if (Input.GetKeyDown(KeyCode.E))
+                else if (holdingItem == true)
                 {
                     DropItem();
                 }
             }
-            else
-                PickUpPrompt.SetActive(false);
         }
+        else
+            PickUpPrompt.SetActive(false);
     }
     public void PickUpItem(Transform Item)
     {
@@ -48,16 +44,34 @@ public class ItemPickUp : MonoBehaviour
     public void DropItem()
     {
         Ray Point = CameraRayCast.ScreenPointToRay(new(Screen.width / 2, Screen.height / 2, 0));
-        if (Physics.Raycast(Point, out RaycastHit hit))
+        if (Physics.Raycast(Point, out RaycastHit hit, 5))
         {
-            Vector3 NewPos = hit.point;
-            if(Vector3.Distance(hit.transform.position, transform.position) > 10)
-            {
-                NewPos = new(10, hit.transform.position.y * 2, 10);
-            }
-            ItemPickUpStorage.GetChild(0).SetPositionAndRotation(NewPos, ItemPickUpStorage.GetChild(0).rotation);
+            Vector3 Pos = new(hit.point.x, hit.point.y + ItemPickUpStorage.GetChild(0).localScale.y / 2, hit.point.z);
+            ItemPickUpStorage.GetChild(0).SetPositionAndRotation(Pos, hit.transform.rotation);
             ItemPickUpStorage.GetChild(0).SetParent(WorldItems);
             holdingItem = false;
         }
+    }
+    public bool CheckSellItem(int StoreID)
+    {
+        if (holdingItem == true)
+        {
+            Transform Item = ItemPickUpStorage.GetChild(0);
+            if (StoreID == Item.GetComponent<ItemID>().itemID)
+            {
+                return true;
+            }
+            else
+                return false;
+        }
+        else
+            return false;
+    }
+    public void SellItem(int FactionNum)
+    {
+        Transform Item = ItemPickUpStorage.GetChild(0);
+        Stats.GetComponent<StatsStorage>().Currency += Item.GetComponent<ItemID>().sellPrice;
+        Stats.GetComponent<StatsStorage>().RepLevel[FactionNum] += Item.GetComponent<ItemID>().RepValue;
+        Destroy(Item);
     }
 }
