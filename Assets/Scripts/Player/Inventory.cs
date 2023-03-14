@@ -9,6 +9,7 @@ public class Inventory : MonoBehaviour, IDataHandler
     public GameObject[] ItemIDs;
     public GameObject[] InventoryItems = new GameObject[8];
     public int CurrentItem;
+    public int CurrentSlot;
     public void SaveData(ref GameData data)
     {
         for (int i = 0; i < 8; i++)
@@ -42,18 +43,49 @@ public class Inventory : MonoBehaviour, IDataHandler
     // Update is called once per frame
     void Update()
     {
-        CurrentItem += (int)Input.mouseScrollDelta.y;
-        if(CurrentItem > 7)
-        {
-            CurrentItem = 0;
-        }
-        else if(CurrentItem < 0)
-        {
-            CurrentItem = 7;
-        }
         if(Input.mouseScrollDelta.y !=0)
         {
+            FindNextEmptySlot();
+            NextNum((int)Input.mouseScrollDelta.y);
             UpdateHoldingItem();
+        }
+    }
+    void FindNextEmptySlot()
+    {
+        for(int i = 0; i < 8; i++)
+        {
+            if(!InventoryItems[i])
+            {
+                CurrentSlot = i;
+                break;
+            }
+        }
+    }
+    void NextNum(int Num)
+    {
+        bool HasEmptySlot = false;
+        for(int i = CurrentItem; i<i+8; i+=Num)
+        {
+            if (!InventoryItems[i])
+            {
+                Debug.Log("NewSlot");
+                CurrentItem = CurrentSlot;
+                break;
+            }
+            else if (InventoryItems[i] || i == CurrentSlot)
+            {
+                if (i > 8)
+                {
+                    CurrentItem = (i - 8);
+                }
+                else if(i < 0)
+                {
+                    CurrentItem = (i + 8);
+                } 
+                else
+                    CurrentItem = i;
+                break;
+            }
         }
     }
     void UpdateHoldingItem()
