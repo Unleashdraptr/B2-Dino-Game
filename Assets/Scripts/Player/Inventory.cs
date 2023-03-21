@@ -63,12 +63,10 @@ public class Inventory : MonoBehaviour, IDataHandler
     }
     void NextNum(int Num)
     {
-        bool HasEmptySlot = false;
         for(int i = CurrentItem; i<i+8; i+=Num)
         {
             if (!InventoryItems[i])
             {
-                Debug.Log("NewSlot");
                 CurrentItem = CurrentSlot;
                 break;
             }

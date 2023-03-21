@@ -11,25 +11,28 @@ public class ItemPickUp : MonoBehaviour
     public Camera CameraRayCast;
     Inventory inv;
 
-    private void Update()
+    private void LateUpdate()
     {
-        inv = GetComponent<Inventory>();
-        Ray Point = CameraRayCast.ScreenPointToRay(new(Screen.width/2, Screen.height/2,0));
-        if (Physics.Raycast(Point, out RaycastHit hit, 5))
+        if (GameUIManager.Pause == false)
         {
-            if (hit.transform.CompareTag("Item") && inv.InventoryItems[inv.CurrentItem] == false)
+            inv = GetComponent<Inventory>();
+            Ray Point = CameraRayCast.ScreenPointToRay(new(Screen.width / 2, Screen.height / 2, 0));
+            if (Physics.Raycast(Point, out RaycastHit hit, 5))
             {
-                PickUpPrompt.SetActive(true);
-            }
-            else
-                PickUpPrompt.SetActive(false);
-            if (PickUpPrompt.activeInHierarchy && Input.GetKeyDown(KeyCode.E))
-            {
-                PickUpItem(hit.transform);
-            }
-            else if (inv.InventoryItems[inv.CurrentItem] == true && Input.GetKeyDown(KeyCode.E))
-            {
-                DropItem();
+                if (hit.transform.CompareTag("Item") && inv.InventoryItems[inv.CurrentItem] == false)
+                {
+                    PickUpPrompt.SetActive(true);
+                }
+                else
+                    PickUpPrompt.SetActive(false);
+                if (PickUpPrompt.activeInHierarchy && Input.GetKeyDown(KeyCode.E))
+                {
+                    PickUpItem(hit.transform);
+                }
+                else if (inv.InventoryItems[inv.CurrentItem] == true && Input.GetKeyDown(KeyCode.E))
+                {
+                    DropItem();
+                }
             }
         }
     }

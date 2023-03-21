@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FactionInfo : MonoBehaviour
 {
-    public GameObject ShopMenu;
+    public GameObject Dialogue;
     public GameObject[] ItemsToSell;
     public GameObject ShopPrompt;
     public GameObject SellPrompt;
@@ -17,8 +17,9 @@ public class FactionInfo : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E) && WithinTrigger)
         {
-            GameUIManager.Pause = true;
-            ShopMenu.GetComponent<ShopUI>().OpenFactionUI(LvlLimit, ItemsToSell, Faction);
+            SellPrompt.SetActive(false);
+            ShopPrompt.SetActive(false);
+            Dialogue.GetComponent<DialogueManager>().StartDialogue(transform.GetChild(0).gameObject, this);
         }
         else if (Input.GetKeyDown(KeyCode.Q) && SellPrompt.activeInHierarchy)
         {
