@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Sauropod_AI : Generalist_AI
 {
@@ -8,13 +9,15 @@ public class Sauropod_AI : Generalist_AI
     public Camera REye;
     Rigidbody rb;
     public Vector3 Movement;
+    NavMeshAgent Move;
     // Start is called before the first frame update
     void Start()
     {
+        Move = GetComponent<NavMeshAgent>();
         Food = 1000;
         Water = 1000;
         rb = GetComponent<Rigidbody>();
-        CalculateMovement(ref Movement);
+        Move.destination = CalculateNextPos();
     }
     // Update is called once per frame
     private void Update()
@@ -29,9 +32,9 @@ public class Sauropod_AI : Generalist_AI
         {
             CurAct = CurrentAction.DEAD;
         }
-    }
-    void FixedUpdate()
-    {
-        MovePlayer(gameObject, rb, speed, ref Movement);
+        if(Move.remainingDistance <= 1)
+        {
+            Move.destination = CalculateNextPos();
+        }
     }
 }

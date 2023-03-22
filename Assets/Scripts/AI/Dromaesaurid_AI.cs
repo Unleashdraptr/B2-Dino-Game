@@ -1,19 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Dromaesaurid_AI : Generalist_AI
 {
     public Camera Eyes;
     Rigidbody rb;
     public Vector3 Movement;
+    NavMeshAgent Move;
     // Start is called before the first frame update
     void Start()
     {
+        Move = GetComponent<NavMeshAgent>();
         Food = 1000;
         Water = 1000;
         rb = GetComponent<Rigidbody>();
-        CalculateMovement(ref Movement);
+        Move.destination = CalculateNextPos();
     }
     private void Update()
     {
@@ -27,10 +30,9 @@ public class Dromaesaurid_AI : Generalist_AI
         {
             CurAct = CurrentAction.DEAD;
         }
-    }
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        MovePlayer(gameObject, rb, speed, ref Movement);
+        if (Move.remainingDistance <= 1)
+        {
+            Move.destination = CalculateNextPos();
+        }
     }
 }

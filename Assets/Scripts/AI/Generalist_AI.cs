@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.AI;
 public class Generalist_AI : MonoBehaviour
 {
     public float Food;
@@ -13,11 +13,12 @@ public class Generalist_AI : MonoBehaviour
     public Diet diet;
     public enum Walk {QUADRAPED, BIPED, NONE }
     public Walk walk;
-    protected void CalculateMovement(ref Vector3 PointOfInterest)
+    protected Vector3 CalculateNextPos()
     {
-        int x = Random.Range(-100, 100);
-        int z = Random.Range(-100, 100);
-        PointOfInterest = new(x, 0, z);
+        int x = Random.Range(-250, 250);
+        int z = Random.Range(-250, 250);
+        Vector3 Pos = new(x, 0, z);
+        return Pos;
     }
     protected void MovePlayer(GameObject Animal, Rigidbody rb, float Speed, ref Vector3 PointOfInterest)
     {
@@ -31,10 +32,6 @@ public class Generalist_AI : MonoBehaviour
         MoveDir.y = rb.velocity.y;
         //Calculates and then applies then input with rigidbody's Physics
         rb.MovePosition(transform.position + MoveDir * Time.deltaTime);
-        if(Vector3.Distance(Animal.transform.position, PointOfInterest) < 10)
-        {
-            CalculateMovement(ref PointOfInterest);
-        }
     }
     protected CurrentAction CheckLevels(Diet yes, float water, float food)
     {
