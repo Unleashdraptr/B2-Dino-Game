@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Sneakable
   - Item
+  - NPC
   layers:
   - Default
   - TransparentFX

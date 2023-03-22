@@ -11,20 +11,17 @@ public class DialogueManager : MonoBehaviour
 
     FactionInfo Faction;
     public ShopUI Shop;
-    public enum OptionType { SHOP };
-    public OptionType menuCode;
     public int DialogueIterNum = -1;
     GameObject dialogueEditor;
     bool InDialogue;
     bool IsEnd;
+    public int CurrentBranch;
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.E) && InDialogue == true && IsEnd == false)
         {
             DialogueIterNum += 1;
             UpdateDialogue();
-            Debug.Log("Next text");
-            Debug.Log(DialogueIterNum);
         }
     }
     void LateUpdate()
@@ -39,40 +36,69 @@ public class DialogueManager : MonoBehaviour
             GameUIManager.Pause = false;
         }
     }
-    public void StartDialogue(GameObject dia, FactionInfo Fact)
+    public void StartDialogue(GameObject dia)
+    {
+        if (InDialogue == false)
+        {
+            dialogueEditor = dia;
+            DialogueIterNum = 0;
+            CurrentBranch = 0;
+            InDialogue = true;
+            IsEnd = false;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            GameUIManager.Pause = true;
+            UpdateDialogue();
+        }
+    }
+    public void StartShopDialogue(GameObject dia, FactionInfo Fact)
     {
         if (InDialogue == false)
         {
             Faction = Fact;
             dialogueEditor = dia;
             DialogueIterNum = 0;
+            CurrentBranch = 0;
             InDialogue = true;
+            IsEnd = false;
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             GameUIManager.Pause = true;
-            Debug.Log("Setup Dialogue");
-            Debug.Log(DialogueIterNum);
             UpdateDialogue();
         }
     }
     public void UpdateDialogue()
     {
+        Dialogue diag = dialogueEditor.GetComponent<DialogueEditor>().dialogue[DialogueIterNum];
         OptionDialogue.SetActive(false);
         Dialogue.SetActive(false);
-        if (dialogueEditor.GetComponent<DialogueEditor>().dialogue[DialogueIterNum].HasMenu)
+        if (diag.BranchNum == CurrentBranch)
         {
-            OptionDialogue.SetActive(true);
-            OptionDialogue.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = dialogueEditor.GetComponent<DialogueEditor>().dialogue[DialogueIterNum].dialogue;
-            UpdateOptions();
+            if (diag.HasMenu)
+            {
+                OptionDialogue.SetActive(true);
+                OptionDialogue.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = diag.dialogue;
+                UpdateOptions();
+            }
+            else
+            {
+                Dialogue.SetActive(true);
+                Dialogue.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = diag.dialogue;
+            }
+            if (diag.IsEnd)
+            {
+                IsEnd = true;
+            }
+            if (diag.BranchEnd)
+            {
+                DialogueIterNum = 0;
+                CurrentBranch = 0;
+            }
         }
         else
         {
-            Dialogue.SetActive(true);
-            Dialogue.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = dialogueEditor.GetComponent<DialogueEditor>().dialogue[DialogueIterNum].dialogue;
-        }
-        if(dialogueEditor.GetComponent<DialogueEditor>().dialogue[DialogueIterNum].IsEnd)
-        {
-            IsEnd = true;
+            DialogueIterNum += 1;
+            UpdateDialogue();
         }
     }
     public void UpdateOptions()
@@ -93,6 +119,17 @@ public class DialogueManager : MonoBehaviour
                 OptionDialogue.SetActive(false);
                 Dialogue.SetActive(false);
                 Shop.OpenFactionUI(Faction.LvlLimit, Faction.ItemsToSell, Faction.Faction);
+                break;
+            case global::Dialogue.OptionType.EXIT:
+                OptionDialogue.SetActive(false);
+                Dialogue.SetActive(false);
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                GameUIManager.Pause = false;
+                break;
+            case global::Dialogue.OptionType.BRANCH:
+                CurrentBranch = OptionNum+1;
+                UpdateDialogue();
                 break;
         }
     }

@@ -8,6 +8,7 @@ public class Movement : MonoBehaviour, IDataHandler
     public float Speed;
     public float lookSpeed;
     public float JumpSpeed;
+    public DialogueManager Dialogue;
     public float Health;
 
     //Getting the camera and where the character's physics body and feet gameobject. Also what layer the feet will interact with.
@@ -18,6 +19,7 @@ public class Movement : MonoBehaviour, IDataHandler
     //Players input
     Vector3 PlayerMoveInput;
     Vector2 CameraMoveInput;
+    GameObject Prompt;
 
     //Players stamina (Removing infinite dashing)
     public float Stamina = 100;
@@ -53,6 +55,13 @@ public class Movement : MonoBehaviour, IDataHandler
     {
         if (GameUIManager.Pause == false)
         {
+            if (Prompt != null)
+            {
+                if (Prompt.transform.GetChild(0).GetChild(0).gameObject.activeInHierarchy && Input.GetKeyDown(KeyCode.E))
+                {
+                    Dialogue.StartDialogue(Prompt);
+                }
+            }
             //Gets the movement input and then runs its function
             PlayerMoveInput = new(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
             //Checks if the player is moving and if not to go to Idle
@@ -182,6 +191,11 @@ public class Movement : MonoBehaviour, IDataHandler
         {
             Camouflaged = true;
         }
+        else if (collision.gameObject.CompareTag("NPC"))
+        {
+            Prompt = collision.gameObject;
+            Prompt.transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
+        }
         else
             Camouflaged = false;
     }
@@ -191,6 +205,11 @@ public class Movement : MonoBehaviour, IDataHandler
         {
             Camouflaged = true;
         }
+        else if (collision.gameObject.CompareTag("NPC"))
+        {
+            Prompt = collision.gameObject;
+            Prompt.transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
+        }
         else
             Camouflaged = false;
     }
@@ -198,5 +217,10 @@ public class Movement : MonoBehaviour, IDataHandler
     private void OnCollisionExit(Collision collision)
     {
         Camouflaged = false;
+        if (collision.gameObject.CompareTag("NPC"))
+        {
+            Prompt.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
+            Prompt = null;
+        }
     }
 }
