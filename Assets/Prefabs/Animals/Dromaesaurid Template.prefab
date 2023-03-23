@@ -1266,11 +1266,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Food: 0
-  Water: 0
+  thirst: 0
   speed: 1
+  Size: 0
+  StarvingTargets:
+  - {fileID: 4325008869085491460, guid: f81ccb178f2c73843868efe56b2c7456, type: 3}
+  NormalTargets:
+  - {fileID: 5761012387776535781, guid: 12a4841c8b959934e83c043ecadfa110, type: 3}
   CurAct: 2
   diet: 1
-  walk: 1
   Eyes: {fileID: 8141865689485985303}
   Movement: {x: 0, y: 0, z: 0}
 --- !u!195 &8141865691179792451

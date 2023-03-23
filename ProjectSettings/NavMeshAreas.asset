@@ -11,7 +11,7 @@ NavMeshProjectSettings:
     cost: 1
   - name: Jump
     cost: 2
-  - name: 
+  - name: Water
     cost: 1
   - name: 
     cost: 1
@@ -91,7 +91,7 @@ NavMeshProjectSettings:
       m_Flags: 0
   - serializedVersion: 2
     agentTypeID: -1372625422
-    agentRadius: 20
+    agentRadius: 19.69
     agentHeight: 21
     agentSlope: 15
     agentClimb: 5

@@ -5,14 +5,29 @@ using UnityEngine.AI;
 public class Generalist_AI : MonoBehaviour
 {
     public float Food;
-    public float Water;
+    public float thirst;
     public float speed;
+    public int Size;
+
+    Renderer[] Water;
+    Renderer[] Animals;
+    Renderer[] Plants;
+
+    public GameObject[] StarvingTargets;
+    public GameObject[] NormalTargets;
     public enum CurrentAction {HUNTING, GREASING, WATERING, IDLE, MOVING, DEAD }
     public CurrentAction CurAct;
     public enum Diet {HERBIVORE, CARNIVORE, OMNIVORE };
     public Diet diet;
-    public enum Walk {QUADRAPED, BIPED, NONE }
-    public Walk walk;
+    public void AllObjectsNeeded()
+    {
+        GameObject waterObjects = GameObject.Find("WaterHoles");
+        GameObject animalObjects = GameObject.Find("AnimalsStorage");
+        GameObject plantObjects = GameObject.Find("Plants");
+        Water = waterObjects.GetComponentsInChildren<Renderer>();
+        Animals = animalObjects.GetComponentsInChildren<Renderer>();
+        Plants = plantObjects.GetComponentsInChildren<Renderer>();
+    }
     protected Vector3 CalculateNextPos()
     {
         int x = Random.Range(-250, 250);
@@ -33,22 +48,26 @@ public class Generalist_AI : MonoBehaviour
         //Calculates and then applies then input with rigidbody's Physics
         rb.MovePosition(transform.position + MoveDir * Time.deltaTime);
     }
-    protected CurrentAction CheckLevels(Diet yes, float water, float food)
+    protected CurrentAction CheckLevels(Diet diet, float water, float food)
     {
         if (food < 500)
         {
             if (Random.Range(1, 1000) > 750)
             {
-                if (yes == Diet.HERBIVORE)
+                switch (diet)
                 {
-                    return CurrentAction.GREASING;
+                    case Diet.HERBIVORE:
+                        return CurrentAction.GREASING;
+                    case (Diet.CARNIVORE):
+                        return CurrentAction.HUNTING;
+                    case Diet.OMNIVORE:
+                        if(Random.Range(1, 2) > 1)
+                        {
+                            return CurrentAction.HUNTING;
+                        }
+                        else
+                            return CurrentAction.GREASING;
                 }
-                else if (yes == Diet.CARNIVORE)
-                {
-                    return CurrentAction.HUNTING;
-                }
-                else
-                    CheckForFood();
             }
         }
         if (water < 500)
@@ -60,8 +79,91 @@ public class Generalist_AI : MonoBehaviour
         }
         return CurrentAction.MOVING;
     }
-    void CheckForFood()
+    public Vector3 CheckForFood(Camera[] Eyes, bool EyeNum, Diet diet)
     {
-    
+        Renderer[] renderers = null;
+        Vector3 Pos = new(0, 0, 0);
+        Vector3 PlantPos = new(0, 0, 0);
+        switch (diet)
+        {
+            case Diet.HERBIVORE:
+                renderers = Plants;
+                break;
+            case (Diet.CARNIVORE):
+                renderers = Animals;
+                break;
+            case Diet.OMNIVORE:
+                renderers = Animals;
+                break;
+        }
+        if (EyeNum)
+        {
+            for (int i = 0; i < Eyes.Length; i++)
+            {
+                Pos = VisibleRenderers(renderers, Eyes[i]);
+            }
+        }
+        else
+            Pos = VisibleRenderers(renderers, Eyes[0]);
+        if (diet == Diet.OMNIVORE)
+        {
+            if (EyeNum)
+            {
+                for (int i = 0; i < Eyes.Length; i++)
+                {
+                    PlantPos = VisibleRenderers(Plants, Eyes[i]);
+                }
+            }
+            else
+                PlantPos = VisibleRenderers(Plants, Eyes[0]);
+            if (Vector3.Distance(Pos, transform.position) > Vector3.Distance(PlantPos, transform.position))
+            {
+                Pos = PlantPos;
+            }
+        }
+        return Pos;
+    }
+    //False = 1, true = 2
+    public Vector3 FindNearestWater(Camera[] Eyes, bool EyeNum)
+    {
+        Vector3 Pos = new(0,0,0);
+        if(EyeNum)
+        {
+            for(int i = 0; i < Eyes.Length; i++)
+            {
+                Pos = VisibleRenderers(Water, Eyes[i]);
+            }
+        }
+        return Pos;
+    }
+
+    private Vector3 VisibleRenderers(Renderer[] Renders, Camera Eye)
+    {
+        Vector3 OldPos = new(1000, 1000, 1000);
+        Vector3 Pos = new(1000, 1000, 1000);
+        for(int i = 0; i < Renders.Length; i++)
+        {
+            // output only the visible renderers' name
+            if (IsVisible(Renders[i], Eye))
+            {
+                if (Vector3.Distance(Renders[i].transform.position, transform.position) < Vector3.Distance(Pos, transform.position))
+                {
+                    Pos = Renders[i].transform.position;
+                }
+            }
+        }
+        if(Pos == OldPos)
+        {
+            Pos = CalculateNextPos();
+        }
+        return Pos;
+    }
+    private bool IsVisible(Renderer renderer, Camera Eye)
+    {
+        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(Eye);
+        if (GeometryUtility.TestPlanesAABB(planes, renderer.bounds))
+            return true;
+        else
+            return false;
     }
 }

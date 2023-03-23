@@ -7,6 +7,9 @@ TagManager:
   - Sneakable
   - Item
   - NPC
+  - Waterholes
+  - Animals
+  - Plants
   layers:
   - Default
   - TransparentFX

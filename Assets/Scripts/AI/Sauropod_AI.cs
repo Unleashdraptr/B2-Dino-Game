@@ -5,9 +5,7 @@ using UnityEngine.AI;
 
 public class Sauropod_AI : Generalist_AI
 {
-    public Camera LEye;
-    public Camera REye;
-    Rigidbody rb;
+    public Camera[] Eyes;
     public Vector3 Movement;
     NavMeshAgent Move;
     // Start is called before the first frame update
@@ -15,26 +13,42 @@ public class Sauropod_AI : Generalist_AI
     {
         Move = GetComponent<NavMeshAgent>();
         Food = 1000;
-        Water = 1000;
-        rb = GetComponent<Rigidbody>();
+        thirst = 1000;
         Move.destination = CalculateNextPos();
+        AllObjectsNeeded();
     }
     // Update is called once per frame
     private void Update()
     {
         Food -= 1 * Time.deltaTime;
-        Water -= 1 * Time.deltaTime;
+        thirst -= 1 * Time.deltaTime;
         if (CurAct == CurrentAction.IDLE || CurAct == CurrentAction.MOVING)
         {
-            CurAct = CheckLevels(diet, Water, Food);
+            CurAct = CheckLevels(diet, thirst, Food);
         }
-        if (Food <= 0 || Water <= 0)
+        if (Food <= 0 || thirst <= 0)
         {
             CurAct = CurrentAction.DEAD;
         }
-        if(Move.remainingDistance <= 1)
+        if(Move.remainingDistance <= 1 || CurAct == CurrentAction.IDLE)
         {
-            Move.destination = CalculateNextPos();
+            if (CurAct == CurrentAction.WATERING)
+            {
+                Move.destination = FindNearestWater(Eyes, true);
+            }
+            else if (CurAct == CurrentAction.GREASING)
+            {
+                Move.destination = CheckForFood(Eyes, true, diet);
+            }
+            else
+            {
+                if (Random.Range(1, 1000) > 800)
+                {
+                    Move.destination = CalculateNextPos();
+                }
+                else
+                    CurAct = CurrentAction.IDLE;
+            }
         }
     }
 }
