@@ -54,7 +54,7 @@ public class Sauropod_AI : Generalist_AI
                     }
                     else
                     {
-                        Debug.Log("Plant Location = "+ LocatePlants(Eyes, NormalTargets, StarvingTargets, Food));
+                        Debug.Log("Plant Location = " + LocatePlants(Eyes, NormalTargets, StarvingTargets, Food));
                         if(LocatePlants(Eyes, NormalTargets, StarvingTargets, Food).transform.position != null)
                         {
                             Move.destination = LocatePlants(Eyes, NormalTargets, StarvingTargets, Food).transform.position;
