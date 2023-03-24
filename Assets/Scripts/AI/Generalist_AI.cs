@@ -11,11 +11,11 @@ public class Generalist_AI : MonoBehaviour
 
     Renderer[] Water;
     Renderer[] Animals;
-    Renderer[] Plants;
+    public Renderer[] Plants;
 
     public GameObject[] StarvingTargets;
     public GameObject[] NormalTargets;
-    public enum CurrentAction {HUNTING, GREASING, WATERING, IDLE, MOVING, DEAD }
+    public enum CurrentAction {HUNGRY, HUNTING, GREASING, WATERING, IDLE, MOVING, DEAD }
     public CurrentAction CurAct;
     public enum Diet {HERBIVORE, CARNIVORE, OMNIVORE };
     public Diet diet;
@@ -30,8 +30,8 @@ public class Generalist_AI : MonoBehaviour
     }
     protected Vector3 CalculateNextPos()
     {
-        int x = Random.Range(-250, 250);
-        int z = Random.Range(-250, 250);
+        float x = Random.Range(transform.position.x - 50, transform.position.x + 50);
+        float z = Random.Range(transform.position.z - 50, transform.position.z + 50);
         Vector3 Pos = new(x, 0, z);
         return Pos;
     }
@@ -79,69 +79,89 @@ public class Generalist_AI : MonoBehaviour
         }
         return CurrentAction.MOVING;
     }
-    public Vector3 CheckForFood(Camera[] Eyes, bool EyeNum, Diet diet)
+    public GameObject LocatePlants(Camera[] Eyes, GameObject[] NormalPlants, GameObject[] StarvingPlants, float Food)
     {
-        Renderer[] renderers = null;
-        Vector3 Pos = new(0, 0, 0);
-        Vector3 PlantPos = new(0, 0, 0);
-        switch (diet)
+        GameObject Pos = null;
+        for (int i = 0; i < Eyes.Length; i++)
         {
-            case Diet.HERBIVORE:
-                renderers = Plants;
-                break;
-            case (Diet.CARNIVORE):
-                renderers = Animals;
-                break;
-            case Diet.OMNIVORE:
-                renderers = Animals;
-                break;
+            Debug.Log("Food Renderers = " + VisibleFoodRenderers(Plants, Eyes[i], NormalPlants, StarvingPlants, Food));
+            Pos = VisibleFoodRenderers(Plants, Eyes[i], NormalPlants, StarvingPlants, Food);
         }
-        if (EyeNum)
+        if (Pos == null)
         {
-            for (int i = 0; i < Eyes.Length; i++)
-            {
-                Pos = VisibleRenderers(renderers, Eyes[i]);
-            }
-        }
-        else
-            Pos = VisibleRenderers(renderers, Eyes[0]);
-        if (diet == Diet.OMNIVORE)
-        {
-            if (EyeNum)
-            {
-                for (int i = 0; i < Eyes.Length; i++)
-                {
-                    PlantPos = VisibleRenderers(Plants, Eyes[i]);
-                }
-            }
-            else
-                PlantPos = VisibleRenderers(Plants, Eyes[0]);
-            if (Vector3.Distance(Pos, transform.position) > Vector3.Distance(PlantPos, transform.position))
-            {
-                Pos = PlantPos;
-            }
+            CalculateNextPos();
         }
         return Pos;
     }
-    //False = 1, true = 2
-    public Vector3 FindNearestWater(Camera[] Eyes, bool EyeNum)
+    public GameObject LocatePrey(Camera[] Eyes, GameObject[] Prey, GameObject[] StarvingPrey, float Food)
     {
-        Vector3 Pos = new(0,0,0);
-        if(EyeNum)
+        GameObject Pos = null;
+        for (int i = 0; i < Eyes.Length; i++)
         {
-            for(int i = 0; i < Eyes.Length; i++)
-            {
-                Pos = VisibleRenderers(Water, Eyes[i]);
-            }
+            Pos = VisibleFoodRenderers(Animals, Eyes[i], Prey, StarvingPrey, Food);
+        }
+        if(Pos == null)
+        {
+            CalculateNextPos();
+        }
+        return Pos;
+    }
+    public Vector3 LocateWater(Camera[] Eyes)
+    {
+        Vector3 Pos = new(100,100,100);
+        for (int i = 0; i < Eyes.Length; i++)
+        {
+            Pos = VisibleWaterRenderers(Water, Eyes[i]);
         }
         return Pos;
     }
 
-    private Vector3 VisibleRenderers(Renderer[] Renders, Camera Eye)
+    private GameObject VisibleFoodRenderers(Renderer[] Renders, Camera Eye, GameObject[] Prey, GameObject[] StarvingPrey, float Food)
+    {
+        GameObject[] prey;
+        GameObject Target = null;
+        if (Food > 300)
+            prey = Prey;       
+        else
+            prey = StarvingPrey;
+        for (int i = 0; i < Renders.Length; i++)
+        {
+            if (IsVisible(Renders[i], Eye))
+            {
+                if (Target != null)
+                {
+                    if (Vector3.Distance(Renders[i].transform.position, transform.position) < Vector3.Distance(Target.transform.position, transform.position))
+                    {
+                        foreach (GameObject food in prey)
+                        {
+                            if (Renders[i].gameObject == food)
+                            {
+                                Target = Renders[i].gameObject;
+                                Debug.Log("Target = " + Renders[i].GetComponent<GameObject>());
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (GameObject food in prey)
+                    {
+                        if (Renders[i].gameObject == food)
+                        {
+                            Target = Renders[i].gameObject;
+                            Debug.Log(Target);
+                        }
+                    }
+                }
+            }
+        }
+        return Target;
+    }
+    private Vector3 VisibleWaterRenderers(Renderer[] Renders, Camera Eye)
     {
         Vector3 OldPos = new(1000, 1000, 1000);
         Vector3 Pos = new(1000, 1000, 1000);
-        for(int i = 0; i < Renders.Length; i++)
+        for (int i = 0; i < Renders.Length; i++)
         {
             // output only the visible renderers' name
             if (IsVisible(Renders[i], Eye))
@@ -152,7 +172,7 @@ public class Generalist_AI : MonoBehaviour
                 }
             }
         }
-        if(Pos == OldPos)
+        if (Pos == OldPos)
         {
             Pos = CalculateNextPos();
         }
@@ -165,5 +185,31 @@ public class Generalist_AI : MonoBehaviour
             return true;
         else
             return false;
+    }
+    protected bool CheckSurroundings(CurrentAction CurAct)
+    {
+        if (CurAct == CurrentAction.WATERING)
+        {
+            for (int i = 0; i < Water.Length; i++)
+            {
+                if (Vector3.Distance(Water[i].transform.position, transform.position) < 25)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        if(CurAct == CurrentAction.GREASING)
+        {
+            for (int i = 0; i < Plants.Length; i++)
+            {
+                if (Vector3.Distance(Plants[i].transform.position, transform.position) < 35)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        return false;
     }
 }
