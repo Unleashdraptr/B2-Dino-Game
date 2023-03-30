@@ -832,12 +832,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4325008869085491462}
-  - component: {fileID: 4325008869085491463}
   - component: {fileID: 4325008869085491465}
+  - component: {fileID: 7986961333994238321}
   - component: {fileID: 4325008869085491464}
   m_Layer: 0
   m_Name: Sauropod Template
-  m_TagString: Untagged
+  m_TagString: Sauropod
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -860,32 +860,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4325008869085491463
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4325008869085491460}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5e3827723a579c42aaca10227fc1e6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Food: 0
-  thirst: 0
-  speed: 0
-  Size: 0
-  StarvingTargets:
-  - {fileID: 2333659997508551424, guid: 4e14e4e89ab5eca4db79d32f925d5810, type: 3}
-  NormalTargets:
-  - {fileID: 8289669352671518826, guid: d4d78bbe8c24f4343acc9e59037df721, type: 3}
-  CurAct: 5
-  diet: 0
-  ASSENDMYCHILD: 0
-  Eyes:
-  - {fileID: 4325008869318823767}
-  - {fileID: 4325008869310389097}
 --- !u!54 &4325008869085491465
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -902,6 +876,29 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!114 &7986961333994238321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4325008869085491460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7efaf6c43dcc13243a13be89297da492, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Eyes:
+  - {fileID: 4325008869318823767}
+  - {fileID: 4325008869310389097}
+  Food: 0
+  thirst: 0
+  StarvingTargets:
+  - Plants
+  NormalTargets:
+  - Trees
+  CurAct: 4
+  diet: 0
 --- !u!195 &4325008869085491464
 NavMeshAgent:
   m_ObjectHideFlags: 0

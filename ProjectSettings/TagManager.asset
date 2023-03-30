@@ -9,7 +9,10 @@ TagManager:
   - NPC
   - Waterholes
   - Animals
+  - Trees
   - Plants
+  - Sauropod
+  - Dromaesaurid
   layers:
   - Default
   - TransparentFX

@@ -1198,11 +1198,11 @@ GameObject:
   - component: {fileID: 8141865691179792476}
   - component: {fileID: 8141865691179792450}
   - component: {fileID: 8141865691179792477}
-  - component: {fileID: 8141865691179792479}
+  - component: {fileID: 9037141742239697657}
   - component: {fileID: 8141865691179792451}
   m_Layer: 0
   m_Name: Dromaesaurid Template
-  m_TagString: Untagged
+  m_TagString: Dromaesaurid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1214,7 +1214,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8141865691179792478}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1253,7 +1253,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!114 &8141865691179792479
+--- !u!114 &9037141742239697657
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1262,21 +1262,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 8141865691179792478}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c33e67ed0b4991f41950dc961c15c847, type: 3}
+  m_Script: {fileID: 11500000, guid: 52fbab59a6a55e742ae682a2132b6ea9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Eyes:
+  - {fileID: 8141865689485985303}
   Food: 0
   thirst: 0
-  speed: 1
-  Size: 0
   StarvingTargets:
-  - {fileID: 4325008869085491460, guid: f81ccb178f2c73843868efe56b2c7456, type: 3}
+  - Sauropod
+  - Dromaesaurid
   NormalTargets:
-  - {fileID: 5761012387776535781, guid: 12a4841c8b959934e83c043ecadfa110, type: 3}
-  CurAct: 2
+  - Player
+  CurAct: 4
   diet: 1
-  Eyes: {fileID: 8141865689485985303}
-  Movement: {x: 0, y: 0, z: 0}
 --- !u!195 &8141865691179792451
 NavMeshAgent:
   m_ObjectHideFlags: 0

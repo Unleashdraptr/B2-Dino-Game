@@ -3,36 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Sauropod_AI : Generalist_AI
+public class Herbivourous_AI : Generalist_AI
 {
-    public bool ASSENDMYCHILD;
-    public Camera[] Eyes;
-    NavMeshAgent Move;
-    // Start is called before the first frame update
-    void Start()
+    public void CheckState()
     {
-        Move = GetComponent<NavMeshAgent>();
-        Food = 1000;
-        thirst = 1000;
-        Move.destination = CalculateNextPos();
-        AllObjectsNeeded();
+        if (CurAct == CurrentAction.IDLE || CurAct == CurrentAction.MOVING)
+        {
+            CurAct = CheckLevels(diet, thirst, Food);
+        }
+        if (Food <= 0 || thirst <= 0)
+        {
+            CurAct = CurrentAction.DEAD;
+        }
     }
     // Update is called once per frame
-    private void Update()
+    public void UpdateActions()
     {
         if (CurAct != CurrentAction.DEAD)
         {
-            Food -= 5 * Time.deltaTime;
-            thirst -= 5 * Time.deltaTime;
-            if (CurAct == CurrentAction.IDLE || CurAct == CurrentAction.MOVING)
-            {
-                CurAct = CheckLevels(diet, thirst, Food);
-            }
-            if (Food <= 0 || thirst <= 0)
-            {
-                CurAct = CurrentAction.DEAD;
-                ASSENDMYCHILD = true;
-            }
             if (Move.remainingDistance <= 1 || CurAct == CurrentAction.IDLE)
             {
                 if (CurAct == CurrentAction.WATERING)
@@ -45,7 +33,7 @@ public class Sauropod_AI : Generalist_AI
                     else
                         Move.destination = LocateWater(Eyes);
                 }
-                if (CurAct == CurrentAction.GREASING)
+                if (CurAct == CurrentAction.GRAZING)
                 {
                     if (CheckSurroundings(CurAct))
                     {
@@ -54,11 +42,12 @@ public class Sauropod_AI : Generalist_AI
                     }
                     else
                     {
-                        Debug.Log("Plant Location = " + LocatePlants(Eyes, NormalTargets, StarvingTargets, Food));
-                        if(LocatePlants(Eyes, NormalTargets, StarvingTargets, Food).transform.position != null)
+                        if(LocatePlants(Eyes, NormalTargets, StarvingTargets, Food) != null)
                         {
-                            Move.destination = LocatePlants(Eyes, NormalTargets, StarvingTargets, Food).transform.position;
+                            Move.destination = LocatePlants(Eyes, NormalTargets, StarvingTargets, Food).position;
                         }
+                        else
+                            Move.destination = CalculateNextPos();
                     }
                 }
                 else
@@ -74,9 +63,5 @@ public class Sauropod_AI : Generalist_AI
         }
         else
             Move.speed = 0;
-        if(ASSENDMYCHILD)
-        {
-            transform.Translate(0, 50, 0);
-        }
     }
 }

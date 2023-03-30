@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2333659997508551430}
   m_Layer: 0
   m_Name: StarvingCylinder
-  m_TagString: Untagged
+  m_TagString: Plants
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 4
   m_StaticEditorFlags: 40
