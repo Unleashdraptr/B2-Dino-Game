@@ -17,9 +17,14 @@ public class Dromaesauridae_AI : Carnivourous_AI
     // Update is called once per frame
     void Update()
     {
-        Food -= 5 * Time.deltaTime;
-        thirst -= 5 * Time.deltaTime;
-        CheckState();
-        UpdateActions();
+        if (CurAct != CurrentAction.DEAD)
+        {
+            Food -= 5 * Time.deltaTime;
+            thirst -= 5 * Time.deltaTime;
+            CheckState();
+            UpdateStates();
+        }
+        else
+            Move.speed = 0;
     }
 }

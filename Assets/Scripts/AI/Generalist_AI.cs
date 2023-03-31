@@ -7,6 +7,8 @@ public class Generalist_AI : MonoBehaviour
     public Camera[] Eyes;
     protected NavMeshAgent Move;
     public float Food;
+    public float FoodValue;
+    public int DangerLvl;
     public float thirst;
     Renderer[] Water;
     GameObject Animals;

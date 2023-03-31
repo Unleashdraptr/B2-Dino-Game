@@ -13,6 +13,8 @@ TagManager:
   - Plants
   - Sauropod
   - Dromaesaurid
+  - Spinosauridae
+  - Ornthithomimidae
   layers:
   - Default
   - TransparentFX

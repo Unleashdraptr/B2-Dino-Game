@@ -19,49 +19,44 @@ public class Herbivourous_AI : Generalist_AI
     // Update is called once per frame
     public void UpdateActions()
     {
-        if (CurAct != CurrentAction.DEAD)
+        if (Move.remainingDistance <= 1 || CurAct == CurrentAction.IDLE)
         {
-            if (Move.remainingDistance <= 1 || CurAct == CurrentAction.IDLE)
+            if (CurAct == CurrentAction.WATERING)
             {
-                if (CurAct == CurrentAction.WATERING)
+                if (CheckSurroundings(CurAct))
                 {
-                    if(CheckSurroundings(CurAct))
-                    {
-                        thirst += 250;
-                        CurAct = CheckLevels(diet, thirst, Food);
-                    }
-                    else
-                        Move.destination = LocateWater(Eyes);
+                    thirst += 250;
+                    CurAct = CheckLevels(diet, thirst, Food);
                 }
-                if (CurAct == CurrentAction.GRAZING)
+                else
+                    Move.destination = LocateWater(Eyes);
+            }
+            if (CurAct == CurrentAction.GRAZING)
+            {
+                if (CheckSurroundings(CurAct))
                 {
-                    if (CheckSurroundings(CurAct))
-                    {
-                        Food += 250;
-                        CurAct = CheckLevels(diet, thirst, Food);
-                    }
-                    else
-                    {
-                        if(LocatePlants(Eyes, NormalTargets, StarvingTargets, Food) != null)
-                        {
-                            Move.destination = LocatePlants(Eyes, NormalTargets, StarvingTargets, Food).position;
-                        }
-                        else
-                            Move.destination = CalculateNextPos();
-                    }
+                    Food += 250;
+                    CurAct = CheckLevels(diet, thirst, Food);
                 }
                 else
                 {
-                    if (Random.Range(1, 1000) > 800)
+                    if (LocatePlants(Eyes, NormalTargets, StarvingTargets, Food) != null)
                     {
-                        Move.destination = CalculateNextPos();
+                        Move.destination = LocatePlants(Eyes, NormalTargets, StarvingTargets, Food).position;
                     }
                     else
-                        CurAct = CurrentAction.IDLE;
+                        Move.destination = CalculateNextPos();
                 }
             }
+            else
+            {
+                if (Random.Range(1, 1000) > 800)
+                {
+                    Move.destination = CalculateNextPos();
+                }
+                else
+                    CurAct = CurrentAction.IDLE;
+            }
         }
-        else
-            Move.speed = 0;
     }
 }
