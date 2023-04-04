@@ -42,7 +42,7 @@ public class Herbivourous_AI : Generalist_AI
                 {
                     if (LocatePlants(Eyes, NormalTargets, StarvingTargets, Food) != null)
                     {
-                        Move.destination = LocatePlants(Eyes, NormalTargets, StarvingTargets, Food).position;
+                        Move.destination = LocatePlants(Eyes, NormalTargets, StarvingTargets, Food);
                     }
                     else
                         Move.destination = CalculateNextPos();

@@ -2136,6 +2136,8 @@ MonoBehaviour:
   Eyes:
   - {fileID: 2312499647717205787}
   Food: 0
+  FoodValue: 0
+  DangerLvl: 0
   thirst: 0
   StarvingTargets:
   - Sauropod
@@ -2146,6 +2148,7 @@ MonoBehaviour:
   - Ornthithomimidae
   CurAct: 4
   diet: 1
+  WaterLocations: {fileID: 0}
 --- !u!195 &180366969786235807
 NavMeshAgent:
   m_ObjectHideFlags: 0

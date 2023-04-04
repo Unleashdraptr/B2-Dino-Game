@@ -16,7 +16,7 @@ public class Generalist_AI : MonoBehaviour
     public string[] StarvingTargets;
     public string[] NormalTargets;
 
-    public enum CurrentAction {HUNGRY, HUNTING, GRAZING, WATERING, IDLE, MOVING, DEAD }
+    public enum CurrentAction {HUNGRY, HUNTING, GRAZING, WATERING, IDLE, MOVING, NEXTMOVEMENT, DEAD }
     public CurrentAction CurAct;
     public enum Diet {HERBIVORE, CARNIVORE, OMNIVORE };
     public Diet diet;
@@ -78,9 +78,13 @@ public class Generalist_AI : MonoBehaviour
         }
         return CurrentAction.MOVING;
     }
-    public Transform LocatePlants(Camera[] Eyes, string[] NormalPlants, string[] StarvingPlants, float Food)
+    public Vector3 LocatePlants(Camera[] Eyes, string[] NormalPlants, string[] StarvingPlants, float Food)
     {
-        return FindClosestFood(Plants, Eyes, NormalPlants, StarvingPlants, Food);
+        Transform Position = FindClosestFood(Plants, Eyes, NormalPlants, StarvingPlants, Food);
+        float x = Random.Range(Position.position.x - (transform.lossyScale.x), Position.position.x + (transform.lossyScale.x));
+        float z = Random.Range(Position.position.z - (transform.lossyScale.z), Position.position.z + (transform.lossyScale.z));
+        Vector3 Pos = new(x, Position.position.y, z);
+        return Pos;
     }
     public Transform LocatePrey(Camera[] Eyes, string[] Prey, string[] StarvingPrey, float Food)
     {
@@ -93,7 +97,11 @@ public class Generalist_AI : MonoBehaviour
         {
             Pos = VisibleWaterRenderers(Water, Eyes[i]);
         }
+        float x = Random.Range(Pos.x - (Pos.x / 2.5f), Pos.x + (Pos.x / 2.5f));
+        float z = Random.Range(Pos.z - (Pos.z / 2.5f), Pos.z + (Pos.z / 2.5f));
+        Pos = new(x, Pos.y, z);
         return Pos;
+       
     }
     Transform FindClosestFood(GameObject Renders, Camera[] Eye, string[] Prey, string[] StarvingPrey, float Food)
     {

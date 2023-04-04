@@ -38,7 +38,7 @@ public class Omnivorous_AI : Generalist_AI
                 Vector3 currentPos = transform.position;
                 if (LocatePlants(Eyes, NormalTargets, StarvingTargets, Food) != null)
                 {
-                    minDist = Vector3.Distance(LocatePlants(Eyes, NormalTargets, StarvingTargets, Food).position, currentPos);
+                    minDist = Vector3.Distance(LocatePlants(Eyes, NormalTargets, StarvingTargets, Food), currentPos);
                 }
                 if (LocatePrey(Eyes, NormalTargets, StarvingTargets, Food) != null)
                 {
@@ -64,7 +64,7 @@ public class Omnivorous_AI : Generalist_AI
                 {
                     if (LocatePlants(Eyes, NormalTargets, StarvingTargets, Food) != null)
                     {
-                        Move.destination = LocatePlants(Eyes, NormalTargets, StarvingTargets, Food).position;
+                        Move.destination = LocatePlants(Eyes, NormalTargets, StarvingTargets, Food);
                     }
                     else
                         Move.destination = CalculateNextPos();

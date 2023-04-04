@@ -56,14 +56,7 @@ public class Carnivourous_AI : Generalist_AI
                 }
             }
             else
-            {
-                if (Random.Range(1, 1000) > 800)
-                {
-                    Move.destination = CalculateNextPos();
-                }
-                else
-                    CurAct = CurrentAction.IDLE;
-            }
+                CurAct = CurrentAction.NEXTMOVEMENT;
         }
         if (CurAct == CurrentAction.HUNTING)
         {
