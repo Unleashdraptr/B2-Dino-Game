@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class Titanosauridae_AI : Herbivourous_AI
 {
+    bool InHerd;
     void Start()
     {
         Move = GetComponent<NavMeshAgent>();
@@ -12,19 +13,31 @@ public class Titanosauridae_AI : Herbivourous_AI
         thirst = 1000;
         Move.destination = CalculateNextPos();
         AllObjectsNeeded();
+        if (transform.parent.TryGetComponent<GameObject>(out GameObject gameObject))
+        {
+            InHerd = true;
+        }
+        else
+            InHerd = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (CurAct != CurrentAction.DEAD)
+        if (InHerd == false)
         {
-            Food -= 5 * Time.deltaTime;
-            thirst -= 5 * Time.deltaTime;
-            CheckState();
-            UpdateActions();
+            if (CurAct != CurrentAction.DEAD)
+            {
+                Food -= 5 * Time.deltaTime;
+                thirst -= 5 * Time.deltaTime;
+                CheckState();
+                if (UpdateStates() == true)
+                {
+                    
+                }
+            }
+            else
+                Move.speed = 0;
         }
-        else
-            Move.speed = 0;
     }
 }

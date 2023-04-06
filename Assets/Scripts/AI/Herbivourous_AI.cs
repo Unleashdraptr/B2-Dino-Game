@@ -17,7 +17,7 @@ public class Herbivourous_AI : Generalist_AI
         }
     }
     // Update is called once per frame
-    public void UpdateActions()
+    public bool UpdateStates()
     {
         if (Move.remainingDistance <= 1 || CurAct == CurrentAction.IDLE)
         {
@@ -29,7 +29,10 @@ public class Herbivourous_AI : Generalist_AI
                     CurAct = CheckLevels(diet, thirst, Food);
                 }
                 else
+                {
                     Move.destination = LocateWater(Eyes);
+                    return false;
+                }
             }
             if (CurAct == CurrentAction.GRAZING)
             {
@@ -43,20 +46,13 @@ public class Herbivourous_AI : Generalist_AI
                     if (LocatePlants(Eyes, NormalTargets, StarvingTargets, Food) != null)
                     {
                         Move.destination = LocatePlants(Eyes, NormalTargets, StarvingTargets, Food);
+                        return false;
                     }
                     else
-                        Move.destination = CalculateNextPos();
+                        return true;
                 }
-            }
-            else
-            {
-                if (Random.Range(1, 1000) > 800)
-                {
-                    Move.destination = CalculateNextPos();
-                }
-                else
-                    CurAct = CurrentAction.IDLE;
             }
         }
+        return false;
     }
 }

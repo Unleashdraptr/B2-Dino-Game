@@ -14,9 +14,9 @@ public class Spinosauridae_AI : Carnivourous_AI
         Move = GetComponent<NavMeshAgent>();
         Food = 1000;
         thirst = 1000;
-        Move.destination = CalculateNextPos();
         AllObjectsNeeded();
         Habitat = FindClosestWaterHabitat();
+        Move.destination = NextMovement(Habitat);
     }
 
     // Update is called once per frame
@@ -26,21 +26,19 @@ public class Spinosauridae_AI : Carnivourous_AI
         {
             Food -= 5 * Time.deltaTime;
             thirst -= 5 * Time.deltaTime;
-            if (CurAct == CurrentAction.NEXTMOVEMENT)
+            CheckState();
+            if(UpdateStates() == true)
             {
-                Debug.Log("VRN-bvnW=");
                 Move.destination = NextMovement(Habitat);
             }
-            CheckState();
-            UpdateStates();
         }
         else
             Move.speed = 0;
     }
     Vector3 NextMovement(Transform Habitat)
     {
-        float x = Random.Range(Habitat.position.x - (Habitat.position.x / 2), Habitat.position.x + (Habitat.position.x / 2));
-        float z = Random.Range(Habitat.position.z - (Habitat.position.z / 2), Habitat.position.z + (Habitat.position.z / 2));
+        float x = Random.Range(Habitat.position.x - (Habitat.lossyScale.x * 6), Habitat.position.x + (Habitat.lossyScale.x * 6));
+        float z = Random.Range(Habitat.position.z - (Habitat.lossyScale.z * 6), Habitat.position.z + (Habitat.lossyScale.z * 6));
         Vector3 Pos = new(x, Habitat.position.y, z);
         CurAct = CurrentAction.MOVING;
         return Pos;

@@ -16,7 +16,7 @@ public class Generalist_AI : MonoBehaviour
     public string[] StarvingTargets;
     public string[] NormalTargets;
 
-    public enum CurrentAction {HUNGRY, HUNTING, GRAZING, WATERING, IDLE, MOVING, NEXTMOVEMENT, DEAD }
+    public enum CurrentAction {HUNGRY, HUNTING, GRAZING, WATERING, IDLE, MOVING, DEAD }
     public CurrentAction CurAct;
     public enum Diet {HERBIVORE, CARNIVORE, OMNIVORE };
     public Diet diet;

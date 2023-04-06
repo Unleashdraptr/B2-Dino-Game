@@ -22,7 +22,7 @@ public class Ornthithomimidae_AI : Herbivourous_AI
             Food -= 5 * Time.deltaTime;
             thirst -= 5 * Time.deltaTime;
             CheckState();
-            UpdateActions();
+            UpdateStates();
         }
         else
             Move.speed = 0;

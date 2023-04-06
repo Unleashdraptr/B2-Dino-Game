@@ -892,6 +892,8 @@ MonoBehaviour:
   - {fileID: 4325008869318823767}
   - {fileID: 4325008869310389097}
   Food: 0
+  FoodValue: 0
+  DangerLvl: 0
   thirst: 0
   StarvingTargets:
   - Plants
@@ -911,7 +913,7 @@ NavMeshAgent:
   m_Radius: 5.7
   m_Speed: 9
   m_Acceleration: 6
-  avoidancePriority: 50
+  avoidancePriority: 0
   m_AngularSpeed: 120
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1

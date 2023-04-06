@@ -17,7 +17,7 @@ public class Carnivourous_AI : Generalist_AI
             CurAct = CurrentAction.DEAD;
         }
     }
-    public void UpdateStates()
+    public bool UpdateStates()
     {
         if (Move.remainingDistance <= 1 || CurAct == CurrentAction.IDLE)
         {
@@ -29,9 +29,12 @@ public class Carnivourous_AI : Generalist_AI
                     CurAct = CheckLevels(diet, thirst, Food);
                 }
                 else
+                {
                     Move.destination = LocateWater(Eyes);
+                    return false;
+                }
             }
-            else if (CurAct == CurrentAction.HUNGRY || ChaseTime < 0 && CurAct == CurrentAction.HUNTING)
+            if (CurAct == CurrentAction.HUNGRY || ChaseTime < 0 && CurAct == CurrentAction.HUNTING)
             {
                 if (PreyLocation != null)
                 {
@@ -50,17 +53,19 @@ public class Carnivourous_AI : Generalist_AI
                         CurAct = CurrentAction.HUNTING;
                         Move.destination = PreyLocation.position;
                         ChaseTime = 10f;
+                        return false;
                     }
                     else
-                        Move.destination = CalculateNextPos();
+                        return true;
                 }
             }
             else
-                CurAct = CurrentAction.NEXTMOVEMENT;
+                return true;
         }
         if (CurAct == CurrentAction.HUNTING)
         {
             ChaseTime -= 1 * Time.deltaTime;
         }
+        return false;
     }
 }
