@@ -10,6 +10,7 @@ public class Generalist_AI : MonoBehaviour
     public float FoodValue;
     public int DangerLvl;
     public float thirst;
+    public bool DontDespawn;
     Renderer[] Water;
     GameObject Animals;
     GameObject Plants;
