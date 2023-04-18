@@ -44,7 +44,7 @@ public class ShopUI : MonoBehaviour
             InShop = false;
             transform.GetChild(0).gameObject.SetActive(false);
             transform.GetChild(1).gameObject.SetActive(false);
-            GameUIManager.Pause = false;
+            UIManager.Pause = false;
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             for (int i = 0; i < transform.GetChild(1).childCount; i++)

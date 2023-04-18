@@ -33,7 +33,7 @@ public class DialogueManager : MonoBehaviour
             Dialogue.SetActive(false);
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-            GameUIManager.Pause = false;
+            UIManager.Pause = false;
         }
     }
     public void StartDialogue(GameObject dia)
@@ -47,7 +47,7 @@ public class DialogueManager : MonoBehaviour
             IsEnd = false;
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            GameUIManager.Pause = true;
+            UIManager.Pause = true;
             UpdateDialogue();
         }
     }
@@ -63,7 +63,7 @@ public class DialogueManager : MonoBehaviour
             IsEnd = false;
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            GameUIManager.Pause = true;
+            UIManager.Pause = true;
             UpdateDialogue();
         }
     }
@@ -125,7 +125,7 @@ public class DialogueManager : MonoBehaviour
                 Dialogue.SetActive(false);
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
-                GameUIManager.Pause = false;
+                UIManager.Pause = false;
                 break;
             case global::Dialogue.OptionType.BRANCH:
                 CurrentBranch = OptionNum+1;

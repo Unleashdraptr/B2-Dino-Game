@@ -9,7 +9,7 @@ public class Movement : MonoBehaviour, IDataHandler
     public float Speed;
     public float lookSpeed;
     public float JumpSpeed;
-    public GameUIManager manager;
+    public UIManager manager;
     public DialogueManager Dialogue;
     public float Health;
 
@@ -63,7 +63,7 @@ public class Movement : MonoBehaviour, IDataHandler
         }
         else
             manager.UpdateHealth((int)Hp);
-        if (GameUIManager.Pause == false)
+        if (UIManager.Pause == false)
         {
             if (Prompt != null)
             {
@@ -145,7 +145,7 @@ public class Movement : MonoBehaviour, IDataHandler
     //FixedUpdate can run multiple times per frame
     private void FixedUpdate()
     {
-        if (GameUIManager.Pause == false)
+        if (UIManager.Pause == false)
         {
             //Run the Physics calculations
             MovePlayer();

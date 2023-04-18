@@ -13,7 +13,7 @@ public class ItemPickUp : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (GameUIManager.Pause == false)
+        if (UIManager.Pause == false)
         {
             inv = GetComponent<Inventory>();
             Ray Point = CameraRayCast.ScreenPointToRay(new(Screen.width / 2, Screen.height / 2, 0));

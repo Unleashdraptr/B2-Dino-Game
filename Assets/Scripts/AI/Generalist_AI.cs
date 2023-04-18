@@ -11,12 +11,9 @@ public class Generalist_AI : MonoBehaviour
     public float FoodValue;
     public int DangerLvl;
     public float thirst;
-<<<<<<< Updated upstream
     public bool DontDespawn;
-=======
 
 
->>>>>>> Stashed changes
     Renderer[] Water;
     GameObject Animals;
     GameObject Plants;
