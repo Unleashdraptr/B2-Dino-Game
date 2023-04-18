@@ -8,8 +8,9 @@ public class Inventory : MonoBehaviour, IDataHandler
 {
     public GameObject[] ItemIDs;
     public GameObject[] InventoryItems = new GameObject[8];
-    public int CurrentItem;
+    public bool[] UsedSlots = new bool[8];
     public int CurrentSlot;
+    public bool isHoldingWeapon;
     public void SaveData(ref GameData data)
     {
         for (int i = 0; i < 8; i++)
@@ -43,46 +44,75 @@ public class Inventory : MonoBehaviour, IDataHandler
     // Update is called once per frame
     void Update()
     {
-        if(Input.mouseScrollDelta.y !=0)
+        UpdateUsedSlots();
+        if (Input.mouseScrollDelta.y != 0)
         {
-            FindNextEmptySlot();
-            NextNum((int)Input.mouseScrollDelta.y);
+            FindNextEmptySlot(Input.mouseScrollDelta.y);
             UpdateHoldingItem();
         }
+        if (isHoldingWeapon && Input.GetMouseButton(0))
+        {
+            InventoryItems[CurrentSlot].GetComponent<WeaponControls>().ActivateWeapons();
+        }
     }
-    void FindNextEmptySlot()
+    void UpdateUsedSlots()
     {
-        for(int i = 0; i < 8; i++)
+        for(int i = 0; i < InventoryItems.Length; i++)
+        {
+            if(InventoryItems[i])
+            {
+                UsedSlots[i] = true;
+            }
+            if (!InventoryItems[i])
+            {
+                UsedSlots[i] = false;
+            }
+        }
+        int TempSpareSlot = 0;
+        for(int i = 0; i < InventoryItems.Length; i++)
         {
             if(!InventoryItems[i])
             {
-                CurrentSlot = i;
-                break;
+                TempSpareSlot = i;
             }
         }
+        UsedSlots[TempSpareSlot] = true;
     }
-    void NextNum(int Num)
+    void FindNextEmptySlot(float Direction)
     {
-        for(int i = CurrentItem; i<i+8; i+=Num)
+        int k;
+        if (Direction > 0)
         {
-            if (!InventoryItems[i])
+            for (int i = CurrentSlot; i < CurrentSlot + 8; i++)
             {
-                CurrentItem = CurrentSlot;
-                break;
-            }
-            else if (InventoryItems[i] || i == CurrentSlot)
-            {
-                if (i > 8)
+                if (i > 7)
                 {
-                    CurrentItem = (i - 8);
+                    k = i - 8;
                 }
-                else if(i < 0)
-                {
-                    CurrentItem = (i + 8);
-                } 
                 else
-                    CurrentItem = i;
-                break;
+                    k = i;
+                if (UsedSlots[k] == true && k != CurrentSlot)
+                {
+                    CurrentSlot = k;
+                    break;
+                }
+            }
+        }
+        if (Direction < 0)
+        {
+            for (int i = CurrentSlot; i > CurrentSlot - 8; i--)
+            {
+                if (i < 0)
+                {
+                    k = i + 8;
+                }
+                else
+                    k = i;
+                if (UsedSlots[k] == true && k != CurrentSlot)
+                {
+                    CurrentSlot = k;
+                    break;
+                }
             }
         }
     }
@@ -92,13 +122,18 @@ public class Inventory : MonoBehaviour, IDataHandler
         {
             if (InventoryItems[i])
             {
-                if (i == CurrentItem)
-                {
-                    InventoryItems[i].SetActive(true);
-                }
-                else
-                    InventoryItems[i].SetActive(false);
+                InventoryItems[i].SetActive(false);
             }
+        }
+        if (InventoryItems[CurrentSlot])
+        {
+            InventoryItems[CurrentSlot].SetActive(true);
+            if(InventoryItems[CurrentSlot].GetComponent<ItemID>().PublicitemID == 1)
+            {
+                isHoldingWeapon = true;
+            }
+            else
+                isHoldingWeapon = false;
         }
     }
 }

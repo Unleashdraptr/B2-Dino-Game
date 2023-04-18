@@ -5,9 +5,11 @@ using UnityEngine;
 public class Movement : MonoBehaviour, IDataHandler
 {
     //General Player settings
+    public float Hp;
     public float Speed;
     public float lookSpeed;
     public float JumpSpeed;
+    public GameUIManager manager;
     public DialogueManager Dialogue;
     public float Health;
 
@@ -53,6 +55,14 @@ public class Movement : MonoBehaviour, IDataHandler
     //Update once a frame
     void Update()
     {
+        if (Hp <= 0)
+        {
+            manager.DeathUI();
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+            manager.UpdateHealth((int)Hp);
         if (GameUIManager.Pause == false)
         {
             if (Prompt != null)
@@ -174,16 +184,6 @@ public class Movement : MonoBehaviour, IDataHandler
         transform.Rotate(0, CameraMoveInput.x * lookSpeed, 0);
         PlayerCamera.transform.localRotation = Quaternion.Euler(RotX, CameraMoveInput.x, 0);
     }
-
-    void CheckHealth()
-    {
-        if (Health <= 0)
-        {
-            GetComponent<Movement>().moveState = MoveState.DEATH;
-            GameObject.Find("Player UI").GetComponent<GameUIManager>().DeathScreen.SetActive(true);
-        }
-    }
-
     //Both Enter & Stay check if the player is currently standing on a Camoflaugeable object
     private void OnCollisionEnter(Collision collision)
     {

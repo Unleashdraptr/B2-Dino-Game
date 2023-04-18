@@ -19,7 +19,7 @@ public class ItemPickUp : MonoBehaviour
             Ray Point = CameraRayCast.ScreenPointToRay(new(Screen.width / 2, Screen.height / 2, 0));
             if (Physics.Raycast(Point, out RaycastHit hit, 5))
             {
-                if (hit.transform.CompareTag("Item") && inv.InventoryItems[inv.CurrentItem] == false)
+                if (hit.transform.CompareTag("Item") && inv.InventoryItems[inv.CurrentSlot] == false)
                 {
                     PickUpPrompt.SetActive(true);
                 }
@@ -29,7 +29,7 @@ public class ItemPickUp : MonoBehaviour
                 {
                     PickUpItem(hit.transform);
                 }
-                else if (inv.InventoryItems[inv.CurrentItem] == true && Input.GetKeyDown(KeyCode.E))
+                else if (inv.InventoryItems[inv.CurrentSlot] == true && Input.GetKeyDown(KeyCode.E))
                 {
                     DropItem();
                 }
@@ -38,11 +38,11 @@ public class ItemPickUp : MonoBehaviour
     }
     public void PickUpItem(Transform Item)
     {
-        if(inv.InventoryItems[inv.CurrentItem] == false)
+        if(inv.InventoryItems[inv.CurrentSlot] == false)
         {
             Item.SetParent(ItemPickUpStorage);
             Item.localPosition = new(0, 0, 0);
-            inv.InventoryItems[inv.CurrentItem] = Item.gameObject;
+            inv.InventoryItems[inv.CurrentSlot] = Item.gameObject;
         }
     }
     public void DropItem()
@@ -50,7 +50,7 @@ public class ItemPickUp : MonoBehaviour
         Ray Point = CameraRayCast.ScreenPointToRay(new(Screen.width / 2, Screen.height / 2, 0));
         if (Physics.Raycast(Point, out RaycastHit hit, 5))
         {
-            inv.InventoryItems[inv.CurrentItem] = null;
+            inv.InventoryItems[inv.CurrentSlot] = null;
             Vector3 Pos = new(hit.point.x, hit.point.y + ItemPickUpStorage.GetChild(0).localScale.y / 2, hit.point.z);
             ItemPickUpStorage.GetChild(0).SetPositionAndRotation(Pos, hit.transform.rotation);
             ItemPickUpStorage.GetChild(0).SetParent(WorldItems);
@@ -58,7 +58,7 @@ public class ItemPickUp : MonoBehaviour
     }
     public bool CheckSellItem(int StoreID)
     {
-        if (inv.InventoryItems[inv.CurrentItem])
+        if (inv.InventoryItems[inv.CurrentSlot])
         {
             Transform Item = ItemPickUpStorage.GetChild(0);
             if (StoreID == Item.GetComponent<ItemID>().itemID)
@@ -73,7 +73,7 @@ public class ItemPickUp : MonoBehaviour
     }
     public void SellItem(int FactionNum)
     {
-        inv.InventoryItems[inv.CurrentItem] = null;
+        inv.InventoryItems[inv.CurrentSlot] = null;
         Transform Item = ItemPickUpStorage.GetChild(0);
         StatsStorage stats = Stats.GetComponent<StatsStorage>();
         stats.Currency += Item.GetComponent<ItemID>().sellPrice;

@@ -4,13 +4,19 @@ using UnityEngine;
 using UnityEngine.AI;
 public class Generalist_AI : MonoBehaviour
 {
+    public float Hp;
     public Camera[] Eyes;
     protected NavMeshAgent Move;
     public float Food;
     public float FoodValue;
     public int DangerLvl;
     public float thirst;
+<<<<<<< Updated upstream
     public bool DontDespawn;
+=======
+
+
+>>>>>>> Stashed changes
     Renderer[] Water;
     GameObject Animals;
     GameObject Plants;
@@ -21,12 +27,23 @@ public class Generalist_AI : MonoBehaviour
     public CurrentAction CurAct;
     public enum Diet {HERBIVORE, CARNIVORE, OMNIVORE };
     public Diet diet;
-    public void AllObjectsNeeded()
+    protected void AllObjectsNeeded()
     {
         GameObject waterObjects = GameObject.Find("WaterHoles");
         Water = waterObjects.GetComponentsInChildren<Renderer>();
         Animals = GameObject.Find("AnimalsStorage");
         Plants = GameObject.Find("Plants");
+    }
+    public void TakeDmg(int Damage)
+    {
+        Hp -= Damage;
+        if (Hp <= 0)
+        {
+            CurAct = CurrentAction.DEAD;
+            GetComponent<NavMeshAgent>().enabled = false;
+            transform.rotation = new(transform.rotation.x, transform.rotation.y, 90, transform.rotation.w);
+            enabled = false;
+        }
     }
     protected Vector3 CalculateNextPos()
     {

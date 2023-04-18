@@ -43,7 +43,7 @@ public class MainMenuUI : MonoBehaviour
                 LoadGameScreen.transform.GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>().text = ("Game " + i + 1);
         }
     }
-    public void returnButton(string ScreenToActive)
+    public void ReturnButton(string ScreenToActive)
     {
         GameObject.Find(ScreenToActive).SetActive(false);
         MainScreen.SetActive(true);

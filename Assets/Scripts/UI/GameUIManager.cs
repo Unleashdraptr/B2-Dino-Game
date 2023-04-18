@@ -12,6 +12,7 @@ public class GameUIManager : MonoBehaviour
     public GameObject GameMenu;
     public GameObject PauseTint;
     public GameObject LoadMenu;
+    public Slider Health;
 
     public void ReturnToMainMenu()
     {
@@ -67,5 +68,13 @@ public class GameUIManager : MonoBehaviour
             }
         }
     }
-
+    public void DeathUI()
+    {
+        DeathScreen.SetActive(true);
+        Pause = true;
+    }
+    public void UpdateHealth(int hp)
+    {
+        Health.value = hp;
+    }
 }
