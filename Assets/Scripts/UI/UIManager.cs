@@ -27,7 +27,7 @@ public class UIManager : MonoBehaviour
         {
             ResumeGame();
         }
-        if (Input.GetKeyDown(KeyCode.Escape) && Pause == false && ShopUI.InShop == false)
+        else if (Input.GetKeyDown(KeyCode.Escape) && Pause == false && ShopUI.InShop == false)
         {
             Pause = true;
             GameMenu.SetActive(true);
