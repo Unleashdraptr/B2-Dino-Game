@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
     public GameObject GameMenu;
     int CurrentMenu = 0;
     public GameObject[] DifferentMenus;
+    public static bool InMap;
 
     public Slider Health;
 
@@ -58,6 +59,7 @@ public class UIManager : MonoBehaviour
         GameMenu.SetActive(false);
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        InMap = false;
     }
 
     //Menu UI navigation 
@@ -68,6 +70,12 @@ public class UIManager : MonoBehaviour
             DifferentMenus[i].SetActive(false);
         }
         DifferentMenus[CurrentMenu].SetActive(true);
+        if (CurrentMenu == 3)
+        {
+            InMap = true;
+        }
+        else
+            InMap = false;
     }
     public void GoToCertainMenu(int MenuNum)
     {
@@ -84,9 +92,6 @@ public class UIManager : MonoBehaviour
     }
     //Menu UI 1-3s code to load the faction info the player will need to understand where they stand with each of them
 
-
-
-    //Menu UI 4s code to load the map and how what the player has currently explored with their waypoints and Quest specific knowledge
 
 
 
