@@ -33,6 +33,7 @@ public class UIManager : MonoBehaviour
             Pause = true;
             GameMenu.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
         if (Input.GetKeyDown(KeyCode.Q) && Pause == true)
         {
