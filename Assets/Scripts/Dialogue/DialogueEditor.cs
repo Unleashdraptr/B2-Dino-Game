@@ -7,7 +7,7 @@ public class Dialogue
 {
     public string dialogue;
     public bool HasMenu;
-    public enum OptionType { SHOP, EXIT, BRANCH };
+    public enum OptionType { SHOP, EXIT, BOUNTYSHOP, BRANCH };
     public OptionType[] menuCode;
     public string[] MenuName;
     public bool BranchEnd;

@@ -13,6 +13,7 @@ public class DialogueManager : MonoBehaviour
     public ShopUI Shop;
     public int DialogueIterNum = -1;
     GameObject dialogueEditor;
+    public BountyListManager bounty; 
     bool InDialogue;
     bool IsEnd;
     public int CurrentBranch;
@@ -130,6 +131,11 @@ public class DialogueManager : MonoBehaviour
             case global::Dialogue.OptionType.BRANCH:
                 CurrentBranch = OptionNum+1;
                 UpdateDialogue();
+                break;
+            case global::Dialogue.OptionType.BOUNTYSHOP:
+                OptionDialogue.SetActive(false);
+                Dialogue.SetActive(false);
+                bounty.OpenBountyList(Faction.LvlLimit[0]);
                 break;
         }
     }

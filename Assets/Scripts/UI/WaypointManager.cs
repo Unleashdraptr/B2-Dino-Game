@@ -76,12 +76,10 @@ public class WaypointManager : MonoBehaviour
         {
             MultNum += 5;
         }
-        Debug.Log(Waypoints.Length - MultNum);
         for (int i = 0; i < 6; i++)
         {
             if (i < (Waypoints.Length - MultNum))
             {
-                Debug.Log("Create data " + i);
                 WaypointIcons[i].SetActive(true);
                 WaypointIcons[i].GetComponent<TextMeshProUGUI>().text = Waypoints[MultNum + i].name;
                 WaypointIcons[i].transform.GetChild(0).GetComponent<Image>().material = Waypoints[MultNum + i].material;
