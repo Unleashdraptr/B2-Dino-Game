@@ -80,7 +80,6 @@ public class ItemPickUp : MonoBehaviour
         stats.UpdateMoney();
         stats.RepLevel[FactionNum] += Item.GetComponent<ItemID>().RepValue;
         stats.UpdateRepLevel();
-        stats.SetRepLevel(FactionNum);
         Destroy(Item.gameObject);
     }
 }

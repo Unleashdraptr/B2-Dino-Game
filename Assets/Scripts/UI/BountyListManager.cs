@@ -6,7 +6,9 @@ using TMPro;
 
 public class BountyListManager : MonoBehaviour
 {
+    public StatsStorage Stats;
     public Transform BountySlots;
+    public CurrentQuests BountyStorage;
     public Bounty[] Bounties;
     int PageNum;
     int BountNum;
@@ -25,6 +27,12 @@ public class BountyListManager : MonoBehaviour
                 CurBount.GetChild(0).gameObject.SetActive(true);
                 CurBount.GetChild(1).gameObject.SetActive(true);
                 CurBount.GetChild(0).GetComponent<Image>().sprite = Bounties[BountNum + i].AnimalImage;
+                if(Bounties[BountNum + i].Cost <= Stats.Currency)
+                {
+                    CurBount.GetComponent<Button>().interactable = true;
+                }
+                else
+                    CurBount.GetComponent<Button>().interactable = false;
             }
             if (i + 1 >= Bounties.Length)
             {
@@ -38,13 +46,24 @@ public class BountyListManager : MonoBehaviour
         {
             ShopUI.InShop = false;
             transform.GetChild(0).gameObject.SetActive(false);
-            transform.GetChild(1).gameObject.SetActive(false);
             UIManager.Pause = false;
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
     }
 
+    public void BuyBounty(int ItemNum)
+    {
+        if (BountySlots.GetChild(ItemNum).GetChild(1).gameObject.activeInHierarchy)
+        {
+            int DataNum = ItemNum + (5 * (PageNum - 1));
+            Stats.Currency -= Bounties[DataNum].Cost;
+            BountyStorage.CurBountys[0] = Bounties[DataNum];
+            GameObject Animal = Instantiate(Bounties[DataNum].Animal, Bounties[DataNum].SpawnPos, Quaternion.identity, GameObject.Find("AnimalsStorage").transform);
+            Animal.GetComponent<IsTargetAnimal>().enabled = true;
+            Bounties[DataNum] = null;
+        }
+    }
     public void OnItemHover(int ItemNum)
     {
         if (BountySlots.GetChild(ItemNum).GetChild(1).gameObject.activeInHierarchy)
@@ -71,6 +90,7 @@ public class Bounty
 {
     public Sprite AnimalImage;
     public GameObject Animal;
+    public Vector3 SpawnPos;
     [Range(0,5)]
     public int Dangerlevel;
     public int Cost;

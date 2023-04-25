@@ -5,13 +5,13 @@ using UnityEngine;
 public class IsTargetAnimal : MonoBehaviour
 {
     Generalist_AI AI;
-    // Start is called before the first frame update
-    private void Start()
-    {
-        AI = GetComponent<Generalist_AI>();
-    }
+    public GameObject Waypoint;
     void Awake()
     {
+        AI = GetComponent<Generalist_AI>();
         AI.DontDespawn = true;
+        Waypoint.SetActive(true);
+        AI.Hp *= 1.5f;
+        transform.localScale = new(1.5f, 1.5f, 1.5f);
     }
 }

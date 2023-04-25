@@ -10,8 +10,6 @@ public class StatsStorage : MonoBehaviour, IDataHandler
     public int[] Reputation = new int[3];
     public int[] RepLevel = new int[3];
     public int Currency;
-    public Slider slider;
-    public TextMeshProUGUI Text;
     public TextMeshProUGUI GoldNum;
     public void SaveData(ref GameData data)
     {
@@ -32,8 +30,6 @@ public class StatsStorage : MonoBehaviour, IDataHandler
         }
         Currency = data.Currency;
         UpdateRepLevel();
-        SetColour(Color.blue);
-        SetRepLevel(2);
         UpdateMoney();
     }
     public void UpdateRepLevel()
@@ -60,14 +56,6 @@ public class StatsStorage : MonoBehaviour, IDataHandler
                     break;
             }
         }
-    }
-    public void SetColour(Color color)
-    {
-        slider.transform.GetChild(0).GetComponent<Image>().color = color;
-    }
-    public void SetRepLevel(int Faction)
-    {
-        Text.text = RepLevel[Faction].ToString();
     }
     public void UpdateMoney()
     {

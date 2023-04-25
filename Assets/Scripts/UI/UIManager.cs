@@ -21,6 +21,7 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         Pause = false;
+        UpdateHealth((int)Health.value);
     }
     void Update()
     {
