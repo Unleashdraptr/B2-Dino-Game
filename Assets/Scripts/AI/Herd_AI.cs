@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Herding_AI : MonoBehaviour
+public class Herd_AI : MonoBehaviour
 {
+    //Exclusive use of Herbivores/Omnivores
     float radius;
     Vector3 Centre;
     // Start is called before the first frame update

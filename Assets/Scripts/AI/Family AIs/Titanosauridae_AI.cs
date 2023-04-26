@@ -6,6 +6,8 @@ using UnityEngine.AI;
 public class Titanosauridae_AI : Herbivourous_AI
 {
     bool InHerd;
+    public float ThirtinessLvl;
+    public float StarvationLvl;
     void Start()
     {
         Move = GetComponent<NavMeshAgent>();
@@ -30,8 +32,8 @@ public class Titanosauridae_AI : Herbivourous_AI
             {
                 Food -= 5 * Time.deltaTime;
                 thirst -= 5 * Time.deltaTime;
-                CheckState();
-                if (UpdateStates() == true)
+                CheckState(ThirtinessLvl, StarvationLvl);
+                if (UpdateStates(ThirtinessLvl, StarvationLvl) == true)
                 {
                     
                 }

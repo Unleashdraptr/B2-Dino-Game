@@ -11,10 +11,14 @@ public class UIManager : MonoBehaviour
 
     public GameObject DeathScreen;
 
-    public GameObject GameMenu;
+    public GameObject PauseMenu;
+    public GameObject InventoryTab;
+    public GameObject InfoTab;
     int CurrentMenu = 0;
     public GameObject[] DifferentMenus;
     public static bool InMap;
+    public bool InInventory;
+    public bool InInfo;
 
     public Slider Health;
 
@@ -25,18 +29,61 @@ public class UIManager : MonoBehaviour
     }
     void Update()
     {
+
+        //Pause Menu
         if (Input.GetKeyDown(KeyCode.Escape) && Pause == true && ShopUI.InShop == false)
         {
-            ResumeGame();
+            Pause = false;
+            PauseMenu.SetActive(false);
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
         }
         else if (Input.GetKeyDown(KeyCode.Escape) && Pause == false && ShopUI.InShop == false)
         {
             Pause = true;
-            GameMenu.SetActive(true);
+            PauseMenu.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
-        if (Input.GetKeyDown(KeyCode.Q) && Pause == true)
+
+
+        //Inventory Menu
+        if((Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Escape)) && Pause == false && InInventory == true)
+        {
+            InventoryTab.SetActive(false);
+            Pause = false;
+            InInventory = false;
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        else if(Input.GetKeyDown(KeyCode.E) && Pause == false && InInventory == false)
+        {
+            InventoryTab.SetActive(true);
+            Pause = true;
+            InInventory = true;
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+
+        //Info tab UI
+        if ((Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.Escape)) && Pause == false && InInfo == true)
+        {
+            InfoTab.SetActive(false);
+            Pause = false;
+            InInfo = false;
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        else if (Input.GetKeyDown(KeyCode.Tab) && Pause == false && InInfo == false)
+        {
+            InfoTab.SetActive(true);
+            UpdateCurrentMenu();
+            Pause = true;
+            InInfo = true;
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+        if (Input.GetKeyDown(KeyCode.Q) && Pause == true && InInfo == true)
         {
             CurrentMenu -= 1;
             if (CurrentMenu < 0)
@@ -45,23 +92,15 @@ public class UIManager : MonoBehaviour
             }
             UpdateCurrentMenu();
         }
-        if (Input.GetKeyDown(KeyCode.E) && Pause == true)
+        if (Input.GetKeyDown(KeyCode.E) && Pause == true && InInfo == true)
         {
             CurrentMenu += 1;
-            if(CurrentMenu > DifferentMenus.Length - 1)
+            if (CurrentMenu > DifferentMenus.Length - 1)
             {
                 CurrentMenu = 0;
             }
             UpdateCurrentMenu();
         }
-    }
-    public void ResumeGame()
-    {
-        Pause = false;
-        GameMenu.SetActive(false);
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-        InMap = false;
     }
 
     //Menu UI navigation 

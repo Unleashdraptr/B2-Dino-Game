@@ -7,18 +7,18 @@ public class Omnivorous_AI : Generalist_AI
     Transform PreyLocation;
     float ScoutTime;
     // Update is called once per frame
-    public void CheckState()
+    public void CheckState(float thirsting, float starve)
     {
         if (CurAct == CurrentAction.IDLE || CurAct == CurrentAction.MOVING)
         {
-            CurAct = CheckLevels(diet, thirst, Food);
+            CurAct = CheckLevels(diet, thirst, Food, thirsting, starve);
         }
         if (Food <= 0 || thirst <= 0)
         {
             CurAct = CurrentAction.DEAD;
         }
     }
-    public void UpdateActions()
+    public void UpdateActions(float thirsting, float starve)
     {
         if (Move.remainingDistance <= 1 || CurAct == CurrentAction.IDLE)
         {
@@ -27,7 +27,7 @@ public class Omnivorous_AI : Generalist_AI
                 if (CheckSurroundings(CurAct))
                 {
                     thirst += 250;
-                    CurAct = CheckLevels(diet, thirst, Food);
+                    CurAct = CheckLevels(diet, thirst, Food, thirsting, starve);
                 }
                 else
                     Move.destination = LocateWater(Eyes);
@@ -58,7 +58,7 @@ public class Omnivorous_AI : Generalist_AI
                 if (CheckSurroundings(CurAct))
                 {
                     Food += 250;
-                    CurAct = CheckLevels(diet, thirst, Food);
+                    CurAct = CheckLevels(diet, thirst, Food, thirsting, starve);
                 }
                 else
                 {
@@ -75,7 +75,7 @@ public class Omnivorous_AI : Generalist_AI
                 if (Vector3.Distance(PreyLocation.position, transform.position) < 35)
                 {
                     Food += 250;
-                    CurAct = CheckLevels(diet, thirst, Food);
+                    CurAct = CheckLevels(diet, thirst, Food, thirsting, starve);
                 }
                 else
                 {

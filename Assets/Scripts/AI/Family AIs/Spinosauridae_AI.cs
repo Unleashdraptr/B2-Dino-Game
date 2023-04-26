@@ -5,17 +5,32 @@ using UnityEngine.AI;
 
 public class Spinosauridae_AI : Carnivourous_AI
 {
+    //Since this is an semi-aquatic creature, itll spend most if not all its time in the water
+    //Itll store all the water locations in this WaterLocations
     public Transform WaterLocations;
+    //Habitat is where its currently water habitat will be 
     Transform Habitat;
+    //Itll use this to spot all the areas it can use as a habitat
     Renderer[] Locations;
+
+    public float ThirtinessLvl;
+    public float StarvationLvl;
+
+    //The AI starts by getting its NavMesh agent from the gameObject
     void Start()
     {
+        //Gets the renders for all the water locations
         Locations = WaterLocations.GetComponentsInChildren<Renderer>();
         Move = GetComponent<NavMeshAgent>();
+        //Sets up its food, thirst and health
         Food = 1000;
         thirst = 1000;
+        Hp = 100;
+        //Grabs the other objects that are needed for general functioning
         AllObjectsNeeded();
+        //This will find the closest water supply
         Habitat = FindClosestWaterHabitat();
+        //It them sets the first movement destination, this will be changed soon
         Move.destination = NextMovement(Habitat);
     }
 
@@ -26,8 +41,8 @@ public class Spinosauridae_AI : Carnivourous_AI
         {
             Food -= 5 * Time.deltaTime;
             thirst -= 5 * Time.deltaTime;
-            CheckState();
-            if(UpdateStates() == true)
+            CheckState(CurAct, ThirtinessLvl, StarvationLvl);
+            if(UpdateStates(ThirtinessLvl, StarvationLvl) == true)
             {
                 Move.destination = NextMovement(Habitat);
             }

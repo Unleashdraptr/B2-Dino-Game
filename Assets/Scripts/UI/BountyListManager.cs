@@ -8,7 +8,7 @@ public class BountyListManager : MonoBehaviour
 {
     public StatsStorage Stats;
     public Transform BountySlots;
-    public CurrentQuests BountyStorage;
+    public QuestStorage Queststorage;
     public Bounty[] Bounties;
     int PageNum;
     int BountNum;
@@ -54,14 +54,18 @@ public class BountyListManager : MonoBehaviour
 
     public void BuyBounty(int ItemNum)
     {
-        if (BountySlots.GetChild(ItemNum).GetChild(1).gameObject.activeInHierarchy)
+        if (Queststorage.QuestLimit == false)
         {
-            int DataNum = ItemNum + (5 * (PageNum - 1));
-            Stats.Currency -= Bounties[DataNum].Cost;
-            BountyStorage.CurBountys[0] = Bounties[DataNum];
-            GameObject Animal = Instantiate(Bounties[DataNum].Animal, Bounties[DataNum].SpawnPos, Quaternion.identity, GameObject.Find("AnimalsStorage").transform);
-            Animal.GetComponent<IsTargetAnimal>().enabled = true;
-            Bounties[DataNum] = null;
+            if (BountySlots.GetChild(ItemNum).GetChild(1).gameObject.activeInHierarchy)
+            {
+                int DataNum = ItemNum + (5 * (PageNum - 1));
+                Stats.Currency -= Bounties[DataNum].Cost;
+                Queststorage.CurBountys[0] = Bounties[DataNum];
+                Queststorage.UpdateCurQuests();
+                GameObject Animal = Instantiate(Bounties[DataNum].Animal, Bounties[DataNum].SpawnPos, Quaternion.identity, GameObject.Find("AnimalsStorage").transform);
+                Animal.GetComponent<IsTargetAnimal>().enabled = true;
+                Bounties[DataNum] = null;
+            }
         }
     }
     public void OnItemHover(int ItemNum)

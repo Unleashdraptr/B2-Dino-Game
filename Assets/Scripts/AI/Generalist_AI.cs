@@ -26,7 +26,7 @@ public class Generalist_AI : MonoBehaviour
     public Diet diet;
     protected void AllObjectsNeeded()
     {
-        GameObject waterObjects = GameObject.Find("WaterHoles");
+        GameObject waterObjects = GameObject.Find("Ocean");
         Water = waterObjects.GetComponentsInChildren<Renderer>();
         Animals = GameObject.Find("AnimalsStorage");
         Plants = GameObject.Find("Plants");
@@ -62,9 +62,9 @@ public class Generalist_AI : MonoBehaviour
         //Calculates and then applies then input with rigidbody's Physics
         rb.MovePosition(transform.position + MoveDir * Time.deltaTime);
     }
-    protected CurrentAction CheckLevels(Diet diet, float water, float food)
+    protected CurrentAction CheckLevels(Diet diet, float water, float food, float ThirstThreshold, float StarveThreshold)
     {
-        if (food < 500)
+        if (food < StarveThreshold)
         {
             if (Random.Range(1, 1000) > 750)
             {
@@ -84,7 +84,7 @@ public class Generalist_AI : MonoBehaviour
                 }
             }
         }
-        if (water < 500)
+        if (water < ThirstThreshold)
         {
             if (Random.Range(1, 1000) > 750)
             {

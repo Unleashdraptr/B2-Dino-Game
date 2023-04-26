@@ -5,11 +5,11 @@ using UnityEngine.AI;
 
 public class Herbivourous_AI : Generalist_AI
 {
-    public void CheckState()
+    public void CheckState(float thirsting, float starve)
     {
         if (CurAct == CurrentAction.IDLE || CurAct == CurrentAction.MOVING)
         {
-            CurAct = CheckLevels(diet, thirst, Food);
+            CurAct = CheckLevels(diet, thirst, Food, thirsting, starve);
         }
         if (Food <= 0 || thirst <= 0)
         {
@@ -17,7 +17,7 @@ public class Herbivourous_AI : Generalist_AI
         }
     }
     // Update is called once per frame
-    public bool UpdateStates()
+    public bool UpdateStates(float thirsting, float starve)
     {
         if (Move.remainingDistance <= 1 || CurAct == CurrentAction.IDLE)
         {
@@ -26,7 +26,7 @@ public class Herbivourous_AI : Generalist_AI
                 if (CheckSurroundings(CurAct))
                 {
                     thirst += 250;
-                    CurAct = CheckLevels(diet, thirst, Food);
+                    CurAct = CheckLevels(diet, thirst, Food, thirsting, starve);
                 }
                 else
                 {
@@ -39,7 +39,7 @@ public class Herbivourous_AI : Generalist_AI
                 if (CheckSurroundings(CurAct))
                 {
                     Food += 250;
-                    CurAct = CheckLevels(diet, thirst, Food);
+                    CurAct = CheckLevels(diet, thirst, Food, thirsting, starve);
                 }
                 else
                 {

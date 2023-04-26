@@ -5,24 +5,64 @@ using UnityEngine.AI;
 
 public class Dromaesauridae_AI : Carnivourous_AI
 {
+    Pack_AI Pack;
+    public float ThirtinessLvl;
+    public float StarvationLvl;
+    //The AI starts by getting its NavMesh agent from the gameObject
     void Start()
     {
+        if (transform.parent)
+        {
+            Pack = GetComponentInParent<Pack_AI>();
+        }
         Move = GetComponent<NavMeshAgent>();
-        Food = 1000;
-        thirst = 1000;
+        //Sets up its food, thirst and health
+        Food = 600;
+        thirst = 600;
+        Hp = 100;
+        //It them sets the first movement destination, this will be changed soon
         Move.destination = CalculateNextPos();
+        //Grabs the other objects that are needed for general functioning
         AllObjectsNeeded();
+        if(Pack != null)
+        {
+            InPack = true;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Will stop if the animal is dead
         if (CurAct != CurrentAction.DEAD)
         {
-            Food -= 5 * Time.deltaTime;
-            thirst -= 5 * Time.deltaTime;
-            CheckState();
-            UpdateStates();
+            //While alive they will slowly starve and need water
+            Food -= 1 * Time.deltaTime;
+            thirst -= 1 * Time.deltaTime;
+            CheckState(CurAct, ThirtinessLvl, StarvationLvl);
+            if (IsAlpha && InPack)
+            {
+                //They will monitor their levels in CheckState() and will then update them accordingly
+                CheckState(Pack.PackAction, ThirtinessLvl, StarvationLvl);
+                Pack.PackNeeds[PackNum] = CurAct;
+                //In UpdateStates() they will also decide where they are going to move
+                UpdateStates(ThirtinessLvl, StarvationLvl);
+                Pack.AlphaWalkLocation = Move.destination;
+            }
+            else if(InPack && !IsAlpha)
+            {
+                //They will monitor their levels in CheckState() and will then update them accordingly
+                CheckState(CurAct, ThirtinessLvl, StarvationLvl);
+                Pack.PackNeeds[PackNum] = CurAct;
+                Move.destination = Pack.AlphaWalkLocation;
+            }
+            else
+            {
+                //They will monitor their levels in CheckState() and will then update them accordingly
+                CheckState(CurAct, ThirtinessLvl, StarvationLvl);
+                //In UpdateStates() they will also decide where they are going to move
+                UpdateStates(ThirtinessLvl, StarvationLvl);
+            }
         }
         else
             Move.speed = 0;

@@ -4,20 +4,23 @@ using UnityEngine;
 
 public class Carnivourous_AI : Generalist_AI
 {
+    public int PackNum;
+    public bool IsAlpha;
+    public bool InPack;
     Transform PreyLocation;
     float ChaseTime;
-    public void CheckState()
+    public void CheckState(CurrentAction Action, float thirsting, float starve)
     {
-        if (CurAct == CurrentAction.IDLE || CurAct == CurrentAction.MOVING)
+        if (Action == CurrentAction.IDLE || Action == CurrentAction.MOVING)
         {
-            CurAct = CheckLevels(diet, thirst, Food);
+            CurAct = CheckLevels(diet, thirst, Food, thirsting, starve);
         }
         if (Food <= 0 || thirst <= 0)
         {
             CurAct = CurrentAction.DEAD;
         }
     }
-    public bool UpdateStates()
+    public bool UpdateStates(float thirsting, float starve)
     {
         if (Move.remainingDistance <= 1 || CurAct == CurrentAction.IDLE)
         {
@@ -26,7 +29,7 @@ public class Carnivourous_AI : Generalist_AI
                 if (CheckSurroundings(CurAct))
                 {
                     thirst += 250;
-                    CurAct = CheckLevels(diet, thirst, Food);
+                    CurAct = CheckLevels(diet, thirst, Food, thirsting, starve);
                 }
                 else
                 {
@@ -42,7 +45,7 @@ public class Carnivourous_AI : Generalist_AI
                     {
                         Food += 250;
                         ChaseTime = 10f;
-                        CurAct = CheckLevels(diet, thirst, Food);
+                        CurAct = CheckLevels(diet, thirst, Food, thirsting, starve);
                     }
                 }
                 else
