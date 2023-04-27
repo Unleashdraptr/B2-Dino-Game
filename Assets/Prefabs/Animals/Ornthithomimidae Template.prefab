@@ -1482,14 +1482,18 @@ MonoBehaviour:
   - {fileID: 6337893767296950519}
   Food: 0
   FoodValue: 0
-  DangerLvl: 0
+  DangerLvl: 25
   thirst: 0
+  DontDespawn: 0
+  Land: {fileID: 0}
   StarvingTargets:
   - Plants
   NormalTargets:
   - Plants
   CurAct: 4
   diet: 0
+  ThirtinessLvl: 0
+  StarvationLvl: 0
 --- !u!195 &6337893768068301042
 NavMeshAgent:
   m_ObjectHideFlags: 0

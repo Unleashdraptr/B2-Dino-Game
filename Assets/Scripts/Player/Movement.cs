@@ -11,7 +11,7 @@ public class Movement : MonoBehaviour, IDataHandler
     public float JumpSpeed;
     public UIManager manager;
     public DialogueManager Dialogue;
-    public float Health;
+    public int DangerLvl;
 
     //Getting the camera and where the character's physics body and feet gameobject. Also what layer the feet will interact with.
     public LayerMask FloorMask;

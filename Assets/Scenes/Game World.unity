@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -15766,7 +15766,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1443295568}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
   m_Name: 
@@ -15796,7 +15796,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1443295568}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
   m_Name: 
@@ -15826,7 +15826,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1443295568}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
   m_Name: 
@@ -35211,7 +35211,7 @@ MonoBehaviour:
   JumpSpeed: 300
   manager: {fileID: 528268754041408097}
   Dialogue: {fileID: 528268754061735749}
-  Health: 100
+  DangerLvl: 0
   FloorMask:
     serializedVersion: 2
     m_Bits: 8
@@ -35442,15 +35442,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 813651472979828633, guid: 2e6e68d8fb1326b40be6c665ee5b5506, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1211
+      value: 1189.4
       objectReference: {fileID: 0}
     - target: {fileID: 813651472979828633, guid: 2e6e68d8fb1326b40be6c665ee5b5506, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 20
+      value: 8.3
       objectReference: {fileID: 0}
     - target: {fileID: 813651472979828633, guid: 2e6e68d8fb1326b40be6c665ee5b5506, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1417
+      value: 1438.6
       objectReference: {fileID: 0}
     - target: {fileID: 813651472979828633, guid: 2e6e68d8fb1326b40be6c665ee5b5506, type: 3}
       propertyPath: m_LocalRotation.w
@@ -35480,10 +35480,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1568436932958574751, guid: 2e6e68d8fb1326b40be6c665ee5b5506, type: 3}
+      propertyPath: Land
+      value: 
+      objectReference: {fileID: 1443295570}
     - target: {fileID: 2313527137641041591, guid: 2e6e68d8fb1326b40be6c665ee5b5506, type: 3}
       propertyPath: m_Name
-      value: Pack
+      value: Velociraptor Pack
       objectReference: {fileID: 0}
+    - target: {fileID: 2575358712716322158, guid: 2e6e68d8fb1326b40be6c665ee5b5506, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4554368805317407028, guid: 2e6e68d8fb1326b40be6c665ee5b5506, type: 3}
+      propertyPath: Land
+      value: 
+      objectReference: {fileID: 1443295570}
+    - target: {fileID: 4949454229355558924, guid: 2e6e68d8fb1326b40be6c665ee5b5506, type: 3}
+      propertyPath: Land
+      value: 
+      objectReference: {fileID: 1443295570}
+    - target: {fileID: 5627330626706527439, guid: 2e6e68d8fb1326b40be6c665ee5b5506, type: 3}
+      propertyPath: Land
+      value: 
+      objectReference: {fileID: 1443295570}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e6e68d8fb1326b40be6c665ee5b5506, type: 3}
 --- !u!1001 &5283761702190269007

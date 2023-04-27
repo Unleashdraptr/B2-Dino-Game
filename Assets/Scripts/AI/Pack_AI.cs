@@ -9,7 +9,7 @@ public class Pack_AI : MonoBehaviour
     public Transform AlphaHuntTarget;
     public Vector3 AlphaWalkLocation;
     public float radius;
-
+    public int CombDangerLvl;
     public Generalist_AI.CurrentAction PackAction;
     public Generalist_AI.CurrentAction[] PackNeeds;
 
@@ -22,6 +22,7 @@ public class Pack_AI : MonoBehaviour
         Alpha.GetComponent<Carnivourous_AI>().IsAlpha = true;
         for(int i = 1; i < transform.childCount; i++)
         {
+            CombDangerLvl += transform.GetChild(i).GetComponent<Generalist_AI>().DangerLvl;
             transform.GetChild(i).GetComponent<Carnivourous_AI>().PackNum = i-1;
         }
     }

@@ -46,15 +46,22 @@ public class Dromaesauridae_AI : Carnivourous_AI
                 CheckState(Pack.PackAction, ThirtinessLvl, StarvationLvl);
                 Pack.PackNeeds[PackNum] = CurAct;
                 //In UpdateStates() they will also decide where they are going to move
-                UpdateStates(ThirtinessLvl, StarvationLvl);
-                Pack.AlphaWalkLocation = Move.destination;
+                if (Move.remainingDistance < 1)
+                {
+                    Move.destination = CalculateNextPos();
+                    Pack.AlphaWalkLocation = Move.destination;
+                }
             }
-            else if(InPack && !IsAlpha)
+            else if (InPack && !IsAlpha)
             {
+                Vector3 Offset = new(Random.Range(-5, 5), 0, Random.Range(-5, 5));
                 //They will monitor their levels in CheckState() and will then update them accordingly
                 CheckState(CurAct, ThirtinessLvl, StarvationLvl);
                 Pack.PackNeeds[PackNum] = CurAct;
-                Move.destination = Pack.AlphaWalkLocation;
+                if (Move.remainingDistance < 1)
+                {
+                    Move.destination = Pack.AlphaWalkLocation + Offset;
+                }
             }
             else
             {

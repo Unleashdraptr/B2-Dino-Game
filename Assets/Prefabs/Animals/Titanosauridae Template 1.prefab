@@ -836,7 +836,7 @@ GameObject:
   - component: {fileID: 7986961333994238321}
   - component: {fileID: 4325008869085491464}
   m_Layer: 7
-  m_Name: Sauropod Template
+  m_Name: Titanosauridae Template 1
   m_TagString: Sauropod
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -894,14 +894,18 @@ MonoBehaviour:
   - {fileID: 4325008869310389097}
   Food: 0
   FoodValue: 0
-  DangerLvl: 0
+  DangerLvl: 60
   thirst: 0
+  DontDespawn: 0
+  Land: {fileID: 0}
   StarvingTargets:
   - Plants
   NormalTargets:
   - Trees
   CurAct: 4
   diet: 0
+  ThirtinessLvl: 0
+  StarvationLvl: 0
 --- !u!195 &4325008869085491464
 NavMeshAgent:
   m_ObjectHideFlags: 0

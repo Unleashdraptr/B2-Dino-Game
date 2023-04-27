@@ -13,7 +13,6 @@ public class Generalist_AI : MonoBehaviour
     public float thirst;
     public bool DontDespawn;
 
-
     Renderer[] Water;
     GameObject Animals;
     GameObject Plants;
@@ -44,10 +43,27 @@ public class Generalist_AI : MonoBehaviour
     }
     protected Vector3 CalculateNextPos()
     {
-        float x = Random.Range(transform.position.x - 50, transform.position.x + 50);
-        float z = Random.Range(transform.position.z - 50, transform.position.z + 50);
-        Vector3 Pos = new(x, 0, z);
+        float x = Random.Range(transform.position.x - 10, transform.position.x + 10);
+        float z = Random.Range(transform.position.z - 10, transform.position.z + 10);
+        float y = CalculateHeight(x, z);
+        Vector3 Pos = new(x, y, z);
         return Pos;
+    }
+    float CalculateHeight(float x, float z)
+    {
+        Vector3 Pos = new(x, 1000, z);
+        float y = 0;
+        RaycastHit hit;
+        if(Physics.Raycast(Pos, Vector3.down, out hit, 1000))
+        {
+            if(1000 - hit.distance <= 0)
+            {
+                CalculateNextPos();
+            }
+            else
+                y = 1000 - hit.distance;
+        }
+        return y;
     }
     protected void MovePlayer(GameObject Animal, Rigidbody rb, float Speed, ref Vector3 PointOfInterest)
     {

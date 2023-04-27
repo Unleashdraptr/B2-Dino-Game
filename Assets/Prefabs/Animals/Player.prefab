@@ -286,7 +286,7 @@ MonoBehaviour:
   JumpSpeed: 300
   manager: {fileID: 0}
   Dialogue: {fileID: 0}
-  Health: 0
+  DangerLvl: 30
   FloorMask:
     serializedVersion: 2
     m_Bits: 8

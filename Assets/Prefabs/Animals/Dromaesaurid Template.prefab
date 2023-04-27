@@ -1200,6 +1200,7 @@ GameObject:
   - component: {fileID: 8141865691179792477}
   - component: {fileID: 9037141742239697657}
   - component: {fileID: 8141865691179792451}
+  - component: {fileID: 7053690204631391907}
   m_Layer: 7
   m_Name: Dromaesaurid Template
   m_TagString: Dromaesaurid
@@ -1265,13 +1266,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52fbab59a6a55e742ae682a2132b6ea9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hp: 0
+  Hp: 100
   Eyes:
   - {fileID: 8141865689485985303}
   Food: 0
   FoodValue: 0
-  DangerLvl: 0
+  DangerLvl: 50
   thirst: 0
+  DontDespawn: 0
   StarvingTargets:
   - Sauropod
   - Dromaesaurid
@@ -1280,6 +1282,11 @@ MonoBehaviour:
   - Ornthithomimidae
   CurAct: 4
   diet: 1
+  PackNum: 0
+  IsAlpha: 0
+  InPack: 0
+  ThirtinessLvl: 0
+  StarvationLvl: 0
 --- !u!195 &8141865691179792451
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1302,6 +1309,26 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!95 &7053690204631391907
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8141865691179792478}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1bcbf2fadd2af8241b45162df780b345, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8141865691371798802
 GameObject:
   m_ObjectHideFlags: 0

@@ -42,10 +42,8 @@ public class Spinosauridae_AI : Carnivourous_AI
             Food -= 5 * Time.deltaTime;
             thirst -= 5 * Time.deltaTime;
             CheckState(CurAct, ThirtinessLvl, StarvationLvl);
-            if(UpdateStates(ThirtinessLvl, StarvationLvl) == true)
-            {
-                Move.destination = NextMovement(Habitat);
-            }
+            UpdateStates(ThirtinessLvl, StarvationLvl);
+            Move.destination = NextMovement(Habitat);
         }
         else
             Move.speed = 0;
