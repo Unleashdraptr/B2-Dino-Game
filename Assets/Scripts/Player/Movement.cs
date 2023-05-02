@@ -13,6 +13,8 @@ public class Movement : MonoBehaviour, IDataHandler
     public DialogueManager Dialogue;
     public int DangerLvl;
 
+    public GameObject Terrain;
+
     //Getting the camera and where the character's physics body and feet gameobject. Also what layer the feet will interact with.
     public LayerMask FloorMask;
     public Transform Feet;
@@ -59,7 +61,7 @@ public class Movement : MonoBehaviour, IDataHandler
         {
             manager.DeathUI();
             Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            Cursor.visible = true; 
         }
         else
             manager.UpdateHealth((int)Hp);
@@ -79,6 +81,8 @@ public class Movement : MonoBehaviour, IDataHandler
             {
                 moveState = MoveState.IDLE;
             }
+            else
+                UpdateTerrainChunks();
             //Gets the camera's input and run its function
             CameraMoveInput = new(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
             MovePlayerCamera();
@@ -222,5 +226,36 @@ public class Movement : MonoBehaviour, IDataHandler
             Prompt.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
             Prompt = null;
         }
+    }
+    public void UpdateTerrainChunks()
+    {
+        for (int i = 0; i < Terrain.transform.childCount; i++)
+        {
+            if (Vector3.Distance(Terrain.transform.GetChild(i).position, transform.position) < 500)
+            {
+                Terrain.transform.GetChild(i).GetComponent<Terrain>().enabled = true;
+            }
+            else if (Vector3.Distance(Terrain.transform.GetChild(i).position, transform.position) > 2500)
+            {
+                Terrain.transform.GetChild(i).GetComponent<Terrain>().enabled = false;
+            }
+            else
+            {
+                if (IsVisible(Terrain.transform.GetChild(i).GetComponent<MeshRenderer>(), GameObject.Find("Main Camera").GetComponent<Camera>()))
+                {
+                    Terrain.transform.GetChild(i).GetComponent<Terrain>().enabled = true;
+                }
+                else
+                    Terrain.transform.GetChild(i).GetComponent<Terrain>().enabled = false;
+            }
+        }
+    }
+    private bool IsVisible(Renderer renderer, Camera Eye)
+    {
+        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(Eye);
+        if (GeometryUtility.TestPlanesAABB(planes, renderer.bounds))
+            return true;
+        else
+            return false;
     }
 }

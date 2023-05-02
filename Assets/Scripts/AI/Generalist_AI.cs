@@ -19,7 +19,7 @@ public class Generalist_AI : MonoBehaviour
     public string[] StarvingTargets;
     public string[] NormalTargets;
 
-    public enum CurrentAction {HUNGRY, HUNTING, GRAZING, WATERING, IDLE, MOVING, DEAD }
+    public enum CurrentAction {HUNGRY, HUNTING, GRAZING, WATERING, IDLE, MOVING, DEAD, FEEDING }
     public CurrentAction CurAct;
     public enum Diet {HERBIVORE, CARNIVORE, OMNIVORE };
     public Diet diet;
@@ -53,10 +53,9 @@ public class Generalist_AI : MonoBehaviour
     {
         Vector3 Pos = new(x, 1000, z);
         float y = 0;
-        RaycastHit hit;
-        if(Physics.Raycast(Pos, Vector3.down, out hit, 1000))
+        if (Physics.Raycast(Pos, Vector3.down, out RaycastHit hit, 1000))
         {
-            if(1000 - hit.distance <= 0)
+            if (1000 - hit.distance <= 0)
             {
                 CalculateNextPos();
             }
@@ -88,12 +87,12 @@ public class Generalist_AI : MonoBehaviour
                 {
                     case Diet.HERBIVORE:
                         return CurrentAction.GRAZING;
-                    case (Diet.CARNIVORE):
-                        return CurrentAction.HUNTING;
+                    case Diet.CARNIVORE:
+                        return CurrentAction.HUNGRY;
                     case Diet.OMNIVORE:
                         if(Random.Range(1, 2) > 1)
                         {
-                            return CurrentAction.HUNTING;
+                            return CurrentAction.HUNGRY;
                         }
                         else
                             return CurrentAction.GRAZING;
@@ -109,17 +108,17 @@ public class Generalist_AI : MonoBehaviour
         }
         return CurrentAction.MOVING;
     }
-    public Vector3 LocatePlants(Camera[] Eyes, string[] NormalPlants, string[] StarvingPlants, float Food)
+    public Vector3 LocatePlants(Camera[] Eyes, string[] NormalPlants, string[] StarvingPlants, float Food, int DangerLvl)
     {
-        Transform Position = FindClosestFood(Plants, Eyes, NormalPlants, StarvingPlants, Food);
+        Transform Position = FindClosestFood(Plants, Eyes, NormalPlants, StarvingPlants, Food, DangerLvl);
         float x = Random.Range(Position.position.x - (transform.lossyScale.x), Position.position.x + (transform.lossyScale.x));
         float z = Random.Range(Position.position.z - (transform.lossyScale.z), Position.position.z + (transform.lossyScale.z));
         Vector3 Pos = new(x, Position.position.y, z);
         return Pos;
     }
-    public Transform LocatePrey(Camera[] Eyes, string[] Prey, string[] StarvingPrey, float Food)
+    public Transform LocatePrey(Camera[] Eyes, string[] Prey, string[] StarvingPrey, float Food, int DangerLvl)
     {
-           return FindClosestFood(Animals, Eyes, Prey, StarvingPrey, Food);
+           return FindClosestFood(Animals, Eyes, Prey, StarvingPrey, Food, DangerLvl);
     }
     public Vector3 LocateWater(Camera[] Eyes)
     {
@@ -134,7 +133,7 @@ public class Generalist_AI : MonoBehaviour
         return Pos;
        
     }
-    Transform FindClosestFood(GameObject Renders, Camera[] Eye, string[] Prey, string[] StarvingPrey, float Food)
+    Transform FindClosestFood(GameObject Renders, Camera[] Eye, string[] Prey, string[] StarvingPrey, float Food, int DangerLvl)
     {
         Renderer[] Locations = Renders.GetComponentsInChildren<Renderer>();
         Transform tMin = null;
@@ -149,7 +148,7 @@ public class Generalist_AI : MonoBehaviour
                 {
                     foreach (string P in Prey)
                     {
-                        if (R.CompareTag(P))
+                        if (R.CompareTag(P) && DangerLvl >= R.GetComponent<Generalist_AI>().DangerLvl)
                         {
                             float dist = Vector3.Distance(R.transform.position, currentPos);
                             if (dist < minDist)
@@ -162,7 +161,7 @@ public class Generalist_AI : MonoBehaviour
                         {
                             foreach (string S in StarvingPrey)
                             {
-                                if (R.CompareTag(S))
+                                if (R.CompareTag(S) && (DangerLvl*2) >= R.GetComponent<Generalist_AI>().DangerLvl)
                                 {
                                     float dist = Vector3.Distance(R.transform.position, currentPos);
                                     if (dist < minDist)

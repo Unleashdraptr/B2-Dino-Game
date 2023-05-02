@@ -1285,6 +1285,8 @@ MonoBehaviour:
   PackNum: 0
   IsAlpha: 0
   InPack: 0
+  EatAmount: 25
+  PreyLocation: {fileID: 0}
   ThirtinessLvl: 0
   StarvationLvl: 0
 --- !u!195 &8141865691179792451
@@ -1317,7 +1319,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8141865691179792478}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 1bcbf2fadd2af8241b45162df780b345, type: 2}
   m_CullingMode: 0

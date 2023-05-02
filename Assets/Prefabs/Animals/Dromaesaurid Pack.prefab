@@ -53,8 +53,10 @@ MonoBehaviour:
   AlphaHuntTarget: {fileID: 0}
   AlphaWalkLocation: {x: 0, y: 0, z: 0}
   radius: 0
-  PackAction: 4
+  CombDangerLvl: 0
+  PackAction: 5
   PackNeeds: 
+  CurStates: 
 --- !u!1 &4213245394918525574
 GameObject:
   m_ObjectHideFlags: 0

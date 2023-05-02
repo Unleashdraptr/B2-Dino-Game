@@ -15,12 +15,6 @@ public class Titanosauridae_AI : Herbivourous_AI
         thirst = 1000;
         Move.destination = CalculateNextPos();
         AllObjectsNeeded();
-        if (transform.parent.TryGetComponent<GameObject>(out GameObject gameObject))
-        {
-            InHerd = true;
-        }
-        else
-            InHerd = false;
     }
 
     // Update is called once per frame

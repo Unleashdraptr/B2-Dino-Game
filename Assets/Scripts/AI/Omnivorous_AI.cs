@@ -36,16 +36,16 @@ public class Omnivorous_AI : Generalist_AI
             {
                 float minDist = Mathf.Infinity;
                 Vector3 currentPos = transform.position;
-                if (LocatePlants(Eyes, NormalTargets, StarvingTargets, Food) != null)
+                if (LocatePlants(Eyes, NormalTargets, StarvingTargets, Food, DangerLvl) != null)
                 {
-                    minDist = Vector3.Distance(LocatePlants(Eyes, NormalTargets, StarvingTargets, Food), currentPos);
+                    minDist = Vector3.Distance(LocatePlants(Eyes, NormalTargets, StarvingTargets, Food, DangerLvl), currentPos);
                 }
-                if (LocatePrey(Eyes, NormalTargets, StarvingTargets, Food) != null)
+                if (LocatePrey(Eyes, NormalTargets, StarvingTargets, Food, DangerLvl) != null)
                 {
-                    if (minDist < Vector3.Distance(LocatePrey(Eyes, NormalTargets, StarvingTargets, Food).position, currentPos))
+                    if (minDist < Vector3.Distance(LocatePrey(Eyes, NormalTargets, StarvingTargets, Food, DangerLvl).position, currentPos))
                     {
                         CurAct = CurrentAction.HUNTING;
-                        PreyLocation = LocatePrey(Eyes, NormalTargets, StarvingTargets, Food);
+                        PreyLocation = LocatePrey(Eyes, NormalTargets, StarvingTargets, Food, DangerLvl);
                     }
                     else
                     {
@@ -62,9 +62,9 @@ public class Omnivorous_AI : Generalist_AI
                 }
                 else
                 {
-                    if (LocatePlants(Eyes, NormalTargets, StarvingTargets, Food) != null)
+                    if (LocatePlants(Eyes, NormalTargets, StarvingTargets, Food, DangerLvl) != null)
                     {
-                        Move.destination = LocatePlants(Eyes, NormalTargets, StarvingTargets, Food);
+                        Move.destination = LocatePlants(Eyes, NormalTargets, StarvingTargets, Food, DangerLvl);
                     }
                     else
                         Move.destination = CalculateNextPos();
@@ -79,9 +79,9 @@ public class Omnivorous_AI : Generalist_AI
                 }
                 else
                 {
-                    if (LocatePrey(Eyes, NormalTargets, StarvingTargets, Food) != null)
+                    if (LocatePrey(Eyes, NormalTargets, StarvingTargets, Food, DangerLvl) != null)
                     {
-                        PreyLocation = LocatePrey(Eyes, NormalTargets, StarvingTargets, Food);
+                        PreyLocation = LocatePrey(Eyes, NormalTargets, StarvingTargets, Food, DangerLvl);
                         CurAct = CurrentAction.HUNTING;
                         Move.destination = PreyLocation.position;
                         ScoutTime = 10f;

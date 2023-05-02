@@ -11,7 +11,7 @@ public class Herbivourous_AI : Generalist_AI
         {
             CurAct = CheckLevels(diet, thirst, Food, thirsting, starve);
         }
-        if (Food <= 0 || thirst <= 0)
+        if (Food <= 0 || thirst <= 0 || Hp <= 0)
         {
             CurAct = CurrentAction.DEAD;
         }
@@ -43,9 +43,9 @@ public class Herbivourous_AI : Generalist_AI
                 }
                 else
                 {
-                    if (LocatePlants(Eyes, NormalTargets, StarvingTargets, Food) != null)
+                    if (LocatePlants(Eyes, NormalTargets, StarvingTargets, Food, DangerLvl) != null)
                     {
-                        Move.destination = LocatePlants(Eyes, NormalTargets, StarvingTargets, Food);
+                        Move.destination = LocatePlants(Eyes, NormalTargets, StarvingTargets, Food, DangerLvl);
                         return false;
                     }
                     else

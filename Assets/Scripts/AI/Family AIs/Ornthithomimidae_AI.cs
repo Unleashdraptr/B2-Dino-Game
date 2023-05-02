@@ -37,5 +37,10 @@ public class Ornthithomimidae_AI : Herbivourous_AI
         }
         else
             Move.speed = 0;
+        if(FoodValue <= 0)
+        {
+            Destroy(gameObject);
+        }
+
     }
 }
