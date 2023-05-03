@@ -13,8 +13,6 @@ public class Movement : MonoBehaviour, IDataHandler
     public DialogueManager Dialogue;
     public int DangerLvl;
 
-    public GameObject Terrain;
-
     //Getting the camera and where the character's physics body and feet gameobject. Also what layer the feet will interact with.
     public LayerMask FloorMask;
     public Transform Feet;
@@ -33,6 +31,11 @@ public class Movement : MonoBehaviour, IDataHandler
     float RotX;
     public enum MoveState {IDLE, WALK, DASH, SNEAK, DEATH};
     public MoveState moveState;
+
+
+    //Rendering Optimisation
+    public GameObject[] TreeLocations;
+    public GameObject Terrain;
 
     public void LoadData(GameData data)
     {
@@ -231,7 +234,7 @@ public class Movement : MonoBehaviour, IDataHandler
     {
         for (int i = 0; i < Terrain.transform.childCount; i++)
         {
-            if (Vector3.Distance(Terrain.transform.GetChild(i).position, transform.position) < 500)
+            if (Vector3.Distance(Terrain.transform.GetChild(i).position, transform.position) < 850)
             {
                 Terrain.transform.GetChild(i).GetComponent<Terrain>().enabled = true;
             }
