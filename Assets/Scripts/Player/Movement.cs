@@ -32,11 +32,6 @@ public class Movement : MonoBehaviour, IDataHandler
     public enum MoveState {IDLE, WALK, DASH, SNEAK, DEATH};
     public MoveState moveState;
 
-
-    //Rendering Optimisation
-    public GameObject[] TreeLocations;
-    public GameObject Terrain;
-
     public void LoadData(GameData data)
     {
         transform.SetPositionAndRotation(data.Position, data.Rotation);
@@ -84,8 +79,6 @@ public class Movement : MonoBehaviour, IDataHandler
             {
                 moveState = MoveState.IDLE;
             }
-            else
-                UpdateTerrainChunks();
             //Gets the camera's input and run its function
             CameraMoveInput = new(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
             MovePlayerCamera();
@@ -229,36 +222,5 @@ public class Movement : MonoBehaviour, IDataHandler
             Prompt.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
             Prompt = null;
         }
-    }
-    public void UpdateTerrainChunks()
-    {
-        for (int i = 0; i < Terrain.transform.childCount; i++)
-        {
-            if (Vector3.Distance(Terrain.transform.GetChild(i).position, transform.position) < 850)
-            {
-                Terrain.transform.GetChild(i).GetComponent<Terrain>().enabled = true;
-            }
-            else if (Vector3.Distance(Terrain.transform.GetChild(i).position, transform.position) > 2500)
-            {
-                Terrain.transform.GetChild(i).GetComponent<Terrain>().enabled = false;
-            }
-            else
-            {
-                if (IsVisible(Terrain.transform.GetChild(i).GetComponent<MeshRenderer>(), GameObject.Find("Main Camera").GetComponent<Camera>()))
-                {
-                    Terrain.transform.GetChild(i).GetComponent<Terrain>().enabled = true;
-                }
-                else
-                    Terrain.transform.GetChild(i).GetComponent<Terrain>().enabled = false;
-            }
-        }
-    }
-    private bool IsVisible(Renderer renderer, Camera Eye)
-    {
-        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(Eye);
-        if (GeometryUtility.TestPlanesAABB(planes, renderer.bounds))
-            return true;
-        else
-            return false;
     }
 }
