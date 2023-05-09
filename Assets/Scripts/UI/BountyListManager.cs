@@ -6,6 +6,7 @@ using TMPro;
 
 public class BountyListManager : MonoBehaviour
 {
+    public QuestLibrary bountybuy;
     public StatsStorage Stats;
     public Transform BountySlots;
     public QuestStorage Queststorage;
@@ -54,19 +55,9 @@ public class BountyListManager : MonoBehaviour
 
     public void BuyBounty(int ItemNum)
     {
-        if (Queststorage.QuestLimit == false)
-        {
-            if (BountySlots.GetChild(ItemNum).GetChild(1).gameObject.activeInHierarchy)
-            {
-                int DataNum = ItemNum + (5 * (PageNum - 1));
-                Stats.Currency -= Bounties[DataNum].Cost;
-                Queststorage.CurBountys[0] = Bounties[DataNum];
-                Queststorage.UpdateCurQuests();
-                GameObject Animal = Instantiate(Bounties[DataNum].Animal, Bounties[DataNum].SpawnPos, Quaternion.identity, GameObject.Find("AnimalsStorage").transform);
-                Animal.GetComponent<IsTargetAnimal>().enabled = true;
-                Bounties[DataNum] = null;
-            }
-        }
+        int DataNum = ItemNum + (5 * (PageNum - 1));
+        bountybuy.BountySetup(Bounties[DataNum], BountySlots.GetChild(ItemNum));
+        Bounties[DataNum] = null;
     }
     public void OnItemHover(int ItemNum)
     {

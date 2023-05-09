@@ -9,6 +9,27 @@ public class ShopUI : MonoBehaviour
     public static bool InShop;
     public GameObject RepLevels;
     public Transform ItemDesc;
+    void LateUpdate()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && InShop == true)
+        {
+            InShop = false;
+            transform.GetChild(0).gameObject.SetActive(false);
+            transform.GetChild(1).gameObject.SetActive(false);
+            UIManager.Pause = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            for (int i = 0; i < transform.GetChild(1).childCount; i++)
+            {
+                if (transform.GetChild(1).GetChild(i).childCount > 0)
+                {
+                    Destroy(transform.GetChild(1).GetChild(i).GetChild(0).gameObject);
+                    transform.GetChild(1).GetChild(i).GetComponent<Button>().interactable = false;
+                }
+            }
+        }
+    }
+
     public void OpenFactionUI(int[] LvlLimit, GameObject[] ItemsToSell, int Faction)
     {
         InShop = true;
@@ -30,32 +51,9 @@ public class ShopUI : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
-    public void BuyItem()
+    public void BuyItem(int ItemNum)
     {
-        if (InShop == true)
-        {
-            Debug.Log("Buy it");
-        }
-    }
-    void LateUpdate()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape) && InShop == true)
-        {
-            InShop = false;
-            transform.GetChild(0).gameObject.SetActive(false);
-            transform.GetChild(1).gameObject.SetActive(false);
-            UIManager.Pause = false;
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            for (int i = 0; i < transform.GetChild(1).childCount; i++)
-            {
-                if (transform.GetChild(1).GetChild(i).childCount > 0)
-                {
-                    Destroy(transform.GetChild(1).GetChild(i).GetChild(0).gameObject);
-                    transform.GetChild(1).GetChild(i).GetComponent<Button>().interactable = false;
-                }
-            }
-        }
+        if()
     }
     public void OnItemHover(int ItemNum)
     {

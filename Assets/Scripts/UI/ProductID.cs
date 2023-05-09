@@ -8,4 +8,8 @@ public class ProductID : MonoBehaviour
 {
     public string Description;
     public int Cost;
+
+    public bool IsQuest;
+    public enum Quest { NONE, PLANT, ANIMAL, ITEM, AREA};
+    public Quest quest;
 }
