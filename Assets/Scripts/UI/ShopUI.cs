@@ -9,6 +9,7 @@ public class ShopUI : MonoBehaviour
     public static bool InShop;
     public GameObject RepLevels;
     public Transform ItemDesc;
+    public QuestLibrary quests;
     void LateUpdate()
     {
         if (Input.GetKeyDown(KeyCode.Escape) && InShop == true)
@@ -53,7 +54,15 @@ public class ShopUI : MonoBehaviour
     }
     public void BuyItem(int ItemNum)
     {
-        if()
+        ProductID Item = transform.GetChild(1).GetChild(ItemNum - 1).GetComponent<ProductID>();
+        if (Item.IsQuest == true && Item.ItemID == 0)
+        {
+            ActivateQuest(Item);
+        }
+        else
+        {
+
+        }
     }
     public void OnItemHover(int ItemNum)
     {
@@ -68,5 +77,23 @@ public class ShopUI : MonoBehaviour
     {
         transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "";
         ItemDesc.GetChild(2).gameObject.SetActive(false);
+    }
+    void ActivateQuest(ProductID Item)
+    {
+        switch (Item.quest)
+        {
+            case ProductID.Quest.ANIMAL:
+                quests.SpeciesSelection(false, Item.QuestNum);
+                break;
+            case ProductID.Quest.PLANT:
+                quests.SpeciesSelection(true, Item.QuestNum);
+                break;
+            case ProductID.Quest.AREA:
+                quests.AreaSelection(Item.QuestNum);
+                break;
+            case ProductID.Quest.ITEM:
+                quests.ItemSelection(Item.QuestNum);
+                break;
+        }
     }
 }

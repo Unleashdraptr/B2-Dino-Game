@@ -18,8 +18,7 @@ public class Inventory : MonoBehaviour, IDataHandler
             if (InventoryItems[i])
             {
                 data.HasItem[i] = true;
-                data.ItemPrefabID[i] = InventoryItems[i].GetComponent<ItemID>().PublicitemID;
-                data.FactionID[i] = InventoryItems[i].GetComponent<ItemID>().itemID;
+                data.ItemPrefabID[i] = InventoryItems[i].GetComponent<ItemID>().itemID;
                 data.itemName[i] = InventoryItems[i].GetComponent<ItemID>().itemName;
                 data.sellPrice[i] = InventoryItems[i].GetComponent<ItemID>().sellPrice;
                 data.RepValue[i] = InventoryItems[i].GetComponent<ItemID>().RepValue;
@@ -128,7 +127,7 @@ public class Inventory : MonoBehaviour, IDataHandler
         if (InventoryItems[CurrentSlot])
         {
             InventoryItems[CurrentSlot].SetActive(true);
-            if(InventoryItems[CurrentSlot].GetComponent<ItemID>().PublicitemID == 1)
+            if(InventoryItems[CurrentSlot].GetComponent<ItemID>().itemID == 1)
             {
                 isHoldingWeapon = true;
             }

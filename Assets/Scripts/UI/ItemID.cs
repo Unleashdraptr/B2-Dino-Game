@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class ItemID : MonoBehaviour
 {
-    //The ID used for saving and loading the game
-    public int PublicitemID;
     //Name that will show in the UI
     public string itemName;
     //What Faction the Item belongs to and what shop it needs to be taken to
