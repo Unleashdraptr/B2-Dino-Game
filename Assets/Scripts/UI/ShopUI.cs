@@ -34,7 +34,7 @@ public class ShopUI : MonoBehaviour
     }
     public void BuyItem(int ItemNum)
     {
-        ProductID Item = transform.GetChild(1).GetChild(ItemNum - 1).GetComponent<ProductID>();
+        ProductID Item = transform.GetChild(1).GetChild(ItemNum).GetComponentInChildren<ProductID>();
         if (Item.IsQuest == true && Item.ItemID == 0)
         {
             ActivateQuest(Item);
@@ -47,16 +47,16 @@ public class ShopUI : MonoBehaviour
     }
     public void OnItemHover(int ItemNum)
     {
-        if (transform.GetChild(1).GetChild(ItemNum - 1).childCount != 0)
+        if (transform.GetChild(1).GetChild(ItemNum).childCount != 0)
         {
-            transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = transform.GetChild(1).GetChild(ItemNum - 1).GetChild(0).GetComponent<ProductID>().Description;
+            ItemDesc.GetChild(1).GetComponent<TextMeshProUGUI>().text = transform.GetChild(1).GetChild(ItemNum).GetComponentInChildren<ProductID>().Description;
             ItemDesc.GetChild(2).gameObject.SetActive(true);
-            ItemDesc.GetChild(2).GetComponent<Image>().sprite = transform.GetChild(1).GetChild(ItemNum - 1).GetChild(0).GetComponent<Image>().sprite;
+            ItemDesc.GetChild(2).GetComponent<Image>().sprite = transform.GetChild(1).GetChild(ItemNum).GetComponentInChildren<ProductID>().PreviewImage;
         }
     }
     public void OnItemLeave()
     {
-        transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "";
+        ItemDesc.GetChild(1).GetComponent<TextMeshProUGUI>().text = "";
         ItemDesc.GetChild(2).gameObject.SetActive(false);
     }
     void ActivateQuest(ProductID Item)
@@ -64,16 +64,16 @@ public class ShopUI : MonoBehaviour
         switch (Item.quest)
         {
             case ProductID.Quest.ANIMAL:
-                quests.SpeciesSelection(false, Item.QuestNum);
+                quests.SpeciesSelection(false, Item.QuestID);
                 break;
             case ProductID.Quest.PLANT:
-                quests.SpeciesSelection(true, Item.QuestNum);
+                quests.SpeciesSelection(true, Item.QuestID);
                 break;
             case ProductID.Quest.AREA:
-                quests.AreaSelection(Item.QuestNum);
+                quests.AreaSelection(Item.QuestID);
                 break;
             case ProductID.Quest.ITEM:
-                quests.ItemSelection(Item.QuestNum);
+                quests.ItemSelection(Item.QuestID);
                 break;
         }
     }

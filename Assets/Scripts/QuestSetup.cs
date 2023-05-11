@@ -30,17 +30,19 @@ public class QuestSetup : MonoBehaviour
         }
     }
     public void AreaSelection(int QuestID)
-    {
+    {      
         if (Queststorage.QuestLimit == false)
         {
+            Debug.Log(QuestID);
             if (FindQuest(QuestID) != null)
             {
+                Debug.Log("haternaesmstk,d8u");
                 QuestsList CurQuest = FindQuest(QuestID);
                 Stats.Currency -= CurQuest.Cost;
                 Queststorage.AddQuest(CurQuest);
                 CurQuest.Taken = true;
                 Queststorage.UpdateCurQuests();
-                Vector3 Pos = new(CurQuest.SpawnPos.x, CalculateHeight(CurQuest.SpawnPos.x, CurQuest.SpawnPos.z), CurQuest.SpawnPos.z);
+                Vector3 Pos = new(CurQuest.SpawnPos.x, 1000, CurQuest.SpawnPos.z);
                 Instantiate(AreaDetection, Pos, Quaternion.identity, WaypointStorage);
             }
         }

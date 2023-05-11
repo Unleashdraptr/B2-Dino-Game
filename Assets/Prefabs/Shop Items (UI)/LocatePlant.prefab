@@ -89,7 +89,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aed5df9287f571c4abd4736e3a5d7251, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PreviewImage: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   Description: Find This Plant for me
   Cost: 200
+  ItemID: 0
   IsQuest: 1
   quest: 1
+  QuestID: 3

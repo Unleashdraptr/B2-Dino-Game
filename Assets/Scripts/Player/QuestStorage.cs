@@ -70,6 +70,7 @@ public class QuestStorage : MonoBehaviour
                 stats.Currency += CurQuests[i].Reward;
                 stats.RepLevel[CurQuests[i].Faction] += CurQuests[i].FactionReward;
                 CurQuests[i] = null;
+                CurQuests[i].QuestID = 0;
                 UpdateCurQuests();
             }
         }
