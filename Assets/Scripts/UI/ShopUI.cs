@@ -7,29 +7,9 @@ using TMPro;
 public class ShopUI : MonoBehaviour
 {
     public static bool InShop;
-    public GameObject RepLevels;
+    public StatsStorage Stats;
     public Transform ItemDesc;
-    public QuestLibrary quests;
-    void LateUpdate()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape) && InShop == true)
-        {
-            InShop = false;
-            transform.GetChild(0).gameObject.SetActive(false);
-            transform.GetChild(1).gameObject.SetActive(false);
-            UIManager.Pause = false;
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            for (int i = 0; i < transform.GetChild(1).childCount; i++)
-            {
-                if (transform.GetChild(1).GetChild(i).childCount > 0)
-                {
-                    Destroy(transform.GetChild(1).GetChild(i).GetChild(0).gameObject);
-                    transform.GetChild(1).GetChild(i).GetComponent<Button>().interactable = false;
-                }
-            }
-        }
-    }
+    public QuestSetup quests;
 
     public void OpenFactionUI(int[] LvlLimit, GameObject[] ItemsToSell, int Faction)
     {
@@ -37,12 +17,12 @@ public class ShopUI : MonoBehaviour
         transform.GetChild(0).gameObject.SetActive(true);
         transform.GetChild(1).gameObject.SetActive(true);
         int ShopNum = 0;
-        for (int j = 0; j < RepLevels.GetComponent<StatsStorage>().RepLevel[Faction]; j++)
+        for (int j = 0; j < Stats.RepLevel[Faction]; j++)
         {
             for (int i = 0; i < LvlLimit[j] + 5; i++)
             {
                 GameObject Item = Instantiate(ItemsToSell[ShopNum], transform.GetChild(1).GetChild(ShopNum));
-                if (Item.GetComponent<ProductID>().Cost <= RepLevels.GetComponent<StatsStorage>().Currency)
+                if (Item.GetComponent<ProductID>().Cost <= Stats.Currency)
                 {
                     transform.GetChild(1).GetChild(ShopNum).GetComponent<Button>().interactable = true;
                 }
@@ -63,6 +43,7 @@ public class ShopUI : MonoBehaviour
         {
 
         }
+        Stats.UpdateMoney();
     }
     public void OnItemHover(int ItemNum)
     {

@@ -47,7 +47,6 @@ public class Carnivourous_AI : Generalist_AI
                 //If we are next to our prey we then eat them and check our levels again
                 if (Vector3.Distance(PreyLocation.position, transform.position) < 35)
                 {
-                    Debug.Log("rnbae-b");
                     Food += 250;
                     ChaseTime = 10f;
                     PreyLocation.GetComponent<Generalist_AI>().Hp -= 10;

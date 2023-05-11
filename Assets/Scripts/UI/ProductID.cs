@@ -11,7 +11,7 @@ public class ProductID : MonoBehaviour
     public int ItemID;
 
     public bool IsQuest;
-    public enum Quest { NONE, PLANT, ANIMAL, ITEM, AREA};
+    public enum Quest { NONE, PLANT, ANIMAL, ITEM, AREA, BOUNTY};
     public Quest quest;
     public int QuestNum;
 }

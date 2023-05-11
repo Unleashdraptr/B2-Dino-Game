@@ -20,6 +20,9 @@ public class UIManager : MonoBehaviour
     public bool InInventory;
     public bool InInfo;
 
+    public GameObject Shopui;
+    public GameObject Bountyui;
+
     public Slider Health;
 
     private void Start()
@@ -48,7 +51,7 @@ public class UIManager : MonoBehaviour
 
 
         //Inventory Menu
-        if((Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Escape)) && Pause == false && InInventory == true)
+        if(Input.GetKeyDown(KeyCode.Escape) && Pause == false && InInventory == true)
         {
             InventoryTab.SetActive(false);
             Pause = false;
@@ -66,7 +69,7 @@ public class UIManager : MonoBehaviour
         }
 
         //Info tab UI
-        if ((Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.Escape)) && Pause == false && InInfo == true)
+        if (Input.GetKeyDown(KeyCode.Escape) && Pause == false && InInfo == true)
         {
             InfoTab.SetActive(false);
             Pause = false;
@@ -101,6 +104,26 @@ public class UIManager : MonoBehaviour
             }
             UpdateCurrentMenu();
         }
+
+        //Shop/ Bounty shop escape 
+        if (Input.GetKeyDown(KeyCode.Escape) && ShopUI.InShop == true)
+        {
+            ShopUI.InShop = false;
+            Shopui.transform.GetChild(0).gameObject.SetActive(false);
+            Shopui.transform.GetChild(1).gameObject.SetActive(false);
+            Pause = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            for (int i = 0; i < Shopui.transform.GetChild(1).childCount; i++)
+            {
+                if (Shopui.transform.GetChild(1).GetChild(i).childCount > 0)
+                {
+                    Destroy(Shopui.transform.GetChild(1).GetChild(i).GetChild(0).gameObject);
+                    Shopui.transform.GetChild(1).GetChild(i).GetComponent<Button>().interactable = false;
+                }
+            }
+            Bountyui.transform.GetChild(0).gameObject.SetActive(false);
+        }
     }
 
     //Menu UI navigation 
@@ -131,20 +154,8 @@ public class UIManager : MonoBehaviour
     {
         Menu.GetChild(0).gameObject.SetActive(false);
     }
-    //Menu UI 1-3s code to load the faction info the player will need to understand where they stand with each of them
 
 
-
-
-    //Menu UI 5s code to load what the player currently has in their inventory and let them see more detail about each of the items
-
-
-
-    //Menu UI 6s code to update the info to the correct animal
-
-
-
-    //Menu UI 7s code for each of the save/load functions
     //Checking which slots have a save file and then loading from that
     public void LoadGame()
     {
@@ -186,10 +197,6 @@ public class UIManager : MonoBehaviour
     {
         SceneManager.LoadScene(0);
     }
-
-
-
-
     //The stats UI that will run based of what stats are currently within the UI
     //Triggered when the player dies
     public void DeathUI()

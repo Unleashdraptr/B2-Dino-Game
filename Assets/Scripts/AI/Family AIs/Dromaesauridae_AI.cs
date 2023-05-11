@@ -127,7 +127,7 @@ public class Dromaesauridae_AI : Carnivourous_AI
                 //They will monitor their levels in CheckState() and will then update them accordingly
                 CheckState(CurAct, ThirtinessLvl, StarvationLvl);
                 //In UpdateStates() they will also decide where they are going to move
-                UpdateStates(CurAct, ThirtinessLvl, StarvationLvl, Pack.CombDangerLvl);
+                UpdateStates(CurAct, ThirtinessLvl, StarvationLvl, DangerLvl);
             }
         }
         else
