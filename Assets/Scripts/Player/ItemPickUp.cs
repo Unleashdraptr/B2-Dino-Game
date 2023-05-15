@@ -9,30 +9,46 @@ public class ItemPickUp : MonoBehaviour
     public GameObject PickUpPrompt;
     public GameObject Stats;
     public Camera CameraRayCast;
+    public QuestStorage quest;
     Inventory inv;
 
     private void LateUpdate()
     {
         if (UIManager.Pause == false)
         {
-            inv = GetComponent<Inventory>();
+            //inv = GetComponent<Inventory>();
             Ray Point = CameraRayCast.ScreenPointToRay(new(Screen.width / 2, Screen.height / 2, 0));
             if (Physics.Raycast(Point, out RaycastHit hit, 5))
             {
-                if (hit.transform.CompareTag("Item") && inv.InventoryItems[inv.CurrentSlot] == false)
+                if (hit.transform.CompareTag("Item") && (inv.InventoryItems[inv.CurrentSlot] == false || CompareItem(hit.transform.gameObject)))
                 {
                     PickUpPrompt.SetActive(true);
                 }
                 else
                     PickUpPrompt.SetActive(false);
-                if (PickUpPrompt.activeInHierarchy && Input.GetKeyDown(KeyCode.E))
+                //if (PickUpPrompt.activeInHierarchy && Input.GetKeyDown(KeyCode.E))
+                //{
+                //    PickUpItem(hit.transform);
+                //}
+                if(CompareItem(hit.transform.gameObject) && Input.GetKeyDown(KeyCode.E))
                 {
-                    PickUpItem(hit.transform);
+                    for (int i = 0; i < 3; i++)
+                    {
+                        if (quest.CurQuests[i].ToSpawn != null)
+                        {
+                            if (quest.CurQuests[i].ToSpawn == hit.transform.gameObject)
+                            {
+                                quest.FinishQuest(quest.CurQuests[i].QuestID);
+                            }
+                        }
+                    }
                 }
+                /*
                 else if (inv.InventoryItems[inv.CurrentSlot] == true && Input.GetKeyDown(KeyCode.E))
                 {
                     DropItem();
                 }
+                */
             }
         }
     }
@@ -81,5 +97,20 @@ public class ItemPickUp : MonoBehaviour
         stats.RepLevel[FactionNum] += Item.GetComponent<ItemID>().RepValue;
         stats.UpdateRepLevel();
         Destroy(Item.gameObject);
+    }
+
+    public bool CompareItem(GameObject item)
+    {
+        for(int i = 0; i < 3; i++)
+        {
+            if(quest.CurQuests[i].ToSpawn != null)
+            {
+                if(quest.CurQuests[i].ToSpawn == item)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

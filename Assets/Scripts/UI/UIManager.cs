@@ -7,8 +7,12 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
+    bool IsSaving;
+    public DataManager data;
     public static bool Pause;
-
+    public StatsStorage Stats;
+    public QuestStorage Quests;
+    public QuestSetup QuestList;
     public GameObject DeathScreen;
 
     public GameObject PauseMenu;
@@ -49,7 +53,7 @@ public class UIManager : MonoBehaviour
             Cursor.visible = true;
         }
 
-
+        /*
         //Inventory Menu
         if(Input.GetKeyDown(KeyCode.Escape) && Pause == false && InInventory == true)
         {
@@ -67,6 +71,7 @@ public class UIManager : MonoBehaviour
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
+        */
 
         //Info tab UI
         if (Input.GetKeyDown(KeyCode.Escape) && Pause == false && InInfo == true)
@@ -138,6 +143,14 @@ public class UIManager : MonoBehaviour
         {
             InMap = true;
         }
+        else if(CurrentMenu == 1)
+        {
+            UpdateFactionProgess();
+        }
+        else if(CurrentMenu == 2)
+        {
+            UpdateQuestsShown();
+        }
         else
             InMap = false;
     }
@@ -155,10 +168,60 @@ public class UIManager : MonoBehaviour
         Menu.GetChild(0).gameObject.SetActive(false);
     }
 
+    public void UpdateFactionProgess()
+    {
+        for(int i = 0; i < 3; i++)
+        {
+            DifferentMenus[0].transform.GetChild(i + 1).GetComponent<Slider>().value = Stats.Reputation[i];
+            DifferentMenus[0].transform.GetChild(i + 1).GetChild(2).GetComponent<TextMeshProUGUI>().text = Stats.RepLevel[i].ToString();
+        }
+    }
+    public void UpdateQuestsShown()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            Transform Quest = DifferentMenus[1].transform.GetChild(i + 1);
+            int QuestID = Quests.CurQuests[i].QuestID;
+            if (QuestList.FindQuest(QuestID) != null)
+            {
+                Quest.GetChild(0).gameObject.SetActive(true);
+                if (QuestList.FindQuest(QuestID).Faction == 0)
+                {
+                    Quest.GetChild(0).GetComponent<Image>().color = Color.red;
+                }
+                else if (QuestList.FindQuest(QuestID).Faction == 1)
+                {
+                    Quest.GetChild(0).GetComponent<Image>().color = Color.blue;
+                }
+                else if (QuestList.FindQuest(QuestID).Faction == 2)
+                {
+                    Quest.GetChild(0).GetComponent<Image>().color = Color.green;
+                }
+                Quest.GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = QuestList.FindQuest(QuestID).QuestName;
+                Quest.GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>().text = QuestList.FindQuest(QuestID).Reward.ToString();
+                Quest.GetChild(4).GetChild(0).GetComponent<TextMeshProUGUI>().text = QuestList.FindQuest(QuestID).Dangerlevel.ToString();
+            }
+        }
+    }
 
+    public void DiscardQuest(int QuestInt)
+    {
+        Quests.RemoveQuest(Quests.CurQuests[QuestInt].QuestID);
+    }
+
+    public void SaveLoadSlot(int SaveNum)
+    {
+        if (IsSaving == true)
+        {
+            data.SaveGame(SaveNum);
+        }
+        else
+            data.LoadGame(SaveNum);
+    }
     //Checking which slots have a save file and then loading from that
     public void LoadGame()
     {
+        IsSaving = false;
         for (int i = 0; i < 4; i++)
         {
             if (!GetComponent<DataManager>().CheckLoad(0, i + 1))
@@ -177,6 +240,7 @@ public class UIManager : MonoBehaviour
     //Saving to any of the slots and letting the player pick which one
     public void SaveGame()
     {
+        IsSaving = true;
         for (int i = 0; i < 4; i++)
         {
             DifferentMenus[6].transform.GetChild(i).GetComponent<Button>().interactable = true;

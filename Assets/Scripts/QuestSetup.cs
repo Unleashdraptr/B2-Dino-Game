@@ -119,6 +119,7 @@ public class QuestSetup : MonoBehaviour
 [System.Serializable]
 public class QuestsList
 {
+    public string QuestName;
     public ProductID.Quest questType;
     public Vector3 SpawnPos;
     public int Faction;
