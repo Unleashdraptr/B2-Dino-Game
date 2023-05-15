@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class RenderManager : MonoBehaviour
 {
     //Rendering Optimisation
     public GameObject[] TreeLocations;
     public GameObject Terrain;
+    public GameObject Animals;
     public GameObject Player;
 
     // Update is called once per frame
@@ -18,6 +20,7 @@ public class RenderManager : MonoBehaviour
         {
             UpdateTerrainChunks();
             UpdateTrees();
+            UpdateAnimals();
         }
     }
     public void UpdateTerrainChunks()
@@ -40,6 +43,22 @@ public class RenderManager : MonoBehaviour
                 }
                 else
                     Terrain.transform.GetChild(i).GetComponent<Terrain>().enabled = false;
+            }
+        }
+    }
+    void UpdateAnimals()
+    {
+        for (int i = 1; i < TreeLocations.Length; i++)
+        {
+            if (Vector3.Distance(Animals.transform.GetChild(i).transform.position, Player.transform.position) < 250)
+            {
+                Animals.transform.GetChild(i).gameObject.SetActive(true);
+                Animals.transform.GetChild(i).GetComponent<NavMeshAgent>().enabled = true;
+            }
+            else if (Vector3.Distance(Animals.transform.GetChild(i).transform.position, Player.transform.position) > 250)
+            {
+                Animals.transform.GetChild(i).gameObject.SetActive(false);
+                Animals.transform.GetChild(i).GetComponent<NavMeshAgent>().enabled = false;
             }
         }
     }

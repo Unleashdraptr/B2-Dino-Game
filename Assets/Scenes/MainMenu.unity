@@ -1208,9 +1208,6 @@ MonoBehaviour:
   MainScreen: {fileID: 223270114}
   NewGameScreen: {fileID: 1708526820}
   LoadGameScreen: {fileID: 1238168519}
-  GameNameScreen: {fileID: 0}
-  SaveFileName: {fileID: 0}
-  SaveName: 
 --- !u!114 &596527095
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2055,7 +2052,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 596527094}
         m_TargetAssemblyTypeName: MainMenuUI, Assembly-CSharp
-        m_MethodName: returnButton
+        m_MethodName: ReturnButton
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3874,7 +3871,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 596527094}
         m_TargetAssemblyTypeName: MainMenuUI, Assembly-CSharp
-        m_MethodName: returnButton
+        m_MethodName: ReturnButton
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

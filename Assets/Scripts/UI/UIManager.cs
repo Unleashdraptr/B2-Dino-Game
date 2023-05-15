@@ -197,9 +197,16 @@ public class UIManager : MonoBehaviour
                 {
                     Quest.GetChild(0).GetComponent<Image>().color = Color.green;
                 }
-                Quest.GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = QuestList.FindQuest(QuestID).QuestName;
-                Quest.GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>().text = QuestList.FindQuest(QuestID).Reward.ToString();
-                Quest.GetChild(4).GetChild(0).GetComponent<TextMeshProUGUI>().text = QuestList.FindQuest(QuestID).Dangerlevel.ToString();
+                Quest.GetChild(3).GetComponent<TextMeshProUGUI>().text = QuestList.FindQuest(QuestID).QuestName;
+                Quest.GetChild(4).GetComponent<TextMeshProUGUI>().text = QuestList.FindQuest(QuestID).Reward.ToString();
+                Quest.GetChild(5).GetComponent<TextMeshProUGUI>().text = QuestList.FindQuest(QuestID).Dangerlevel.ToString();
+            }
+            else
+            {
+                Quest.GetChild(0).gameObject.SetActive(false);
+                Quest.GetChild(3).GetComponent<TextMeshProUGUI>().text = " ";
+                Quest.GetChild(4).GetComponent<TextMeshProUGUI>().text = " ";
+                Quest.GetChild(5).GetComponent<TextMeshProUGUI>().text = " ";
             }
         }
     }
@@ -207,6 +214,7 @@ public class UIManager : MonoBehaviour
     public void DiscardQuest(int QuestInt)
     {
         Quests.RemoveQuest(Quests.CurQuests[QuestInt].QuestID);
+        UpdateQuestsShown();
     }
 
     public void SaveLoadSlot(int SaveNum)
@@ -222,18 +230,18 @@ public class UIManager : MonoBehaviour
     public void LoadGame()
     {
         IsSaving = false;
-        for (int i = 0; i < 4; i++)
+        for (int i = 1; i < 4; i++)
         {
-            if (!GetComponent<DataManager>().CheckLoad(0, i + 1))
+            if (!data.CheckLoad(0, i))
             {
-                DifferentMenus[6].transform.GetChild(i).GetComponent<Button>().interactable = false;
-                DifferentMenus[6].transform.GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>().text = "No Save File";
+                PauseMenu.transform.GetChild(i).GetComponent<Button>().interactable = false;
+                PauseMenu.transform.GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>().text = "No Save File";
             }
             else
-                DifferentMenus[6].transform.GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>().text = ("Game " + i + 1);
+                PauseMenu.transform.GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>().text = ("Game " + i + 1);
             if(i + 1 == DataManager.DataSlot)
             {
-                DifferentMenus[6].transform.GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>().text = ("Current Save");
+                PauseMenu.transform.GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>().text = ("Current Save");
             }
         }
     }
@@ -241,13 +249,13 @@ public class UIManager : MonoBehaviour
     public void SaveGame()
     {
         IsSaving = true;
-        for (int i = 0; i < 4; i++)
+        for (int i = 1; i < 4; i++)
         {
-            DifferentMenus[6].transform.GetChild(i).GetComponent<Button>().interactable = true;
-            DifferentMenus[6].transform.GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>().text = ("Game " + i + 1);
+            PauseMenu.transform.GetChild(i).GetComponent<Button>().interactable = true;
+            PauseMenu.transform.GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>().text = ("Game " + i + 1);
             if (i + 1 == DataManager.DataSlot)
             {
-                DifferentMenus[6].transform.GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>().text = ("Current Save");
+                PauseMenu.transform.GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>().text = ("Current Save");
             }
         }
     }

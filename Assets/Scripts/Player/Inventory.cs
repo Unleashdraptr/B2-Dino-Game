@@ -4,42 +4,13 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour, IDataHandler
+public class Inventory : MonoBehaviour
 {
     public GameObject[] ItemIDs;
     public GameObject[] InventoryItems = new GameObject[8];
     public bool[] UsedSlots = new bool[8];
     public int CurrentSlot;
     public bool isHoldingWeapon;
-    public void SaveData(ref GameData data)
-    {
-        for (int i = 0; i < 8; i++)
-        {
-            if (InventoryItems[i])
-            {
-                data.HasItem[i] = true;
-                data.ItemPrefabID[i] = InventoryItems[i].GetComponent<ItemID>().itemID;
-                data.itemName[i] = InventoryItems[i].GetComponent<ItemID>().itemName;
-                data.sellPrice[i] = InventoryItems[i].GetComponent<ItemID>().sellPrice;
-                data.RepValue[i] = InventoryItems[i].GetComponent<ItemID>().RepValue;
-            }
-        }
-    }
-    public void LoadData(GameData data)
-    {
-        for (int i = 0; i < 8; i++)
-        {
-            if (data.HasItem[i])
-            {
-                GameObject item = Instantiate(ItemIDs[data.ItemPrefabID[i]], transform.GetChild(0));
-                InventoryItems[i] = item;
-                item.GetComponent<ItemID>().itemID = data.FactionID[i];
-                item.GetComponent<ItemID>().itemName = data.itemName[i];
-                item.GetComponent<ItemID>().sellPrice = data.sellPrice[i];
-                item.GetComponent<ItemID>().RepValue = data.RepValue[i];
-            }
-        }
-    }
     // Update is called once per frame
     void Update()
     {
