@@ -8,11 +8,15 @@ public class Dromaesauridae_AI : Carnivourous_AI
     Pack_AI Pack;
     public float ThirtinessLvl;
     public float StarvationLvl;
+    Rigidbody rb;
+    Animator animate;
     float EatTime;
     bool IsEating;
     //The AI starts by getting its NavMesh agent from the gameObject
     void Start()
     {
+        rb = GetComponent<Rigidbody>();
+        animate = transform.GetChild(0).GetComponent<Animator>();
         if (transform.parent)
         {
             Pack = GetComponentInParent<Pack_AI>();
@@ -38,6 +42,13 @@ public class Dromaesauridae_AI : Carnivourous_AI
         //Will stop if the animal is dead
         if (CurAct != CurrentAction.DEAD)
         {
+            if (rb.velocity.x != 0)
+            {
+                animate.SetBool("IsRunning", true);
+            }
+            else
+                animate.SetBool("IsRunning", true);
+
             //While alive they will slowly starve and need water
             Food -= 1 * Time.deltaTime;
             thirst -= 1 * Time.deltaTime;
