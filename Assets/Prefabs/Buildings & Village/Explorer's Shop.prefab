@@ -73,31 +73,12 @@ MonoBehaviour:
   Dialogue: {fileID: 0}
   ItemsToSell:
   - {fileID: 753702412414637164, guid: 4e33f698bc2c67a44b4223b5f915a2f0, type: 3}
-  - {fileID: 753702412414637164, guid: 4e33f698bc2c67a44b4223b5f915a2f0, type: 3}
-  - {fileID: 753702412414637164, guid: 4e33f698bc2c67a44b4223b5f915a2f0, type: 3}
-  - {fileID: 753702412414637164, guid: 4e33f698bc2c67a44b4223b5f915a2f0, type: 3}
-  - {fileID: 753702412414637164, guid: 4e33f698bc2c67a44b4223b5f915a2f0, type: 3}
-  - {fileID: 753702412414637164, guid: 4e33f698bc2c67a44b4223b5f915a2f0, type: 3}
-  - {fileID: 753702412414637164, guid: 4e33f698bc2c67a44b4223b5f915a2f0, type: 3}
-  - {fileID: 753702412414637164, guid: 4e33f698bc2c67a44b4223b5f915a2f0, type: 3}
-  - {fileID: 753702412414637164, guid: 4e33f698bc2c67a44b4223b5f915a2f0, type: 3}
-  - {fileID: 753702412414637164, guid: 4e33f698bc2c67a44b4223b5f915a2f0, type: 3}
-  - {fileID: 753702412414637164, guid: 4e33f698bc2c67a44b4223b5f915a2f0, type: 3}
-  - {fileID: 753702412414637164, guid: 4e33f698bc2c67a44b4223b5f915a2f0, type: 3}
-  - {fileID: 753702412414637164, guid: 4e33f698bc2c67a44b4223b5f915a2f0, type: 3}
-  - {fileID: 753702412414637164, guid: 4e33f698bc2c67a44b4223b5f915a2f0, type: 3}
-  - {fileID: 753702412414637164, guid: 4e33f698bc2c67a44b4223b5f915a2f0, type: 3}
-  - {fileID: 753702412414637164, guid: 4e33f698bc2c67a44b4223b5f915a2f0, type: 3}
-  - {fileID: 753702412414637164, guid: 4e33f698bc2c67a44b4223b5f915a2f0, type: 3}
-  - {fileID: 753702412414637164, guid: 4e33f698bc2c67a44b4223b5f915a2f0, type: 3}
-  - {fileID: 753702412414637164, guid: 4e33f698bc2c67a44b4223b5f915a2f0, type: 3}
-  - {fileID: 753702412414637164, guid: 4e33f698bc2c67a44b4223b5f915a2f0, type: 3}
-  - {fileID: 753702412414637164, guid: 4e33f698bc2c67a44b4223b5f915a2f0, type: 3}
+  - {fileID: 753702412414637164, guid: bcd53143feea1f3489935fdf72d555ad, type: 3}
   ShopPrompt: {fileID: 7507904826899039740}
   SellPrompt: {fileID: 7507904826280774607}
   Player: {fileID: 0}
   Faction: 2
-  LvlLimit: 03000000040000000100000002000000
+  LvlLimit: 02000000000000000000000000000000
 --- !u!1 &7507904825506884318
 GameObject:
   m_ObjectHideFlags: 0
@@ -404,21 +385,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogue:
-  - dialogue: idk
+  - dialogue: You up for an Adventure?
     HasMenu: 0
     menuCode: 
     MenuName: []
     BranchEnd: 0
     IsEnd: 0
     BranchNum: 0
-  - dialogue: IDK just a test
+  - dialogue: Explorer's. At your service!
     HasMenu: 0
     menuCode: 
     MenuName: []
     BranchEnd: 0
     IsEnd: 0
     BranchNum: 0
-  - dialogue: yes
+  - dialogue: What can we do to help?
     HasMenu: 1
     menuCode: 0000000001000000
     MenuName:
