@@ -7,7 +7,7 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
-    bool IsSaving;
+    public bool IsSaving;
     public DataManager data;
     public static bool Pause;
     public StatsStorage Stats;
@@ -230,7 +230,7 @@ public class UIManager : MonoBehaviour
     public void LoadGame()
     {
         IsSaving = false;
-        for (int i = 1; i < 4; i++)
+        for (int i = 1; i < 5; i++)
         {
             if (!data.CheckLoad(0, i))
             {
@@ -238,8 +238,8 @@ public class UIManager : MonoBehaviour
                 PauseMenu.transform.GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>().text = "No Save File";
             }
             else
-                PauseMenu.transform.GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>().text = ("Game " + i + 1);
-            if(i + 1 == DataManager.DataSlot)
+                PauseMenu.transform.GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>().text = ("Game " + i);
+            if(i == DataManager.DataSlot)
             {
                 PauseMenu.transform.GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>().text = ("Current Save");
             }
@@ -249,11 +249,11 @@ public class UIManager : MonoBehaviour
     public void SaveGame()
     {
         IsSaving = true;
-        for (int i = 1; i < 4; i++)
+        for (int i = 1; i < 5; i++)
         {
             PauseMenu.transform.GetChild(i).GetComponent<Button>().interactable = true;
-            PauseMenu.transform.GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>().text = ("Game " + i + 1);
-            if (i + 1 == DataManager.DataSlot)
+            PauseMenu.transform.GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>().text = ("Game " + i);
+            if (i == DataManager.DataSlot)
             {
                 PauseMenu.transform.GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>().text = ("Current Save");
             }

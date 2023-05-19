@@ -42,6 +42,7 @@ public class DataManager : MonoBehaviour
     {
         gameData = new GameData();
         gameData.Position = new(3635, 5, 3183);
+        gameData.Currency = 1000;
     }
     //Gets all the relevent data it will need and then stores then within the external file
     public void SaveGame(int FileNum)

@@ -96,7 +96,7 @@ public class Movement : MonoBehaviour, IDataHandler
             //Recharging if not running or is not currently full
             if (Stamina < 100 && moveState != MoveState.DASH)
             {
-                Stamina += 5 * Time.deltaTime;
+                Stamina += 15 * Time.deltaTime;
             }
             //Jump Function
             if (Input.GetKeyDown(KeyCode.Space))
