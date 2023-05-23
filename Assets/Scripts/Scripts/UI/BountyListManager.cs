@@ -29,7 +29,7 @@ public class BountyListManager : MonoBehaviour
                     Transform CurBount = BountySlots.GetChild(i);
                     CurBount.GetChild(0).gameObject.SetActive(true);
                     CurBount.GetChild(1).gameObject.SetActive(true);
-                    CurBount.GetChild(0).GetComponent<Image>().sprite = Quest.Quests[BountNum + SlotsFilled].PreviewImage;
+                    CurBount.GetChild(0).GetComponent<RawImage>().texture = Quest.Quests[BountNum + SlotsFilled].PreviewImage;
                     if (Quest.Quests[BountNum + SlotsFilled].Cost <= Stats.Currency)
                     {
                         CurBount.GetComponent<Button>().interactable = true;

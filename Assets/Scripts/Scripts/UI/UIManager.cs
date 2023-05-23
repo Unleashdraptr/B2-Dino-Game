@@ -31,6 +31,9 @@ public class UIManager : MonoBehaviour
     public GameObject[] AreaMapCamera;
     public Slider Health;
 
+    public GameObject QuestViewer;
+    public GameObject QuestInfo;
+
     private void Start()
     {
         Pause = false;
@@ -182,11 +185,14 @@ public class UIManager : MonoBehaviour
     {
         for (int i = 0; i < 3; i++)
         {
-            Transform Quest = DifferentMenus[1].transform.GetChild(i + 1);
+            Transform Quest = DifferentMenus[1].transform.GetChild(1).GetChild(i);
             int QuestID = Quests.CurQuests[i].QuestID;
             if (QuestList.FindQuest(QuestID) != null)
             {
                 Quest.GetChild(0).gameObject.SetActive(true);
+                Quest.GetChild(2).gameObject.SetActive(true);
+                Quest.GetChild(3).gameObject.SetActive(true);
+                Quest.GetChild(4).gameObject.SetActive(true);
                 if (QuestList.FindQuest(QuestID).Faction == 0)
                 {
                     Quest.GetChild(0).GetComponent<Image>().color = Color.red;
@@ -201,28 +207,27 @@ public class UIManager : MonoBehaviour
                 }
                 if (QuestList.FindQuest(QuestID).questType == ProductID.Quest.AREA)
                 {
-                    Quest.GetChild(2).gameObject.SetActive(true);
                     Vector3 Pos = new(QuestList.FindQuest(QuestID).SpawnPos.x, 1000, QuestList.FindQuest(QuestID).SpawnPos.z);
                     AreaMapCamera[i].transform.position = Pos;
-                    Quest.GetChild(2).GetComponent<RawImage>().texture = AreaMap[i];
+                    Quest.GetChild(3).GetComponent<RawImage>().texture = AreaMap[i];
                 }
                 else
                 {
-                    Quest.GetChild(3).gameObject.SetActive(true);
-                    Quest.GetChild(3).GetComponent<Image>().sprite = QuestList.FindQuest(QuestID).PreviewImage;
+                    Quest.GetChild(3).GetComponent<RawImage>().texture = QuestList.FindQuest(QuestID).PreviewImage;
                 }
-                Quest.GetChild(4).GetComponent<TextMeshProUGUI>().text = QuestList.FindQuest(QuestID).QuestName;
-                Quest.GetChild(5).GetComponent<TextMeshProUGUI>().text = QuestList.FindQuest(QuestID).Reward.ToString();
-                Quest.GetChild(6).GetComponent<TextMeshProUGUI>().text = QuestList.FindQuest(QuestID).Dangerlevel.ToString();
+                Quest.GetChild(5).GetComponent<TextMeshProUGUI>().text = QuestList.FindQuest(QuestID).QuestName;
+                Quest.GetChild(6).GetComponent<TextMeshProUGUI>().text = QuestList.FindQuest(QuestID).Reward.ToString();
+                Quest.GetChild(7).GetComponent<TextMeshProUGUI>().text = QuestList.FindQuest(QuestID).Dangerlevel.ToString();
             }
             else
             {
                 Quest.GetChild(0).gameObject.SetActive(false);
                 Quest.GetChild(2).gameObject.SetActive(false);
                 Quest.GetChild(3).gameObject.SetActive(false);
-                Quest.GetChild(4).GetComponent<TextMeshProUGUI>().text = " ";
+                Quest.GetChild(4).gameObject.SetActive(false);
                 Quest.GetChild(5).GetComponent<TextMeshProUGUI>().text = " ";
                 Quest.GetChild(6).GetComponent<TextMeshProUGUI>().text = " ";
+                Quest.GetChild(7).GetComponent<TextMeshProUGUI>().text = " ";
             }
         }
     }
@@ -230,6 +235,36 @@ public class UIManager : MonoBehaviour
     {
         Quests.RemoveQuest(Quests.CurQuests[QuestInt].QuestID);
         UpdateQuestsShown();
+    }
+    public void MoreInfo(int QuestInt)
+    {
+        int Menu = CurrentMenu;
+        switch(Quests.CurQuests[QuestInt].questType)
+        {
+            case ProductID.Quest.ANIMAL:
+                CurrentMenu += 2;
+                break;
+            case ProductID.Quest.AREA:
+                CurrentMenu += 1;
+                break;
+            case ProductID.Quest.ITEM:
+                CurrentMenu += 1;
+                break;
+        }
+        if (Menu != CurrentMenu)
+        {
+            UpdateCurrentMenu();
+        }
+        else
+        {
+            QuestInfo.SetActive(true);
+            QuestViewer.SetActive(false);
+        }
+    }
+    public void QuestView()
+    {
+        QuestInfo.SetActive(false);
+        QuestViewer.SetActive(true);
     }
 
     public void SaveLoadSlot(int SaveNum)

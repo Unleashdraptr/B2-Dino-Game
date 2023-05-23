@@ -33,10 +33,8 @@ public class QuestSetup : MonoBehaviour
     {      
         if (Queststorage.QuestLimit == false)
         {
-            Debug.Log(QuestID);
             if (FindQuest(QuestID) != null)
             {
-                Debug.Log("haternaesmstk,d8u");
                 QuestsList CurQuest = FindQuest(QuestID);
                 Stats.Currency -= CurQuest.Cost;
                 Queststorage.AddQuest(CurQuest);
@@ -130,9 +128,8 @@ public class QuestsList
     public string Desc;
 
     public bool Taken;
-    public bool Completed;
 
-    public Sprite PreviewImage;
+    public Texture PreviewImage;
     public GameObject ToSpawn;
     [Range(0, 5)]
     public int Dangerlevel;
