@@ -31,10 +31,11 @@ public class Movement : MonoBehaviour, IDataHandler
     float RotX;
     public enum MoveState {IDLE, WALK, DASH, SNEAK, DEATH};
     public MoveState moveState;
-
+    
     public void LoadData(GameData data)
     {
-        transform.SetPositionAndRotation(data.Position, data.Rotation);
+        transform.position = data.Position;
+        transform.rotation = data.Rotation;
         Stamina = data.Stamina;
     }
     public void SaveData(ref GameData data)
