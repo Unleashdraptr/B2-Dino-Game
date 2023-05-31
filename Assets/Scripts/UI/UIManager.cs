@@ -34,6 +34,7 @@ public class UIManager : MonoBehaviour
     public GameObject QuestViewer;
     public GameObject QuestInfo;
 
+    public Transform HintButtons;
     private void Start()
     {
         Pause = false;
@@ -49,6 +50,8 @@ public class UIManager : MonoBehaviour
             PauseMenu.SetActive(false);
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
+            HintButtons.GetChild(0).gameObject.SetActive(true);
+            HintButtons.GetChild(2).gameObject.SetActive(false);
         }
         else if (Input.GetKeyDown(KeyCode.Escape) && Pause == false && ShopUI.InShop == false)
         {
@@ -56,6 +59,8 @@ public class UIManager : MonoBehaviour
             PauseMenu.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+            HintButtons.GetChild(0).gameObject.SetActive(false);
+            HintButtons.GetChild(2).gameObject.SetActive(true);
         }
 
         /*
@@ -86,6 +91,8 @@ public class UIManager : MonoBehaviour
             InInfo = false;
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
+            HintButtons.GetChild(0).gameObject.SetActive(true);
+            HintButtons.GetChild(1).gameObject.SetActive(false);
         }
         else if (Input.GetKeyDown(KeyCode.Tab) && Pause == false && InInfo == false)
         {
@@ -95,6 +102,8 @@ public class UIManager : MonoBehaviour
             InInfo = true;
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
+            HintButtons.GetChild(0).gameObject.SetActive(false);
+            HintButtons.GetChild(1).gameObject.SetActive(true);
         }
         if (Input.GetKeyDown(KeyCode.Q) && Pause == true && InInfo == true)
         {
@@ -133,6 +142,13 @@ public class UIManager : MonoBehaviour
                 }
             }
             Bountyui.transform.GetChild(0).gameObject.SetActive(false);
+            HintButtons.GetChild(0).gameObject.SetActive(true);
+            HintButtons.GetChild(2).gameObject.SetActive(false);
+        }
+        if(ShopUI.InShop)
+        {
+            HintButtons.GetChild(0).gameObject.SetActive(false);
+            HintButtons.GetChild(2).gameObject.SetActive(true);
         }
     }
 
