@@ -32,18 +32,26 @@ public class ItemPickUp : MonoBehaviour
                     PickUpItem(hit.transform);
                 }
                 */
-                if(CompareItem(hit.transform.gameObject) && Input.GetKeyDown(KeyCode.E))
+                Debug.Log(hit.transform.gameObject);
+                if (CompareItem(hit.transform.gameObject))
+                {
+                    PickUpPrompt.SetActive(true);
+                }
+                else
+                    PickUpPrompt.SetActive(false);
+                if (PickUpPrompt.activeInHierarchy && Input.GetKeyDown(KeyCode.E))
                 {
                     for (int i = 0; i < 3; i++)
                     {
                         if (quest.CurQuests[i].ToSpawn != null)
                         {
-                            if (quest.CurQuests[i].ToSpawn == hit.transform.gameObject)
+                            if (quest.CurQuests[i].ToSpawn.tag == hit.transform.gameObject.tag)
                             {
                                 quest.FinishQuest(quest.CurQuests[i].QuestID);
                             }
                         }
                     }
+                    PickUpPrompt.SetActive(false);
                 }
                 /*
                 else if (inv.InventoryItems[inv.CurrentSlot] == true && Input.GetKeyDown(KeyCode.E))
@@ -52,11 +60,13 @@ public class ItemPickUp : MonoBehaviour
                 }
                 */
             }
+            else
+                PickUpPrompt.SetActive(false);
         }
     }
     public void PickUpItem(Transform Item)
     {
-        if(inv.InventoryItems[inv.CurrentSlot] == false)
+        if (inv.InventoryItems[inv.CurrentSlot] == false)
         {
             Item.SetParent(ItemPickUpStorage);
             Item.localPosition = new(0, 0, 0);
@@ -103,13 +113,18 @@ public class ItemPickUp : MonoBehaviour
 
     public bool CompareItem(GameObject item)
     {
-        for(int i = 0; i < quest.QuestCount; i++)
+        for (int i = 0; i < quest.QuestCount; i++)
         {
-            if(quest.CurQuests[i].ToSpawn != null)
+            if (quest.CurQuests[i].questType == ProductID.Quest.ANIMAL || quest.CurQuests[i].questType == ProductID.Quest.PLANT)
             {
-                if(quest.CurQuests[i].ToSpawn == item)
+                if (quest.CurQuests[i].ToSpawn.tag == item.tag)
                 {
-                    return true;
+                    Debug.Log(item.tag);
+                    Debug.Log(quest.CurQuests[i].ToSpawn.tag);
+                    if (quest.CurQuests[i].ToSpawn.tag != "Untagged")
+                    {
+                        return true;
+                    }
                 }
             }
         }

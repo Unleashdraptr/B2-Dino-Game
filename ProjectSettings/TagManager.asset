@@ -14,6 +14,8 @@ TagManager:
   - Dromaesaurid
   - Spinosauridae
   - Ornthithomimidae
+  - Tree
+  - Bush
   layers:
   - Default
   - TransparentFX

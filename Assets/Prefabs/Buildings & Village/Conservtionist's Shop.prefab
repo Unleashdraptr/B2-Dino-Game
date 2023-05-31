@@ -1197,13 +1197,12 @@ MonoBehaviour:
   Dialogue: {fileID: 0}
   ItemsToSell:
   - {fileID: 753702412414637164, guid: cf62c1e6bcfd2834f8b80b530fc6cabc, type: 3}
-  - {fileID: 753702412414637164, guid: ba8a29938b0c0d54cb88a029c54f6ada, type: 3}
   - {fileID: 753702412414637164, guid: 192839a2de385714195379c07d388230, type: 3}
   ShopPrompt: {fileID: 7187821105612289775}
   SellPrompt: {fileID: 7187821103890105202}
   Player: {fileID: 0}
   Faction: 1
-  LvlLimit: 03000000000000000000000000000000
+  LvlLimit: 02000000000000000000000000000000
 --- !u!1 &7187821105104470132
 GameObject:
   m_ObjectHideFlags: 0
@@ -1882,21 +1881,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogue:
-  - dialogue: Welcome to the Conservationists!
+  - dialogue: idk
     HasMenu: 0
     menuCode: 
     MenuName: []
     BranchEnd: 0
     IsEnd: 0
     BranchNum: 0
-  - dialogue: We specialise in preserving this beautiful area
+  - dialogue: IDK just a test
     HasMenu: 0
     menuCode: 
     MenuName: []
     BranchEnd: 0
     IsEnd: 0
     BranchNum: 0
-  - dialogue: How can we help?
+  - dialogue: yes
     HasMenu: 1
     menuCode: 0000000001000000
     MenuName:

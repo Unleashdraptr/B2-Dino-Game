@@ -68,7 +68,9 @@ public class QuestStorage : MonoBehaviour
             if (CurQuests[i].QuestID == QuestID)
             {
                 stats.Currency += CurQuests[i].Reward;
-                stats.RepLevel[CurQuests[i].Faction] += CurQuests[i].FactionReward;
+                stats.Reputation[CurQuests[i].Faction] += CurQuests[i].FactionReward;
+                stats.UpdateMoney();
+                stats.UpdateRepLevel();
                 CurQuests[i] = null;
                 CurQuests[i].QuestID = 0;
                 UpdateCurQuests();
