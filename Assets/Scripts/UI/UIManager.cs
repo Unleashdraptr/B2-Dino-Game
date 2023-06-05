@@ -4,37 +4,40 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
-
+//This is a large script that controls the bulk of the UI in game
 public class UIManager : MonoBehaviour
 {
+    //This is where it accesses the data that it needs to
     bool IsSaving;
     public DataManager data;
     public static bool Pause;
     public StatsStorage Stats;
     public QuestStorage Quests;
     public QuestSetup QuestList;
-    public GameObject DeathScreen;
 
+    //These are the UI elements that it can then control
+    public GameObject DeathScreen;
     public GameObject PauseMenu;
     public GameObject InventoryTab;
     public GameObject InfoTab;
     int CurrentMenu = 0;
     public GameObject[] DifferentMenus;
-    public static bool InMap;
-    public bool InInventory;
-    public bool InInfo;
-
     public GameObject Shopui;
     public GameObject Bountyui;
 
+    //These help to then use the UI in certain menus such as the map
+    public static bool InMap;
+    public bool InInventory;
+    public bool InInfo;
     public RenderTexture[] AreaMap;
     public GameObject[] AreaMapCamera;
     public Slider Health;
-
     public GameObject QuestViewer;
     public GameObject QuestInfo;
 
+    //These are hints as to what the player can control in the bottom left screen
     public Transform HintButtons;
+    //It sets the health and unpauses the game
     private void Start()
     {
         Pause = false;
@@ -42,8 +45,7 @@ public class UIManager : MonoBehaviour
     }
     void Update()
     {
-
-        //Pause Menu
+        //Pause Menu, opening and closing it
         if (Input.GetKeyDown(KeyCode.Escape) && Pause == true && ShopUI.InShop == false)
         {
             Pause = false;
@@ -64,7 +66,7 @@ public class UIManager : MonoBehaviour
         }
 
         /*
-        //Inventory Menu
+        //Inventory Menu, opening and closing it 
         if(Input.GetKeyDown(KeyCode.Escape) && Pause == false && InInventory == true)
         {
             InventoryTab.SetActive(false);
@@ -83,7 +85,7 @@ public class UIManager : MonoBehaviour
         }
         */
 
-        //Info tab UI
+        //Info tab UI, opening and closing it
         if (Input.GetKeyDown(KeyCode.Escape) && Pause == false && InInfo == true)
         {
             InfoTab.SetActive(false);
@@ -105,6 +107,7 @@ public class UIManager : MonoBehaviour
             HintButtons.GetChild(0).gameObject.SetActive(false);
             HintButtons.GetChild(1).gameObject.SetActive(true);
         }
+        //This will then flip through each of the menus inside the Info UI
         if (Input.GetKeyDown(KeyCode.Q) && Pause == true && InInfo == true)
         {
             CurrentMenu -= 1;
@@ -155,11 +158,13 @@ public class UIManager : MonoBehaviour
     //Menu UI navigation 
     public void UpdateCurrentMenu()
     {
+        //It will loop through them all and then find the right one to Acitvate
         for(int i = 0; i < DifferentMenus.Length; i++)
         {
             DifferentMenus[i].SetActive(false);
         }
         DifferentMenus[CurrentMenu].SetActive(true);
+        //If its certain menus, some additional factors need to be loaded
         if (CurrentMenu == 3)
         {
             InMap = true;
@@ -175,11 +180,13 @@ public class UIManager : MonoBehaviour
         else
             InMap = false;
     }
+    //This will run if the player clicks on the box used to indicate which Menu they're in
     public void GoToCertainMenu(int MenuNum)
     {
         CurrentMenu = MenuNum;
         UpdateCurrentMenu();
     }
+    //This will both Highlight and UnHighlight when they hover over it and stop
     public void HighlightMenu(Transform Menu)
     {
         Menu.GetChild(0).gameObject.SetActive(true);
@@ -189,6 +196,7 @@ public class UIManager : MonoBehaviour
         Menu.GetChild(0).gameObject.SetActive(false);
     }
 
+    //When in the Faction menu, update their progress
     public void UpdateFactionProgess()
     {
         for(int i = 0; i < 3; i++)
@@ -197,6 +205,7 @@ public class UIManager : MonoBehaviour
             DifferentMenus[0].transform.GetChild(i + 1).GetChild(2).GetComponent<TextMeshProUGUI>().text = Stats.RepLevel[i].ToString();
         }
     }
+    //When in the Quests, update their progress and say what they are
     public void UpdateQuestsShown()
     {
         for (int i = 0; i < 3; i++)
@@ -209,6 +218,7 @@ public class UIManager : MonoBehaviour
                 Quest.GetChild(2).gameObject.SetActive(true);
                 Quest.GetChild(3).gameObject.SetActive(true);
                 Quest.GetChild(4).gameObject.SetActive(true);
+                //This will check which faction it is and then change the background element to its colour
                 if (QuestList.FindQuest(QuestID).Faction == 0)
                 {
                     Quest.GetChild(0).GetComponent<Image>().color = Color.red;
@@ -221,6 +231,7 @@ public class UIManager : MonoBehaviour
                 {
                     Quest.GetChild(0).GetComponent<Image>().color = Color.green;
                 }
+                //If its an area quest then use the AreaMapCameras rather than a preview image
                 if (QuestList.FindQuest(QuestID).questType == ProductID.Quest.AREA)
                 {
                     Vector3 Pos = new(QuestList.FindQuest(QuestID).SpawnPos.x, 1000, QuestList.FindQuest(QuestID).SpawnPos.z);
@@ -235,6 +246,7 @@ public class UIManager : MonoBehaviour
                 Quest.GetChild(6).GetComponent<TextMeshProUGUI>().text = QuestList.FindQuest(QuestID).Reward.ToString();
                 Quest.GetChild(7).GetComponent<TextMeshProUGUI>().text = QuestList.FindQuest(QuestID).Dangerlevel.ToString();
             }
+            //If there isnt a quest then close it
             else
             {
                 Quest.GetChild(0).gameObject.SetActive(false);
@@ -247,11 +259,14 @@ public class UIManager : MonoBehaviour
             }
         }
     }
+    //If they click on the discard quest, then remove it
     public void DiscardQuest(int QuestInt)
     {
         Quests.RemoveQuest(Quests.CurQuests[QuestInt].QuestID);
         UpdateQuestsShown();
     }
+    //When they want more info about the Quest, they can click a button and itll take them to the menu that 
+    //relects the quest
     public void MoreInfo(int QuestInt)
     {
         int Menu = CurrentMenu;
@@ -277,12 +292,15 @@ public class UIManager : MonoBehaviour
             QuestViewer.SetActive(false);
         }
     }
+    //Unused
+    /*
     public void QuestView()
     {
         QuestInfo.SetActive(false);
         QuestViewer.SetActive(true);
     }
-
+    */
+    //This will toggle if they want to save or to load
     public void SaveLoadSlot(int SaveNum)
     {
         if (IsSaving == true)

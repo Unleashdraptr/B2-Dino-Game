@@ -3,22 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-
+//This is used to setup the Quests that the player buys
 public class QuestSetup : MonoBehaviour
 {
+    //It gets the Stats and where to store the Quests
     public QuestStorage Queststorage;
     public StatsStorage Stats;
+    //It then gets where to store the objects
     public Transform WaypointStorage;
     public GameObject AreaDetection;
 
+    //These are all the quests that are in the game
     public QuestsList[] Quests;
 
+    //This is how the Bounty is setup
     public void BountySetup(int QuestID)
     {
+        //We check if its in the limit
         if (Queststorage.QuestLimit == false)
         {
+            //We then find the quest
             if (FindQuest(QuestID) != null)
             {
+                //We then take the money and spawn the animal in its 'boss' mode
                 QuestsList CurQuest = FindQuest(QuestID);
                 Stats.Currency -= CurQuest.Cost;
                 Queststorage.AddQuest(CurQuest);
@@ -30,11 +37,14 @@ public class QuestSetup : MonoBehaviour
         }
     }
     public void AreaSelection(int QuestID)
-    {      
+    {
+        //We check if its in the limit
         if (Queststorage.QuestLimit == false)
         {
+            //We then find the quest
             if (FindQuest(QuestID) != null)
             {
+                //We then take the money and spawn the waypoint to tell the player where to go
                 QuestsList CurQuest = FindQuest(QuestID);
                 Stats.Currency -= CurQuest.Cost;
                 Queststorage.AddQuest(CurQuest);
@@ -47,10 +57,13 @@ public class QuestSetup : MonoBehaviour
     }
     public void ItemSelection(int QuestID)
     {
+        //We check if its in the limit
         if (Queststorage.QuestLimit == false)
         {
+            //We then find the quest
             if (FindQuest(QuestID) != null)
             {
+                //We then take the money and spawn the item for the player to find
                 QuestsList CurQuest = FindQuest(QuestID);
                 Stats.Currency -= CurQuest.Cost;
                 Queststorage.AddQuest(CurQuest);
@@ -62,30 +75,22 @@ public class QuestSetup : MonoBehaviour
     }
     public void SpeciesSelection(bool isPlant, int QuestID)
     {
+        //We check if its in the limit
         if (Queststorage.QuestLimit == false)
         {
+            //We then find the quest
             if (FindQuest(QuestID) != null)
             {
+                //We then take the money and let the player go find the plant and or animal they need to find
                 QuestsList CurQuest = FindQuest(QuestID);
                 Stats.Currency -= CurQuest.Cost;
                 Queststorage.AddQuest(CurQuest);
                 CurQuest.Taken = true;
                 Queststorage.UpdateCurQuests();
-                if(isPlant)
-                {
-
-                }
-                else
-                {
-
-                }
-
             }
         }
     }
-
-
-
+    //This is used by many scripts to get information about a certain Quest
     public QuestsList FindQuest(int QuestID)
     {
         for (int i = 0; i < Quests.Length; i++)
@@ -97,23 +102,11 @@ public class QuestSetup : MonoBehaviour
         }
         return null;
     }
-
-
-    float CalculateHeight(float x, float z)
-    {
-        Vector3 Pos = new(x, 1000, z);
-        float y = 0;
-        if (Physics.Raycast(Pos, Vector3.down, out RaycastHit hit, 1000))
-        {
-            y = 1000 - hit.distance;
-        }
-        return y;
-    }
 }
 
 
 
-
+//This is the data format that the quests are then stored in, not all quests use all the variables
 [System.Serializable]
 public class QuestsList
 {

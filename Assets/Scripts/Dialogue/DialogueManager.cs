@@ -13,7 +13,7 @@ public class DialogueManager : MonoBehaviour
     public Transform Options;
 
     //It also gets what faction type and the Shop UI for the shops
-    FactionInfo Faction;
+    ShopStock Faction;
     public ShopUI Shop;
     public BountyListManager bounty;
 
@@ -65,7 +65,7 @@ public class DialogueManager : MonoBehaviour
             UpdateDialogue();
         }
     }
-    public void StartShopDialogue(GameObject dia, FactionInfo Fact)
+    public void StartShopDialogue(GameObject dia, ShopStock Fact)
     {
         //This is the same as the previous function just used for the shop versions
         if (InDialogue == false)
@@ -145,7 +145,7 @@ public class DialogueManager : MonoBehaviour
             case global::Dialogue.OptionType.SHOP:
                 OptionDialogue.SetActive(false);
                 Dialogue.SetActive(false);
-                Shop.OpenFactionUI(Faction.LvlLimit, Faction.ItemsToSell, Faction.Faction);
+                Shop.OpenShopUI(Faction.LvlLimit, Faction.ItemsToSell, Faction.Faction);
                 break;
             //if they want to exit the dialogue
             case global::Dialogue.OptionType.EXIT:

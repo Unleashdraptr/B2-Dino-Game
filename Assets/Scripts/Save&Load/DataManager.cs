@@ -40,9 +40,11 @@ public class DataManager : MonoBehaviour
     //If a new game wipe it clean
     public void NewGame()
     {
-        gameData = new GameData();
-        gameData.Position = new(3635, 5, 3183);
-        gameData.Currency = 1000;
+        gameData = new GameData
+        {
+            Position = new(3635, 5, 3183),
+            Currency = 1000
+        };
     }
     //Gets all the relevent data it will need and then stores then within the external file
     public void SaveGame(int FileNum)

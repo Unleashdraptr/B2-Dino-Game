@@ -4,22 +4,26 @@ using UnityEngine;
 
 public class WeaponControls : MonoBehaviour
 {
+    //The type of ammo and ammo capacity
     public bool needAmmo;
     public string ammoType;
     public int ammoAmount;
 
+    //Its attack stats
     public int AtkDmg;
     public int AtkSpd;
 
+    //The type of weapon and its name
     public string WeaponName;
     public int WeaponType;
 
+    //The swing point for the sword and its attack range
     public Transform SwingPoint;
     public float attackRange;
     public LayerMask Animals;
-    // Start is called before the first frame update
     void Start()
     {
+        //If the weapon doesnt need ammo just set it to infinity so it can still run
         if(!needAmmo)
         {
             ammoAmount = 9999999;
@@ -27,6 +31,7 @@ public class WeaponControls : MonoBehaviour
     }
     public void ActivateWeapons()
     {
+        //Once this runs itll check which weapon type it is and the run what type it is
         switch(WeaponType)
         {
             case 1:
@@ -40,6 +45,7 @@ public class WeaponControls : MonoBehaviour
                 break;
         }
     }
+    //If its a sword itll place a sphere around the Swingpoint and then detect all the animals it hit in the sphere
     public void ActivateSword()
     {
         Collider[] HitAnimals = Physics.OverlapSphere(SwingPoint.position, attackRange, Animals);
@@ -48,12 +54,9 @@ public class WeaponControls : MonoBehaviour
             animal.GetComponentInParent<Generalist_AI>().TakeDmg(AtkDmg);
         }
     }
+    //Currently not implemented
     public void ActivateBow()
     {
-        Debug.Log("sHARP THING");
-    }
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.DrawWireSphere(SwingPoint.position, attackRange);
+        
     }
 }

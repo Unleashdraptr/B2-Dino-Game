@@ -43,6 +43,5 @@ public class Ornthithomimidae_AI : Herbivourous_AI
         {
             Destroy(gameObject);
         }
-
     }
 }

@@ -4,16 +4,19 @@ using UnityEngine;
 
 public class QuestStorage : MonoBehaviour
 {
+    //Link to the players stats
     public StatsStorage stats;
+    //This controls how many quests the player can hold 
     public int QuestCount;
     public bool QuestLimit;
+    //The place the taken Quests are stored
     public QuestsList[] CurQuests = new QuestsList[3];
-    // Start is called before the first frame update
+    //When the game launches we check and update the list
     void Start()
     {
         UpdateCurQuests();
     }
-    // Update is called once per frame
+    //This runs through all the Quests to see if its empty(0) or not
     public void UpdateCurQuests()
     {
         QuestCount = 0;
@@ -24,6 +27,7 @@ public class QuestStorage : MonoBehaviour
                 QuestCount += 1;
             }
         }
+        //If all are taken then deny any more quests the player tries to buy
         if (QuestCount == 3)
         {
             QuestLimit = true;
@@ -31,6 +35,7 @@ public class QuestStorage : MonoBehaviour
         else
             QuestLimit = false;
     }
+    //If the player can add a quest then this will run and find the next empty slot to place it
     public void AddQuest(QuestsList quest)
     {
         for (int i = 0; i < 3; i++)
@@ -43,6 +48,7 @@ public class QuestStorage : MonoBehaviour
             }
         }
     }
+    //This will find a Quest and then remove it
     public void RemoveQuest(int QuestID)
     {
         bool FoundQuest = false;
@@ -53,6 +59,7 @@ public class QuestStorage : MonoBehaviour
                 CurQuests[i] = null;
                 FoundQuest = true;
             }
+            //This will then shuffle them along the order
             else if (FoundQuest == true)
             {
                 CurQuests[i - 1] = CurQuests[i];
@@ -60,7 +67,7 @@ public class QuestStorage : MonoBehaviour
         }
         UpdateCurQuests();
     }
-
+    //This will then give the rewards and remove the quest if the player completes all the objectives of said quest
     public void FinishQuest(int QuestID)
     {
         for (int i = 0; i < 3; i++)

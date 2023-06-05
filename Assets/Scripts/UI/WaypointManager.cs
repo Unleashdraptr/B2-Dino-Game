@@ -5,14 +5,16 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+//This is used by the map UI to name the waypoints
 public class WaypointManager : MonoBehaviour
 {
+    //This will set all the waypoints and get their information
     public GameObject[] WaypointIcons;
     public MeshRenderer[] Waypoints;
 
     int Mult = 1;
     int MultNum = 0;
-    // Start is called before the first frame update
+    // Start is called for all the waypoints
     void Start()
     {
         Waypoints = transform.GetComponentsInChildren<MeshRenderer>();
@@ -20,11 +22,13 @@ public class WaypointManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Update the waypoints if in the map UI
         if (UIManager.InMap == true)
         {
             UpdateWaypointPage();
         }
         /*
+        //Unused
         if (Input.GetMouseButton(0) && CreatingWaypoint == true)
         {
             MousePos = WaypointCamera.ScreenToWorldPoint(Input.mousePosition);
@@ -34,6 +38,8 @@ public class WaypointManager : MonoBehaviour
         }
         */
     }
+
+    //This will cause the Waypoint to move if they hover over the name connected to it
     public void WaypointHoverEnter(int WaypointNum)
     {
         Waypoints[MultNum + WaypointNum].GetComponent<Animator>().SetBool("IsHoveredOn", true);
@@ -42,6 +48,7 @@ public class WaypointManager : MonoBehaviour
     {
         Waypoints[MultNum + WaypointNum].GetComponent<Animator>().SetBool("IsHoveredOn", false);
     }
+    //This will then flip to the next page of these waypoints
     public void NextPage()
     {
         if (WaypointIcons[WaypointIcons.Length - 1].activeInHierarchy)
@@ -54,6 +61,7 @@ public class WaypointManager : MonoBehaviour
             UpdateWaypointPage();
         }
     }
+    //This will then flip to the previous page of these waypoints
     public void PrevPage()
     {
         Mult -= 1;
@@ -67,6 +75,7 @@ public class WaypointManager : MonoBehaviour
         }
         UpdateWaypointPage();
     }
+    //This will then loop through the available slots and then assign the waypoints to their locations
     void UpdateWaypointPage()
     {
         for (int i = 1; i < Mult; i++)
@@ -80,6 +89,7 @@ public class WaypointManager : MonoBehaviour
                 WaypointIcons[i].SetActive(true);
                 WaypointIcons[i].GetComponent<TextMeshProUGUI>().text = Waypoints[MultNum + i].name;
                 WaypointIcons[i].transform.GetChild(0).GetComponent<Image>().material = Waypoints[MultNum + i].material;
+                //If it runs out of slots then stop
                 if (i >= WaypointIcons.Length - 1)
                 {
                     break;
@@ -93,6 +103,7 @@ public class WaypointManager : MonoBehaviour
         MultNum = 0;
     }
     /*
+    //Unused
     void SpawnCreateWaypoint(int StartPos)
     {
         WaypointModifer.SetActive(true);

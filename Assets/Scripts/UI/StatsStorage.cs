@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-
+//This is where the players in game stats are stored and then updated in the UI
 public class StatsStorage : MonoBehaviour, IDataHandler
 {
     //Hunters, Biologists, Explorers. there reputation number and the current level
     public int[] Reputation = new int[3];
     public int[] RepLevel = new int[3];
+    //Their gold and the UI that relates to it
     public int Currency;
     public TextMeshProUGUI GoldNum;
+    //This is all saved to their Savefile
     public void SaveData(ref GameData data)
     {
         //Stores the numbers in the file
@@ -21,6 +23,7 @@ public class StatsStorage : MonoBehaviour, IDataHandler
         data.Currency = Currency;
         Currency = data.Currency;
     }
+    //And then loaded from said file
     public void LoadData(GameData data)
     {
         //Finds the numbers in the file
@@ -29,6 +32,7 @@ public class StatsStorage : MonoBehaviour, IDataHandler
             Reputation[i] = data.Reputations[i];
         }
         Currency = data.Currency;
+        //The UI will also then update
         UpdateRepLevel();
         UpdateMoney();
     }
@@ -57,6 +61,7 @@ public class StatsStorage : MonoBehaviour, IDataHandler
             }
         }
     }
+    //This will keep the Money on screen consistant
     public void UpdateMoney()
     {
         GoldNum.text = Currency.ToString();
