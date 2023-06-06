@@ -42,7 +42,7 @@ public class DataManager : MonoBehaviour
     {
         gameData = new GameData
         {
-            Position = new(3635, 5, 3183),
+            Position = new(3016, 9, 3105),
             Currency = 1000
         };
     }
